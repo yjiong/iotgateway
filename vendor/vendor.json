@@ -1,0 +1,48 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "Liv7AJyNinmP3pvwohcXp4R6xY4=",
+			"path": "github.com/Sirupsen/logrus",
+			"revision": ""
+		},
+		{
+			"checksumSHA1": "0EhLvZ6Og9HYqJtCc2Dzs1EgM30=",
+			"path": "github.com/bitly/go-simplejson",
+			"revision": "da1a8928f709389522c8023062a3739f3b4af419",
+			"revisionTime": "2017-02-06T15:46:32Z"
+		},
+		{
+			"checksumSHA1": "tvYdaseAcuMs8AlmM/4JFI6V2ng=",
+			"path": "github.com/eclipse/paho.mqtt.golang",
+			"revision": ""
+		},
+		{
+			"checksumSHA1": "p5cI1q3Cz+iLJ/JcTKdB8U/YmLg=",
+			"path": "github.com/eclipse/paho.mqtt.golang/packets",
+			"revision": ""
+		},
+		{
+			"checksumSHA1": "K/CP3EBR0TUpw8DPpjRExGEYNkY=",
+			"path": "github.com/urfave/cli",
+			"revision": ""
+		},
+		{
+			"checksumSHA1": "fjMK2G5arnjllpoeBYeyf9Y2Iok=",
+			"path": "golang.org/x/net/proxy",
+			"revision": ""
+		},
+		{
+			"checksumSHA1": "7EZyXN0EmZLgGxZxK01IJua4c8o=",
+			"path": "golang.org/x/net/websocket",
+			"revision": ""
+		},
+		{
+			"checksumSHA1": "DMZuSo+2KUZvY6WHXQzGrK0J+eM=",
+			"path": "google.golang.org/grpc/grpclog",
+			"revision": ""
+		}
+	],
+	"rootPath": "github.com/go_tg120"
+}
