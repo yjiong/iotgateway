@@ -2,7 +2,9 @@ package handler
 
 // Handler defines the interface of a handler backend.
 type Handler interface {
-	Close() error                                          // closes the handler
-	SendDataUp(interface {}) error                // send data-up payload
-	DataDownChan() chan DataDownPayload                    // returns DataDownPayload channel
+	Close() error                                          // 断开mqtt连接
+	SendDataUp(interface {}) error                         // 发送上行数据
+	DataDownChan() chan DataDownPayload                    // 返回订阅到的消息数据channel
+	IsConnected() bool
 }
+
