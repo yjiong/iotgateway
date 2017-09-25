@@ -4,15 +4,43 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/yjiong/go_tg120/config"
 	"os"
+	"os/exec"
+	"path/filepath"
+	"runtime"
+	"strings"
 )
 
 const (
-	VERSION     = "1.0"
-	MODEL       = "TG120"
-	DEVFILEPATH = "./devlist.ini"
-	CONFILEPATH = "./config.ini"
-	INTERFACES  = "/etc/network/interfaces"
+	VERSION    = "1.0"
+	MODEL      = "TG120"
+	INTERFACES = "/etc/network/interfaces"
 )
+
+var CONFILEPATH string = "./config.ini"
+var DEVFILEPATH = "./devlist.ini"
+var TEMPLATE string = "./templates"
+var Mqtt_connected bool = false
+
+func init() {
+	var pathfs string
+	if runtime.GOOS == "Linux" {
+		pathfs = "\\"
+	} else {
+		pathfs = "/"
+	}
+	if execfile, err := exec.LookPath(os.Args[0]); err == nil {
+		//		fmt.Printf("%s\n", execfile)
+		if path, err := filepath.Abs(execfile); err == nil {
+			//			fmt.Printf("%s\n", path)
+			i := strings.LastIndex(path, pathfs)
+			basepath := string(path[0 : i+1])
+			//			fmt.Printf("%s\n", path[0:i+1])
+			CONFILEPATH = basepath + CONFILEPATH[2:]
+			DEVFILEPATH = basepath + DEVFILEPATH[2:]
+			TEMPLATE = basepath + TEMPLATE[2:]
+		}
+	}
+}
 
 func NewConMap(confile string) (map[string]string, error) {
 	_, err := os.Stat(confile)

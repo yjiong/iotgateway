@@ -89,7 +89,7 @@ func (d *ModbusTcp) HelpDoc() interface{} {
 	}
 	data := dict{
 		"_devid": "添加设备对象的id",
-		"_type":  "MudbusTcp",//设备类型
+		"_type":  "MudbusTcp", //设备类型
 		"_conn":  conn,
 	}
 	dev_update := dict{

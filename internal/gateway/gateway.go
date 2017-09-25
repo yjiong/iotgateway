@@ -19,11 +19,112 @@ import (
 	log "github.com/Sirupsen/logrus"
 	simplejson "github.com/bitly/go-simplejson"
 	"github.com/yjiong/go_tg120/config"
+	"github.com/yjiong/go_tg120/gpio"
 	"github.com/yjiong/go_tg120/internal/common"
 	"github.com/yjiong/go_tg120/internal/device"
 	"github.com/yjiong/go_tg120/internal/handler"
 	"golang.org/x/net/websocket"
 )
+
+func init() {
+	Reset, err := gpio.OpenPin(65, gpio.ModeInput)
+	if err != nil {
+		return
+	}
+	Run, err := gpio.OpenPin(67, gpio.ModeOutput)
+	if err != nil {
+		return
+	}
+	Link, err := gpio.OpenPin(66, gpio.ModeOutput)
+	if err != nil {
+		return
+	}
+	go func() {
+		for {
+			resetdefip(Reset)
+		}
+	}()
+	go func() {
+		for {
+			led_link(common.Mqtt_connected, Link)
+		}
+	}()
+	go func() {
+		for {
+			led_run(Run, 500)
+		}
+	}()
+}
+
+func resetdefip(gp gpio.Pin) {
+	if !gp.Get() {
+		time.Sleep(5 * time.Second)
+		if !gp.Get() {
+			ipconstr := "auto lo\n" +
+				"iface lo inet loopback\n" +
+				"auto eth0\n" +
+				"allow-hotplug eth0\n" +
+				"iface eth0 inet static\n" +
+				"address 192.168.1.188\n" +
+				"netmask 255.255.255.0\n" +
+				"auto wlan0\n" +
+				"iface wlan0 inet static\n" +
+				"address 192.168.8.1\n" +
+				"netmask 255.255.255.0"
+			if _, err := os.Stat(common.INTERFACES); err != nil {
+				if os.IsNotExist(err) {
+					f, _ := os.Create(common.INTERFACES)
+					if _, err := f.WriteString(ipconstr); err != nil {
+						log.Errorf("reset default ip config failed :%s", err)
+						return
+					}
+					f.Sync()
+					f.Close()
+				}
+			} else {
+				os.Remove(common.INTERFACES)
+				f, _ := os.OpenFile(common.INTERFACES, os.O_WRONLY|os.O_CREATE, 0666)
+				if _, err := io.WriteString(f, ipconstr); err != nil {
+					log.Errorf("reset default ip config failed :%s", err)
+					return
+				}
+				f.Sync()
+				f.Close()
+			}
+			cmd := exec.Command("reboot")
+			var out bytes.Buffer
+			cmd.Stdin = os.Stdin
+			cmd.Stdout = &out
+			cmd.Run()
+		}
+	} else {
+		time.Sleep(1 * time.Second)
+	}
+}
+
+func led_run(gp gpio.Pin, delay int64) {
+	time.Sleep(time.Duration(delay) * time.Millisecond)
+	if gp.Get() {
+		gp.Clear()
+	} else {
+		gp.Set()
+	}
+}
+
+func led_link(ml bool, gp gpio.Pin) {
+	var delay int64
+	if ml {
+		delay = 1000
+	} else {
+		delay = 200
+	}
+	time.Sleep(time.Duration(delay) * time.Millisecond)
+	if gp.Get() {
+		gp.Clear()
+	} else {
+		gp.Set()
+	}
+}
 
 type Cmdfp struct {
 	Cmdfunc func(*simplejson.Json) error
@@ -433,7 +534,7 @@ func (mygw *Gateway) manager_dev_update(req *simplejson.Json, ws *websocket.Conn
 					ackerr = err.Error()
 				}
 			}
-			
+
 			if ok_dtype && ex_dtype && ok_devid && ok_conn && ok_commif && ex_commif && ok_devaddr && check {
 				conf.SetValue(devid, "_type", dtype)
 				//				conf.SetValue(devid, "commif", commif)

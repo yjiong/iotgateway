@@ -1,0 +1,1435 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ASCIIClient	modbus/asciiclient.go	/^func ASCIIClient(address string) Client {$/;"	f
+ASCIIClientHandler	modbus/asciiclient.go	/^type ASCIIClientHandler struct {$/;"	t
+AcceptHandshake	vendor/golang.org/x/net/websocket/hybi.go	/^func (c *hybiServerHandshaker) AcceptHandshake(buf *bufio.Writer) (err error) {$/;"	f
+Accepted	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^	Accepted                        = 0x00$/;"	c
+ActionFunc	vendor/github.com/urfave/cli/funcs.go	/^type ActionFunc func(*Context) error$/;"	t
+Add	vendor/github.com/Sirupsen/logrus/hooks.go	/^func (hooks LevelHooks) Add(hook Hook) {$/;"	f
+AddBroker	vendor/github.com/eclipse/paho.mqtt.golang/options.go	/^func (o *ClientOptions) AddBroker(server string) *ClientOptions {$/;"	f
+AddCommand	vendor/github.com/urfave/cli/category.go	/^func (c CommandCategories) AddCommand(category string, command Command) CommandCategories {$/;"	f
+AddFromString	vendor/golang.org/x/net/proxy/per_host.go	/^func (p *PerHost) AddFromString(s string) {$/;"	f
+AddHook	vendor/github.com/Sirupsen/logrus/exported.go	/^func AddHook(hook Hook) {$/;"	f
+AddHost	vendor/golang.org/x/net/proxy/per_host.go	/^func (p *PerHost) AddHost(host string) {$/;"	f
+AddIP	vendor/golang.org/x/net/proxy/per_host.go	/^func (p *PerHost) AddIP(ip net.IP) {$/;"	f
+AddNetwork	vendor/golang.org/x/net/proxy/per_host.go	/^func (p *PerHost) AddNetwork(net *net.IPNet) {$/;"	f
+AddRoute	vendor/github.com/eclipse/paho.mqtt.golang/client.go	/^func (c *client) AddRoute(topic string, callback MessageHandler) {$/;"	f
+AddZone	vendor/golang.org/x/net/proxy/per_host.go	/^func (p *PerHost) AddZone(zone string) {$/;"	f
+Addr	vendor/golang.org/x/net/websocket/websocket.go	/^type Addr struct {$/;"	t
+AfterFunc	vendor/github.com/urfave/cli/funcs.go	/^type AfterFunc func(*Context) error$/;"	t
+All	vendor/github.com/eclipse/paho.mqtt.golang/filestore.go	/^func (store *FileStore) All() []string {$/;"	f
+All	vendor/github.com/eclipse/paho.mqtt.golang/memstore.go	/^func (store *MemoryStore) All() []string {$/;"	f
+AllLevels	vendor/github.com/Sirupsen/logrus/logrus.go	/^var AllLevels = []Level{$/;"	v
+App	vendor/github.com/urfave/cli/app.go	/^type App struct {$/;"	t
+AppHelpTemplate	vendor/github.com/urfave/cli/help.go	/^var AppHelpTemplate = `NAME:$/;"	v
+AppendFiles	config/read.go	/^func (c *ConfigFile) AppendFiles(files ...string) error {$/;"	f
+Apply	vendor/github.com/urfave/cli/flag.go	/^func (f BoolFlag) Apply(set *flag.FlagSet) {$/;"	f
+Apply	vendor/github.com/urfave/cli/flag.go	/^func (f BoolTFlag) Apply(set *flag.FlagSet) {$/;"	f
+Apply	vendor/github.com/urfave/cli/flag.go	/^func (f DurationFlag) Apply(set *flag.FlagSet) {$/;"	f
+Apply	vendor/github.com/urfave/cli/flag.go	/^func (f Float64Flag) Apply(set *flag.FlagSet) {$/;"	f
+Apply	vendor/github.com/urfave/cli/flag.go	/^func (f GenericFlag) Apply(set *flag.FlagSet) {$/;"	f
+Apply	vendor/github.com/urfave/cli/flag.go	/^func (f Int64Flag) Apply(set *flag.FlagSet) {$/;"	f
+Apply	vendor/github.com/urfave/cli/flag.go	/^func (f Int64SliceFlag) Apply(set *flag.FlagSet) {$/;"	f
+Apply	vendor/github.com/urfave/cli/flag.go	/^func (f IntFlag) Apply(set *flag.FlagSet) {$/;"	f
+Apply	vendor/github.com/urfave/cli/flag.go	/^func (f IntSliceFlag) Apply(set *flag.FlagSet) {$/;"	f
+Apply	vendor/github.com/urfave/cli/flag.go	/^func (f StringFlag) Apply(set *flag.FlagSet) {$/;"	f
+Apply	vendor/github.com/urfave/cli/flag.go	/^func (f StringSliceFlag) Apply(set *flag.FlagSet) {$/;"	f
+Apply	vendor/github.com/urfave/cli/flag.go	/^func (f Uint64Flag) Apply(set *flag.FlagSet) {$/;"	f
+Apply	vendor/github.com/urfave/cli/flag.go	/^func (f UintFlag) Apply(set *flag.FlagSet) {$/;"	f
+ApplyWithError	vendor/github.com/urfave/cli/flag.go	/^func (f BoolFlag) ApplyWithError(set *flag.FlagSet) error {$/;"	f
+ApplyWithError	vendor/github.com/urfave/cli/flag.go	/^func (f BoolTFlag) ApplyWithError(set *flag.FlagSet) error {$/;"	f
+ApplyWithError	vendor/github.com/urfave/cli/flag.go	/^func (f DurationFlag) ApplyWithError(set *flag.FlagSet) error {$/;"	f
+ApplyWithError	vendor/github.com/urfave/cli/flag.go	/^func (f Float64Flag) ApplyWithError(set *flag.FlagSet) error {$/;"	f
+ApplyWithError	vendor/github.com/urfave/cli/flag.go	/^func (f GenericFlag) ApplyWithError(set *flag.FlagSet) error {$/;"	f
+ApplyWithError	vendor/github.com/urfave/cli/flag.go	/^func (f Int64Flag) ApplyWithError(set *flag.FlagSet) error {$/;"	f
+ApplyWithError	vendor/github.com/urfave/cli/flag.go	/^func (f Int64SliceFlag) ApplyWithError(set *flag.FlagSet) error {$/;"	f
+ApplyWithError	vendor/github.com/urfave/cli/flag.go	/^func (f IntFlag) ApplyWithError(set *flag.FlagSet) error {$/;"	f
+ApplyWithError	vendor/github.com/urfave/cli/flag.go	/^func (f IntSliceFlag) ApplyWithError(set *flag.FlagSet) error {$/;"	f
+ApplyWithError	vendor/github.com/urfave/cli/flag.go	/^func (f StringFlag) ApplyWithError(set *flag.FlagSet) error {$/;"	f
+ApplyWithError	vendor/github.com/urfave/cli/flag.go	/^func (f StringSliceFlag) ApplyWithError(set *flag.FlagSet) error {$/;"	f
+ApplyWithError	vendor/github.com/urfave/cli/flag.go	/^func (f Uint64Flag) ApplyWithError(set *flag.FlagSet) error {$/;"	f
+ApplyWithError	vendor/github.com/urfave/cli/flag.go	/^func (f UintFlag) ApplyWithError(set *flag.FlagSet) error {$/;"	f
+Args	vendor/github.com/urfave/cli/context.go	/^func (c *Context) Args() Args {$/;"	f
+Args	vendor/github.com/urfave/cli/context.go	/^type Args []string$/;"	t
+Array	vendor/github.com/bitly/go-simplejson/simplejson.go	/^func (j *Json) Array() ([]interface{}, error) {$/;"	f
+Auth	vendor/golang.org/x/net/proxy/proxy.go	/^type Auth struct {$/;"	t
+Author	vendor/github.com/urfave/cli/app.go	/^type Author struct {$/;"	t
+AutoReconnect	vendor/github.com/eclipse/paho.mqtt.golang/options_reader.go	/^func (r *ClientOptionsReader) AutoReconnect() bool {$/;"	f
+BashCompleteFunc	vendor/github.com/urfave/cli/funcs.go	/^type BashCompleteFunc func(*Context)$/;"	t
+BashCompletionFlag	vendor/github.com/urfave/cli/flag.go	/^var BashCompletionFlag = BoolFlag{$/;"	v
+BeforeFunc	vendor/github.com/urfave/cli/funcs.go	/^type BeforeFunc func(*Context) error$/;"	t
+BenchmarkASCIIDecoder	modbus/asciiclient_test.go	/^func BenchmarkASCIIDecoder(b *testing.B) {$/;"	f
+BenchmarkASCIIEncoder	modbus/asciiclient_test.go	/^func BenchmarkASCIIEncoder(b *testing.B) {$/;"	f
+BenchmarkRTUDecoder	modbus/rtuclient_test.go	/^func BenchmarkRTUDecoder(b *testing.B) {$/;"	f
+BenchmarkRTUEncoder	modbus/rtuclient_test.go	/^func BenchmarkRTUEncoder(b *testing.B) {$/;"	f
+BenchmarkTCPDecoder	modbus/tcpclient_test.go	/^func BenchmarkTCPDecoder(b *testing.B) {$/;"	f
+BenchmarkTCPEncoder	modbus/tcpclient_test.go	/^func BenchmarkTCPEncoder(b *testing.B) {$/;"	f
+BinaryFrame	vendor/golang.org/x/net/websocket/websocket.go	/^	BinaryFrame       = 2$/;"	c
+Bool	config/config.go	/^func (c *ConfigFile) Bool(section, key string) (bool, error) {$/;"	f
+Bool	vendor/github.com/bitly/go-simplejson/simplejson.go	/^func (j *Json) Bool() (bool, error) {$/;"	f
+Bool	vendor/github.com/urfave/cli/flag_generated.go	/^func (c *Context) Bool(name string) bool {$/;"	f
+BoolFlag	vendor/github.com/urfave/cli/flag_generated.go	/^type BoolFlag struct {$/;"	t
+BoolT	vendor/github.com/urfave/cli/flag_generated.go	/^func (c *Context) BoolT(name string) bool {$/;"	f
+BoolTFlag	vendor/github.com/urfave/cli/flag_generated.go	/^type BoolTFlag struct {$/;"	t
+Bytes	vendor/github.com/bitly/go-simplejson/simplejson.go	/^func (j *Json) Bytes() ([]byte, error) {$/;"	f
+CLI	vendor/github.com/eclipse/paho.mqtt.golang/components.go	/^	CLI component = "[client]  "$/;"	c
+CONFILEPATH	internal/common/common.go	/^	CONFILEPATH = ".\/config.ini"$/;"	c
+CRITICAL	vendor/github.com/eclipse/paho.mqtt.golang/trace.go	/^	CRITICAL *log.Logger$/;"	v
+Categories	vendor/github.com/urfave/cli/app.go	/^func (a *App) Categories() CommandCategories {$/;"	f
+CheckGet	vendor/github.com/bitly/go-simplejson/simplejson.go	/^func (j *Json) CheckGet(key string) (*Json, bool) {$/;"	f
+CheckKey	internal/device/modbusrtu.go	/^func (d *ModbusRtu) CheckKey(ele dict) (bool, error) {$/;"	f
+CheckKey	internal/device/modbustcp.go	/^func (d *ModbusTcp) CheckKey(ele dict) (bool, error) {$/;"	f
+CleanSession	vendor/github.com/eclipse/paho.mqtt.golang/options_reader.go	/^func (r *ClientOptionsReader) CleanSession() bool {$/;"	f
+Client	modbus/api.go	/^type Client interface {$/;"	t
+Client	vendor/github.com/eclipse/paho.mqtt.golang/client.go	/^type Client interface {$/;"	t
+ClientHandler	modbus/client.go	/^type ClientHandler interface {$/;"	t
+ClientID	vendor/github.com/eclipse/paho.mqtt.golang/options_reader.go	/^func (r *ClientOptionsReader) ClientID() string {$/;"	f
+ClientOptions	vendor/github.com/eclipse/paho.mqtt.golang/options.go	/^type ClientOptions struct {$/;"	t
+ClientOptionsReader	vendor/github.com/eclipse/paho.mqtt.golang/options_reader.go	/^type ClientOptionsReader struct {$/;"	t
+Close	internal/handler/mqtt_handler.go	/^func (h *MQTTHandler) Close() error {$/;"	f
+Close	modbus/serial.go	/^func (mb *serialPort) Close() (err error) {$/;"	f
+Close	modbus/serial_test.go	/^func (n *nopCloser) Close() error {$/;"	f
+Close	modbus/tcpclient.go	/^func (mb *tcpTransporter) Close() error {$/;"	f
+Close	serial/serial_posix.go	/^func (p *port) Close() (err error) {$/;"	f
+Close	serial/serial_windows.go	/^func (p *port) Close() (err error) {$/;"	f
+Close	vendor/github.com/eclipse/paho.mqtt.golang/filestore.go	/^func (store *FileStore) Close() {$/;"	f
+Close	vendor/github.com/eclipse/paho.mqtt.golang/memstore.go	/^func (store *MemoryStore) Close() {$/;"	f
+Close	vendor/golang.org/x/net/websocket/hybi.go	/^func (frame *hybiFrameWriter) Close() error { return nil }$/;"	f
+Close	vendor/golang.org/x/net/websocket/websocket.go	/^func (ws *Conn) Close() error {$/;"	f
+CloseFrame	vendor/golang.org/x/net/websocket/websocket.go	/^	CloseFrame        = 8$/;"	c
+Cmdfp	internal/gateway/gateway.go	/^type Cmdfp struct {$/;"	t
+Codec	vendor/golang.org/x/net/websocket/websocket.go	/^type Codec struct {$/;"	t
+Command	vendor/github.com/urfave/cli/app.go	/^func (a *App) Command(name string) *Command {$/;"	f
+Command	vendor/github.com/urfave/cli/command.go	/^type Command struct {$/;"	t
+CommandCategories	vendor/github.com/urfave/cli/category.go	/^type CommandCategories []*CommandCategory$/;"	t
+CommandCategory	vendor/github.com/urfave/cli/category.go	/^type CommandCategory struct {$/;"	t
+CommandHelpTemplate	vendor/github.com/urfave/cli/help.go	/^var CommandHelpTemplate = `NAME:$/;"	v
+CommandNotFoundFunc	vendor/github.com/urfave/cli/funcs.go	/^type CommandNotFoundFunc func(*Context, string)$/;"	t
+Commands	vendor/github.com/urfave/cli/command.go	/^type Commands []Command$/;"	t
+CommandsByName	vendor/github.com/urfave/cli/command.go	/^type CommandsByName []Command$/;"	t
+Commif	internal/device/device.go	/^var Commif = make(map[string]string)$/;"	v
+Config	serial/serial.go	/^type Config struct {$/;"	t
+Config	vendor/golang.org/x/net/websocket/websocket.go	/^func (ws *Conn) Config() *Config { return ws.config }$/;"	f
+Config	vendor/golang.org/x/net/websocket/websocket.go	/^type Config struct {$/;"	t
+ConfigFile	config/config.go	/^type ConfigFile struct {$/;"	t
+Conn	vendor/golang.org/x/net/websocket/websocket.go	/^type Conn struct {$/;"	t
+ConnErrors	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^var ConnErrors = map[byte]error{$/;"	v
+Connack	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^	Connack     = 2$/;"	c
+ConnackPacket	vendor/github.com/eclipse/paho.mqtt.golang/packets/connack.go	/^type ConnackPacket struct {$/;"	t
+ConnackReturnCodes	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^var ConnackReturnCodes = map[uint8]string{$/;"	v
+Connect	modbus/serial.go	/^func (mb *serialPort) Connect() (err error) {$/;"	f
+Connect	modbus/tcpclient.go	/^func (mb *tcpTransporter) Connect() error {$/;"	f
+Connect	vendor/github.com/eclipse/paho.mqtt.golang/client.go	/^func (c *client) Connect() Token {$/;"	f
+Connect	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^	Connect     = 1$/;"	c
+ConnectPacket	vendor/github.com/eclipse/paho.mqtt.golang/packets/connect.go	/^type ConnectPacket struct {$/;"	t
+ConnectTimeout	vendor/github.com/eclipse/paho.mqtt.golang/options_reader.go	/^func (r *ClientOptionsReader) ConnectTimeout() time.Duration {$/;"	f
+ConnectToken	vendor/github.com/eclipse/paho.mqtt.golang/token.go	/^type ConnectToken struct {$/;"	t
+ConnectionLostHandler	vendor/github.com/eclipse/paho.mqtt.golang/options.go	/^type ConnectionLostHandler func(Client, error)$/;"	t
+Context	vendor/github.com/urfave/cli/context.go	/^type Context struct {$/;"	t
+ContinuationFrame	vendor/golang.org/x/net/websocket/websocket.go	/^	ContinuationFrame = 0$/;"	c
+ControlPacket	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^type ControlPacket interface {$/;"	t
+Copy	vendor/github.com/eclipse/paho.mqtt.golang/packets/publish.go	/^func (p *PublishPacket) Copy() *PublishPacket {$/;"	f
+DEBUG	vendor/github.com/eclipse/paho.mqtt.golang/trace.go	/^	DEBUG    *log.Logger$/;"	v
+DEC	vendor/github.com/eclipse/paho.mqtt.golang/components.go	/^	DEC component = "[decode]  "$/;"	c
+DEFAULT_SECTION	config/config.go	/^	DEFAULT_SECTION = "DEFAULT"$/;"	c
+DEVFILEPATH	internal/common/common.go	/^	DEVFILEPATH = ".\/devlist.ini"$/;"	c
+DataDownChan	internal/handler/mqtt_handler.go	/^func (h *MQTTHandler) DataDownChan() chan DataDownPayload {$/;"	f
+DataDownPayload	internal/handler/mqtt_handler.go	/^type DataDownPayload  struct{$/;"	t
+Debug	vendor/github.com/Sirupsen/logrus/entry.go	/^func (entry *Entry) Debug(args ...interface{}) {$/;"	f
+Debug	vendor/github.com/Sirupsen/logrus/exported.go	/^func Debug(args ...interface{}) {$/;"	f
+Debug	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) Debug(args ...interface{}) {$/;"	f
+DebugLevel	vendor/github.com/Sirupsen/logrus/logrus.go	/^	DebugLevel$/;"	c
+Debugf	vendor/github.com/Sirupsen/logrus/entry.go	/^func (entry *Entry) Debugf(format string, args ...interface{}) {$/;"	f
+Debugf	vendor/github.com/Sirupsen/logrus/exported.go	/^func Debugf(format string, args ...interface{}) {$/;"	f
+Debugf	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) Debugf(format string, args ...interface{}) {$/;"	f
+Debugln	vendor/github.com/Sirupsen/logrus/entry.go	/^func (entry *Entry) Debugln(args ...interface{}) {$/;"	f
+Debugln	vendor/github.com/Sirupsen/logrus/exported.go	/^func Debugln(args ...interface{}) {$/;"	f
+Debugln	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) Debugln(args ...interface{}) {$/;"	f
+Decode	modbus/asciiclient.go	/^func (mb *asciiPackager) Decode(adu []byte) (pdu *ProtocolDataUnit, err error) {$/;"	f
+Decode	modbus/rtuclient.go	/^func (mb *rtuPackager) Decode(adu []byte) (pdu *ProtocolDataUnit, err error) {$/;"	f
+Decode	modbus/tcpclient.go	/^func (mb *tcpPackager) Decode(adu []byte) (pdu *ProtocolDataUnit, err error) {$/;"	f
+DefaultAppComplete	vendor/github.com/urfave/cli/help.go	/^func DefaultAppComplete(c *Context) {$/;"	f
+DefaultConnectionLostHandler	vendor/github.com/eclipse/paho.mqtt.golang/client.go	/^func DefaultConnectionLostHandler(client Client, reason error) {$/;"	f
+DefaultMaxPayloadBytes	vendor/golang.org/x/net/websocket/websocket.go	/^	DefaultMaxPayloadBytes = 32 << 20 \/\/ 32MB$/;"	c
+DefaultTimestampFormat	vendor/github.com/Sirupsen/logrus/formatter.go	/^const DefaultTimestampFormat = time.RFC3339$/;"	c
+Del	vendor/github.com/bitly/go-simplejson/simplejson.go	/^func (j *Json) Del(key string) {$/;"	f
+Del	vendor/github.com/eclipse/paho.mqtt.golang/filestore.go	/^func (store *FileStore) Del(key string) {$/;"	f
+Del	vendor/github.com/eclipse/paho.mqtt.golang/memstore.go	/^func (store *MemoryStore) Del(key string) {$/;"	f
+DeleteKey	config/config.go	/^func (c *ConfigFile) DeleteKey(section, key string) bool {$/;"	f
+DeleteSection	config/config.go	/^func (c *ConfigFile) DeleteSection(section string) bool {$/;"	f
+Details	vendor/github.com/eclipse/paho.mqtt.golang/packets/connack.go	/^func (ca *ConnackPacket) Details() Details {$/;"	f
+Details	vendor/github.com/eclipse/paho.mqtt.golang/packets/connect.go	/^func (c *ConnectPacket) Details() Details {$/;"	f
+Details	vendor/github.com/eclipse/paho.mqtt.golang/packets/disconnect.go	/^func (d *DisconnectPacket) Details() Details {$/;"	f
+Details	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^type Details struct {$/;"	t
+Details	vendor/github.com/eclipse/paho.mqtt.golang/packets/pingreq.go	/^func (pr *PingreqPacket) Details() Details {$/;"	f
+Details	vendor/github.com/eclipse/paho.mqtt.golang/packets/pingresp.go	/^func (pr *PingrespPacket) Details() Details {$/;"	f
+Details	vendor/github.com/eclipse/paho.mqtt.golang/packets/puback.go	/^func (pa *PubackPacket) Details() Details {$/;"	f
+Details	vendor/github.com/eclipse/paho.mqtt.golang/packets/pubcomp.go	/^func (pc *PubcompPacket) Details() Details {$/;"	f
+Details	vendor/github.com/eclipse/paho.mqtt.golang/packets/publish.go	/^func (p *PublishPacket) Details() Details {$/;"	f
+Details	vendor/github.com/eclipse/paho.mqtt.golang/packets/pubrec.go	/^func (pr *PubrecPacket) Details() Details {$/;"	f
+Details	vendor/github.com/eclipse/paho.mqtt.golang/packets/pubrel.go	/^func (pr *PubrelPacket) Details() Details {$/;"	f
+Details	vendor/github.com/eclipse/paho.mqtt.golang/packets/suback.go	/^func (sa *SubackPacket) Details() Details {$/;"	f
+Details	vendor/github.com/eclipse/paho.mqtt.golang/packets/subscribe.go	/^func (s *SubscribePacket) Details() Details {$/;"	f
+Details	vendor/github.com/eclipse/paho.mqtt.golang/packets/unsuback.go	/^func (ua *UnsubackPacket) Details() Details {$/;"	f
+Details	vendor/github.com/eclipse/paho.mqtt.golang/packets/unsubscribe.go	/^func (u *UnsubscribePacket) Details() Details {$/;"	f
+Device	internal/device/device.go	/^type Device struct {$/;"	t
+DeviceRWer	internal/device/device.go	/^type DeviceRWer interface {$/;"	t
+Devlist	internal/device/device.go	/^type Devlist map[string]DeviceRWer$/;"	t
+Dial	vendor/golang.org/x/net/proxy/direct.go	/^func (direct) Dial(network, addr string) (net.Conn, error) {$/;"	f
+Dial	vendor/golang.org/x/net/proxy/per_host.go	/^func (p *PerHost) Dial(network, addr string) (c net.Conn, err error) {$/;"	f
+Dial	vendor/golang.org/x/net/proxy/socks5.go	/^func (s *socks5) Dial(network, addr string) (net.Conn, error) {$/;"	f
+Dial	vendor/golang.org/x/net/websocket/client.go	/^func Dial(url_, protocol, origin string) (ws *Conn, err error) {$/;"	f
+DialConfig	vendor/golang.org/x/net/websocket/client.go	/^func DialConfig(config *Config) (ws *Conn, err error) {$/;"	f
+DialError	vendor/golang.org/x/net/websocket/client.go	/^type DialError struct {$/;"	t
+Dialer	vendor/golang.org/x/net/proxy/proxy.go	/^type Dialer interface {$/;"	t
+Direct	vendor/golang.org/x/net/proxy/direct.go	/^var Direct = direct{}$/;"	v
+Disable	vendor/github.com/Sirupsen/logrus/logger.go	/^func (mw *MutexWrap) Disable() {$/;"	f
+Disconnect	vendor/github.com/eclipse/paho.mqtt.golang/client.go	/^func (c *client) Disconnect(quiesce uint) {$/;"	f
+Disconnect	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^	Disconnect  = 14$/;"	c
+DisconnectPacket	vendor/github.com/eclipse/paho.mqtt.golang/packets/disconnect.go	/^type DisconnectPacket struct {$/;"	t
+DisconnectToken	vendor/github.com/eclipse/paho.mqtt.golang/token.go	/^type DisconnectToken struct {$/;"	t
+DummyToken	vendor/github.com/eclipse/paho.mqtt.golang/messageids.go	/^type DummyToken struct {$/;"	t
+Duplicate	vendor/github.com/eclipse/paho.mqtt.golang/message.go	/^func (m *message) Duplicate() bool {$/;"	f
+Duration	vendor/github.com/urfave/cli/flag_generated.go	/^func (c *Context) Duration(name string) time.Duration {$/;"	f
+DurationFlag	vendor/github.com/urfave/cli/flag_generated.go	/^type DurationFlag struct {$/;"	t
+ERR	vendor/github.com/eclipse/paho.mqtt.golang/components.go	/^	ERR component = "[error]   "$/;"	c
+ERROR	vendor/github.com/eclipse/paho.mqtt.golang/trace.go	/^	ERROR    *log.Logger$/;"	v
+ERR_BLANK_SECTION_NAME	config/config.go	/^	ERR_BLANK_SECTION_NAME$/;"	c
+ERR_COULD_NOT_PARSE	config/config.go	/^	ERR_COULD_NOT_PARSE$/;"	c
+ERR_KEY_NOT_FOUND	config/config.go	/^	ERR_KEY_NOT_FOUND$/;"	c
+ERR_SECTION_NOT_FOUND	config/config.go	/^	ERR_SECTION_NOT_FOUND ParseError = iota + 1$/;"	c
+Encode	modbus/asciiclient.go	/^func (mb *asciiPackager) Encode(pdu *ProtocolDataUnit) (adu []byte, err error) {$/;"	f
+Encode	modbus/rtuclient.go	/^func (mb *rtuPackager) Encode(pdu *ProtocolDataUnit) (adu []byte, err error) {$/;"	f
+Encode	modbus/tcpclient.go	/^func (mb *tcpPackager) Encode(pdu *ProtocolDataUnit) (adu []byte, err error) {$/;"	f
+Encode	vendor/github.com/bitly/go-simplejson/simplejson.go	/^func (j *Json) Encode() ([]byte, error) {$/;"	f
+EncodeAutoup	internal/gateway/gateway.go	/^func (mygw *Gateway) EncodeAutoup(data map[string]interface{}) error {$/;"	f
+EncodePretty	vendor/github.com/bitly/go-simplejson/simplejson.go	/^func (j *Json) EncodePretty() ([]byte, error) {$/;"	f
+Entry	vendor/github.com/Sirupsen/logrus/entry.go	/^type Entry struct {$/;"	t
+ErrBadClosingStatus	vendor/golang.org/x/net/websocket/hybi.go	/^	ErrBadClosingStatus      = &ProtocolError{"bad closing status"}$/;"	v
+ErrBadFrame	vendor/golang.org/x/net/websocket/websocket.go	/^	ErrBadFrame             = &ProtocolError{"bad frame"}$/;"	v
+ErrBadFrameBoundary	vendor/golang.org/x/net/websocket/websocket.go	/^	ErrBadFrameBoundary     = &ProtocolError{"not on frame boundary"}$/;"	v
+ErrBadMaskingKey	vendor/golang.org/x/net/websocket/hybi.go	/^	ErrBadMaskingKey         = &ProtocolError{"bad masking key"}$/;"	v
+ErrBadPongMessage	vendor/golang.org/x/net/websocket/hybi.go	/^	ErrBadPongMessage        = &ProtocolError{"bad pong message"}$/;"	v
+ErrBadProtocolVersion	vendor/golang.org/x/net/websocket/websocket.go	/^	ErrBadProtocolVersion   = &ProtocolError{"bad protocol version"}$/;"	v
+ErrBadRequestMethod	vendor/golang.org/x/net/websocket/websocket.go	/^	ErrBadRequestMethod     = &ProtocolError{"bad method"}$/;"	v
+ErrBadScheme	vendor/golang.org/x/net/websocket/websocket.go	/^	ErrBadScheme            = &ProtocolError{"bad scheme"}$/;"	v
+ErrBadStatus	vendor/golang.org/x/net/websocket/websocket.go	/^	ErrBadStatus            = &ProtocolError{"bad status"}$/;"	v
+ErrBadUpgrade	vendor/golang.org/x/net/websocket/websocket.go	/^	ErrBadUpgrade           = &ProtocolError{"missing or bad upgrade"}$/;"	v
+ErrBadWebSocketLocation	vendor/golang.org/x/net/websocket/websocket.go	/^	ErrBadWebSocketLocation = &ProtocolError{"missing or bad WebSocket-Location"}$/;"	v
+ErrBadWebSocketOrigin	vendor/golang.org/x/net/websocket/websocket.go	/^	ErrBadWebSocketOrigin   = &ProtocolError{"missing or bad WebSocket-Origin"}$/;"	v
+ErrBadWebSocketProtocol	vendor/golang.org/x/net/websocket/websocket.go	/^	ErrBadWebSocketProtocol = &ProtocolError{"missing or bad WebSocket-Protocol"}$/;"	v
+ErrBadWebSocketVersion	vendor/golang.org/x/net/websocket/websocket.go	/^	ErrBadWebSocketVersion  = &ProtocolError{"missing or bad WebSocket Version"}$/;"	v
+ErrChallengeResponse	vendor/golang.org/x/net/websocket/websocket.go	/^	ErrChallengeResponse    = &ProtocolError{"mismatch challenge\/response"}$/;"	v
+ErrFrameTooLarge	vendor/golang.org/x/net/websocket/websocket.go	/^var ErrFrameTooLarge = errors.New("websocket: frame payload size exceeds limit")$/;"	v
+ErrInvalidQos	vendor/github.com/eclipse/paho.mqtt.golang/topic.go	/^var ErrInvalidQos = errors.New("Invalid QoS")$/;"	v
+ErrInvalidTopicEmptyString	vendor/github.com/eclipse/paho.mqtt.golang/topic.go	/^var ErrInvalidTopicEmptyString = errors.New("Invalid Topic; empty string")$/;"	v
+ErrInvalidTopicMultilevel	vendor/github.com/eclipse/paho.mqtt.golang/topic.go	/^var ErrInvalidTopicMultilevel = errors.New("Invalid Topic; multi-level wildcard must be last level")$/;"	v
+ErrNetworkError	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^	ErrNetworkError                 = 0xFE$/;"	c
+ErrNotConnected	vendor/github.com/eclipse/paho.mqtt.golang/client.go	/^var ErrNotConnected = errors.New("Not Connected")$/;"	v
+ErrNotImplemented	vendor/golang.org/x/net/websocket/hybi.go	/^	ErrNotImplemented        = &ProtocolError{"not implemented"}$/;"	v
+ErrNotSupported	vendor/golang.org/x/net/websocket/websocket.go	/^	ErrNotSupported         = &ProtocolError{"not supported"}$/;"	v
+ErrNotWebSocket	vendor/golang.org/x/net/websocket/websocket.go	/^	ErrNotWebSocket         = &ProtocolError{"not websocket protocol"}$/;"	v
+ErrProtocolViolation	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^	ErrProtocolViolation            = 0xFF$/;"	c
+ErrRefusedBadProtocolVersion	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^	ErrRefusedBadProtocolVersion    = 0x01$/;"	c
+ErrRefusedBadUsernameOrPassword	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^	ErrRefusedBadUsernameOrPassword = 0x04$/;"	c
+ErrRefusedIDRejected	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^	ErrRefusedIDRejected            = 0x02$/;"	c
+ErrRefusedNotAuthorised	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^	ErrRefusedNotAuthorised         = 0x05$/;"	c
+ErrRefusedServerUnavailable	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^	ErrRefusedServerUnavailable     = 0x03$/;"	c
+ErrTimeout	serial/serial.go	/^	ErrTimeout = errors.New("serial: timeout")$/;"	v
+ErrUnsupportedExtensions	vendor/golang.org/x/net/websocket/hybi.go	/^	ErrUnsupportedExtensions = &ProtocolError{"unsupported extensions"}$/;"	v
+ErrWriter	vendor/github.com/urfave/cli/errors.go	/^var ErrWriter io.Writer = os.Stderr$/;"	v
+Error	config/config.go	/^func (err getError) Error() string {$/;"	f
+Error	config/read.go	/^func (err readError) Error() string {$/;"	f
+Error	modbus/modbus.go	/^func (e *ModbusError) Error() string {$/;"	f
+Error	vendor/github.com/Sirupsen/logrus/entry.go	/^func (entry *Entry) Error(args ...interface{}) {$/;"	f
+Error	vendor/github.com/Sirupsen/logrus/exported.go	/^func Error(args ...interface{}) {$/;"	f
+Error	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) Error(args ...interface{}) {$/;"	f
+Error	vendor/github.com/eclipse/paho.mqtt.golang/messageids.go	/^func (d *DummyToken) Error() error {$/;"	f
+Error	vendor/github.com/eclipse/paho.mqtt.golang/token.go	/^func (b *baseToken) Error() error {$/;"	f
+Error	vendor/github.com/urfave/cli/errors.go	/^func (ee *ExitError) Error() string {$/;"	f
+Error	vendor/github.com/urfave/cli/errors.go	/^func (m MultiError) Error() string {$/;"	f
+Error	vendor/golang.org/x/net/websocket/client.go	/^func (e *DialError) Error() string {$/;"	f
+Error	vendor/golang.org/x/net/websocket/websocket.go	/^func (err *ProtocolError) Error() string { return err.ErrorString }$/;"	f
+ErrorFormatter	vendor/github.com/urfave/cli/errors.go	/^type ErrorFormatter interface {$/;"	t
+ErrorKey	vendor/github.com/Sirupsen/logrus/entry.go	/^var ErrorKey = "error"$/;"	v
+ErrorLevel	vendor/github.com/Sirupsen/logrus/logrus.go	/^	ErrorLevel$/;"	c
+Errorf	vendor/github.com/Sirupsen/logrus/entry.go	/^func (entry *Entry) Errorf(format string, args ...interface{}) {$/;"	f
+Errorf	vendor/github.com/Sirupsen/logrus/exported.go	/^func Errorf(format string, args ...interface{}) {$/;"	f
+Errorf	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) Errorf(format string, args ...interface{}) {$/;"	f
+Errorln	vendor/github.com/Sirupsen/logrus/entry.go	/^func (entry *Entry) Errorln(args ...interface{}) {$/;"	f
+Errorln	vendor/github.com/Sirupsen/logrus/exported.go	/^func Errorln(args ...interface{}) {$/;"	f
+Errorln	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) Errorln(args ...interface{}) {$/;"	f
+ExceptionCodeAcknowledge	modbus/modbus.go	/^	ExceptionCodeAcknowledge                        = 5$/;"	c
+ExceptionCodeGatewayPathUnavailable	modbus/modbus.go	/^	ExceptionCodeGatewayPathUnavailable             = 10$/;"	c
+ExceptionCodeGatewayTargetDeviceFailedToRespond	modbus/modbus.go	/^	ExceptionCodeGatewayTargetDeviceFailedToRespond = 11$/;"	c
+ExceptionCodeIllegalDataAddress	modbus/modbus.go	/^	ExceptionCodeIllegalDataAddress                 = 2$/;"	c
+ExceptionCodeIllegalDataValue	modbus/modbus.go	/^	ExceptionCodeIllegalDataValue                   = 3$/;"	c
+ExceptionCodeIllegalFunction	modbus/modbus.go	/^	ExceptionCodeIllegalFunction                    = 1$/;"	c
+ExceptionCodeMemoryParityError	modbus/modbus.go	/^	ExceptionCodeMemoryParityError                  = 8$/;"	c
+ExceptionCodeServerDeviceBusy	modbus/modbus.go	/^	ExceptionCodeServerDeviceBusy                   = 6$/;"	c
+ExceptionCodeServerDeviceFailure	modbus/modbus.go	/^	ExceptionCodeServerDeviceFailure                = 4$/;"	c
+Exit	vendor/github.com/Sirupsen/logrus/alt_exit.go	/^func Exit(code int) {$/;"	f
+ExitCode	vendor/github.com/urfave/cli/errors.go	/^func (ee *ExitError) ExitCode() int {$/;"	f
+ExitCoder	vendor/github.com/urfave/cli/errors.go	/^type ExitCoder interface {$/;"	t
+ExitError	vendor/github.com/urfave/cli/errors.go	/^type ExitError struct {$/;"	t
+Fatal	vendor/github.com/Sirupsen/logrus/entry.go	/^func (entry *Entry) Fatal(args ...interface{}) {$/;"	f
+Fatal	vendor/github.com/Sirupsen/logrus/exported.go	/^func Fatal(args ...interface{}) {$/;"	f
+Fatal	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) Fatal(args ...interface{}) {$/;"	f
+Fatal	vendor/google.golang.org/grpc/grpclog/logger.go	/^func Fatal(args ...interface{}) {$/;"	f
+FatalLevel	vendor/github.com/Sirupsen/logrus/logrus.go	/^	FatalLevel$/;"	c
+Fatalf	vendor/github.com/Sirupsen/logrus/entry.go	/^func (entry *Entry) Fatalf(format string, args ...interface{}) {$/;"	f
+Fatalf	vendor/github.com/Sirupsen/logrus/exported.go	/^func Fatalf(format string, args ...interface{}) {$/;"	f
+Fatalf	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) Fatalf(format string, args ...interface{}) {$/;"	f
+Fatalf	vendor/google.golang.org/grpc/grpclog/logger.go	/^func Fatalf(format string, args ...interface{}) {$/;"	f
+Fatalln	vendor/github.com/Sirupsen/logrus/entry.go	/^func (entry *Entry) Fatalln(args ...interface{}) {$/;"	f
+Fatalln	vendor/github.com/Sirupsen/logrus/exported.go	/^func Fatalln(args ...interface{}) {$/;"	f
+Fatalln	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) Fatalln(args ...interface{}) {$/;"	f
+Fatalln	vendor/google.golang.org/grpc/grpclog/logger.go	/^func Fatalln(args ...interface{}) {$/;"	f
+FieldKeyLevel	vendor/github.com/Sirupsen/logrus/json_formatter.go	/^	FieldKeyLevel = "level"$/;"	c
+FieldKeyMsg	vendor/github.com/Sirupsen/logrus/json_formatter.go	/^	FieldKeyMsg   = "msg"$/;"	c
+FieldKeyTime	vendor/github.com/Sirupsen/logrus/json_formatter.go	/^	FieldKeyTime  = "time"$/;"	c
+FieldLogger	vendor/github.com/Sirupsen/logrus/logrus.go	/^type FieldLogger interface {$/;"	t
+FieldMap	vendor/github.com/Sirupsen/logrus/json_formatter.go	/^type FieldMap map[fieldKey]string$/;"	t
+Fields	vendor/github.com/Sirupsen/logrus/logrus.go	/^type Fields map[string]interface{}$/;"	t
+FileStore	vendor/github.com/eclipse/paho.mqtt.golang/filestore.go	/^type FileStore struct {$/;"	t
+Fire	vendor/github.com/Sirupsen/logrus/hooks.go	/^func (hooks LevelHooks) Fire(level Level, entry *Entry) error {$/;"	f
+First	vendor/github.com/urfave/cli/context.go	/^func (a Args) First() string {$/;"	f
+FixedHeader	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^type FixedHeader struct {$/;"	t
+Flag	vendor/github.com/urfave/cli/flag.go	/^type Flag interface {$/;"	t
+FlagNames	vendor/github.com/urfave/cli/context.go	/^func (c *Context) FlagNames() (names []string) {$/;"	f
+FlagStringFunc	vendor/github.com/urfave/cli/funcs.go	/^type FlagStringFunc func(Flag) string$/;"	t
+FlagStringer	vendor/github.com/urfave/cli/flag.go	/^var FlagStringer FlagStringFunc = stringifyFlag$/;"	v
+FlagsByName	vendor/github.com/urfave/cli/flag.go	/^type FlagsByName []Flag$/;"	t
+Float64	config/config.go	/^func (c *ConfigFile) Float64(section, key string) (float64, error) {$/;"	f
+Float64	vendor/github.com/bitly/go-simplejson/simplejson_go10.go	/^func (j *Json) Float64() (float64, error) {$/;"	f
+Float64	vendor/github.com/bitly/go-simplejson/simplejson_go11.go	/^func (j *Json) Float64() (float64, error) {$/;"	f
+Float64	vendor/github.com/urfave/cli/flag_generated.go	/^func (c *Context) Float64(name string) float64 {$/;"	f
+Float64Flag	vendor/github.com/urfave/cli/flag_generated.go	/^type Float64Flag struct {$/;"	t
+Format	vendor/github.com/Sirupsen/logrus/json_formatter.go	/^func (f *JSONFormatter) Format(entry *Entry) ([]byte, error) {$/;"	f
+Format	vendor/github.com/Sirupsen/logrus/text_formatter.go	/^func (f *TextFormatter) Format(entry *Entry) ([]byte, error) {$/;"	f
+Formatter	vendor/github.com/Sirupsen/logrus/formatter.go	/^type Formatter interface {$/;"	t
+FromEnvironment	vendor/golang.org/x/net/proxy/proxy.go	/^func FromEnvironment() Dialer {$/;"	f
+FromURL	vendor/golang.org/x/net/proxy/proxy.go	/^func FromURL(u *url.URL, forward Dialer) (Dialer, error) {$/;"	f
+FullName	vendor/github.com/urfave/cli/command.go	/^func (c Command) FullName() string {$/;"	f
+FuncCodeMaskWriteRegister	modbus/modbus.go	/^	FuncCodeMaskWriteRegister          = 22$/;"	c
+FuncCodeReadCoils	modbus/modbus.go	/^	FuncCodeReadCoils          = 1$/;"	c
+FuncCodeReadDiscreteInputs	modbus/modbus.go	/^	FuncCodeReadDiscreteInputs = 2$/;"	c
+FuncCodeReadFIFOQueue	modbus/modbus.go	/^	FuncCodeReadFIFOQueue              = 24$/;"	c
+FuncCodeReadHoldingRegisters	modbus/modbus.go	/^	FuncCodeReadHoldingRegisters       = 3$/;"	c
+FuncCodeReadInputRegisters	modbus/modbus.go	/^	FuncCodeReadInputRegisters         = 4$/;"	c
+FuncCodeReadWriteMultipleRegisters	modbus/modbus.go	/^	FuncCodeReadWriteMultipleRegisters = 23$/;"	c
+FuncCodeWriteMultipleCoils	modbus/modbus.go	/^	FuncCodeWriteMultipleCoils = 15$/;"	c
+FuncCodeWriteMultipleRegisters	modbus/modbus.go	/^	FuncCodeWriteMultipleRegisters     = 16$/;"	c
+FuncCodeWriteSingleCoil	modbus/modbus.go	/^	FuncCodeWriteSingleCoil    = 5$/;"	c
+FuncCodeWriteSingleRegister	modbus/modbus.go	/^	FuncCodeWriteSingleRegister        = 6$/;"	c
+Gateway	internal/gateway/gateway.go	/^type Gateway struct {$/;"	t
+Generic	vendor/github.com/urfave/cli/flag.go	/^type Generic interface {$/;"	t
+Generic	vendor/github.com/urfave/cli/flag_generated.go	/^func (c *Context) Generic(name string) interface{} {$/;"	f
+GenericFlag	vendor/github.com/urfave/cli/flag_generated.go	/^type GenericFlag struct {$/;"	t
+Get	vendor/github.com/bitly/go-simplejson/simplejson.go	/^func (j *Json) Get(key string) *Json {$/;"	f
+Get	vendor/github.com/eclipse/paho.mqtt.golang/filestore.go	/^func (store *FileStore) Get(key string) packets.ControlPacket {$/;"	f
+Get	vendor/github.com/eclipse/paho.mqtt.golang/memstore.go	/^func (store *MemoryStore) Get(key string) packets.ControlPacket {$/;"	f
+Get	vendor/github.com/urfave/cli/context.go	/^func (a Args) Get(n int) string {$/;"	f
+Get	vendor/github.com/urfave/cli/flag.go	/^func (f *Int64Slice) Get() interface{} {$/;"	f
+Get	vendor/github.com/urfave/cli/flag.go	/^func (f *IntSlice) Get() interface{} {$/;"	f
+Get	vendor/github.com/urfave/cli/flag.go	/^func (f *StringSlice) Get() interface{} {$/;"	f
+GetCommState	serial/zsyscall_windows.go	/^func GetCommState(handle syscall.Handle, dcb *c_DCB) (err error) {$/;"	f
+GetCommTimeouts	serial/zsyscall_windows.go	/^func GetCommTimeouts(handle syscall.Handle, timeouts *c_COMMTIMEOUTS) (err error) {$/;"	f
+GetElement	internal/device/modbusrtu.go	/^func (d *ModbusRtu) GetElement() (dict, error) {$/;"	f
+GetElement	internal/device/modbustcp.go	/^func (d *ModbusTcp) GetElement() (dict, error) {$/;"	f
+GetIndex	vendor/github.com/bitly/go-simplejson/simplejson.go	/^func (j *Json) GetIndex(index int) *Json {$/;"	f
+GetKeyComments	config/config.go	/^func (c *ConfigFile) GetKeyComments(section, key string) (comments string) {$/;"	f
+GetKeyList	config/config.go	/^func (c *ConfigFile) GetKeyList(section string) []string {$/;"	f
+GetLevel	vendor/github.com/Sirupsen/logrus/exported.go	/^func GetLevel() Level {$/;"	f
+GetName	vendor/github.com/urfave/cli/flag_generated.go	/^func (f BoolFlag) GetName() string {$/;"	f
+GetName	vendor/github.com/urfave/cli/flag_generated.go	/^func (f BoolTFlag) GetName() string {$/;"	f
+GetName	vendor/github.com/urfave/cli/flag_generated.go	/^func (f DurationFlag) GetName() string {$/;"	f
+GetName	vendor/github.com/urfave/cli/flag_generated.go	/^func (f Float64Flag) GetName() string {$/;"	f
+GetName	vendor/github.com/urfave/cli/flag_generated.go	/^func (f GenericFlag) GetName() string {$/;"	f
+GetName	vendor/github.com/urfave/cli/flag_generated.go	/^func (f Int64Flag) GetName() string {$/;"	f
+GetName	vendor/github.com/urfave/cli/flag_generated.go	/^func (f Int64SliceFlag) GetName() string {$/;"	f
+GetName	vendor/github.com/urfave/cli/flag_generated.go	/^func (f IntFlag) GetName() string {$/;"	f
+GetName	vendor/github.com/urfave/cli/flag_generated.go	/^func (f IntSliceFlag) GetName() string {$/;"	f
+GetName	vendor/github.com/urfave/cli/flag_generated.go	/^func (f StringFlag) GetName() string {$/;"	f
+GetName	vendor/github.com/urfave/cli/flag_generated.go	/^func (f StringSliceFlag) GetName() string {$/;"	f
+GetName	vendor/github.com/urfave/cli/flag_generated.go	/^func (f Uint64Flag) GetName() string {$/;"	f
+GetName	vendor/github.com/urfave/cli/flag_generated.go	/^func (f UintFlag) GetName() string {$/;"	f
+GetPath	vendor/github.com/bitly/go-simplejson/simplejson.go	/^func (j *Json) GetPath(branch ...string) *Json {$/;"	f
+GetSection	config/config.go	/^func (c *ConfigFile) GetSection(section string) (map[string]string, error) {$/;"	f
+GetSectionComments	config/config.go	/^func (c *ConfigFile) GetSectionComments(section string) (comments string) {$/;"	f
+GetSectionList	config/config.go	/^func (c *ConfigFile) GetSectionList() []string {$/;"	f
+GetValue	config/config.go	/^func (c *ConfigFile) GetValue(section, key string) (string, error) {$/;"	f
+GlobalBool	vendor/github.com/urfave/cli/flag_generated.go	/^func (c *Context) GlobalBool(name string) bool {$/;"	f
+GlobalBoolT	vendor/github.com/urfave/cli/flag_generated.go	/^func (c *Context) GlobalBoolT(name string) bool {$/;"	f
+GlobalDuration	vendor/github.com/urfave/cli/flag_generated.go	/^func (c *Context) GlobalDuration(name string) time.Duration {$/;"	f
+GlobalFlagNames	vendor/github.com/urfave/cli/context.go	/^func (c *Context) GlobalFlagNames() (names []string) {$/;"	f
+GlobalFloat64	vendor/github.com/urfave/cli/flag_generated.go	/^func (c *Context) GlobalFloat64(name string) float64 {$/;"	f
+GlobalGeneric	vendor/github.com/urfave/cli/flag_generated.go	/^func (c *Context) GlobalGeneric(name string) interface{} {$/;"	f
+GlobalInt	vendor/github.com/urfave/cli/flag_generated.go	/^func (c *Context) GlobalInt(name string) int {$/;"	f
+GlobalInt64	vendor/github.com/urfave/cli/flag_generated.go	/^func (c *Context) GlobalInt64(name string) int64 {$/;"	f
+GlobalInt64Slice	vendor/github.com/urfave/cli/flag_generated.go	/^func (c *Context) GlobalInt64Slice(name string) []int64 {$/;"	f
+GlobalIntSlice	vendor/github.com/urfave/cli/flag_generated.go	/^func (c *Context) GlobalIntSlice(name string) []int {$/;"	f
+GlobalIsSet	vendor/github.com/urfave/cli/context.go	/^func (c *Context) GlobalIsSet(name string) bool {$/;"	f
+GlobalSet	vendor/github.com/urfave/cli/context.go	/^func (c *Context) GlobalSet(name, value string) error {$/;"	f
+GlobalString	vendor/github.com/urfave/cli/flag_generated.go	/^func (c *Context) GlobalString(name string) string {$/;"	f
+GlobalStringSlice	vendor/github.com/urfave/cli/flag_generated.go	/^func (c *Context) GlobalStringSlice(name string) []string {$/;"	f
+GlobalUint	vendor/github.com/urfave/cli/flag_generated.go	/^func (c *Context) GlobalUint(name string) uint {$/;"	f
+GlobalUint64	vendor/github.com/urfave/cli/flag_generated.go	/^func (c *Context) GlobalUint64(name string) uint64 {$/;"	f
+HandleAction	vendor/github.com/urfave/cli/app.go	/^func HandleAction(action interface{}, context *Context) (err error) {$/;"	f
+HandleExitCoder	vendor/github.com/urfave/cli/errors.go	/^func HandleExitCoder(err error) {$/;"	f
+HandleFrame	vendor/golang.org/x/net/websocket/hybi.go	/^func (handler *hybiFrameHandler) HandleFrame(frame frameReader) (frameReader, error) {$/;"	f
+Handler	internal/handler/handler.go	/^type Handler interface {$/;"	t
+Handler	vendor/golang.org/x/net/websocket/server.go	/^type Handler func(*Conn)$/;"	t
+HasName	vendor/github.com/urfave/cli/command.go	/^func (c Command) HasName(name string) bool {$/;"	f
+HeaderReader	vendor/golang.org/x/net/websocket/hybi.go	/^func (frame *hybiFrameReader) HeaderReader() io.Reader {$/;"	f
+HelpDoc	internal/device/modbusrtu.go	/^func (d *ModbusRtu) HelpDoc() interface{} {$/;"	f
+HelpDoc	internal/device/modbustcp.go	/^func (d *ModbusTcp) HelpDoc() interface{} {$/;"	f
+HelpFlag	vendor/github.com/urfave/cli/flag.go	/^var HelpFlag = BoolFlag{$/;"	v
+HelpPrinter	vendor/github.com/urfave/cli/help.go	/^var HelpPrinter helpPrinter = printHelp$/;"	v
+Hook	vendor/github.com/Sirupsen/logrus/hooks.go	/^type Hook interface {$/;"	t
+INTERFACES	internal/common/common.go	/^	INTERFACES  = "\/etc\/network\/interfaces"$/;"	c
+Info	vendor/github.com/Sirupsen/logrus/entry.go	/^func (entry *Entry) Info(args ...interface{}) {$/;"	f
+Info	vendor/github.com/Sirupsen/logrus/exported.go	/^func Info(args ...interface{}) {$/;"	f
+Info	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) Info(args ...interface{}) {$/;"	f
+InfoLevel	vendor/github.com/Sirupsen/logrus/logrus.go	/^	InfoLevel$/;"	c
+Infof	vendor/github.com/Sirupsen/logrus/entry.go	/^func (entry *Entry) Infof(format string, args ...interface{}) {$/;"	f
+Infof	vendor/github.com/Sirupsen/logrus/exported.go	/^func Infof(format string, args ...interface{}) {$/;"	f
+Infof	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) Infof(format string, args ...interface{}) {$/;"	f
+Infoln	vendor/github.com/Sirupsen/logrus/entry.go	/^func (entry *Entry) Infoln(args ...interface{}) {$/;"	f
+Infoln	vendor/github.com/Sirupsen/logrus/exported.go	/^func Infoln(args ...interface{}) {$/;"	f
+Infoln	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) Infoln(args ...interface{}) {$/;"	f
+Int	config/config.go	/^func (c *ConfigFile) Int(section, key string) (int, error) {$/;"	f
+Int	vendor/github.com/bitly/go-simplejson/simplejson_go10.go	/^func (j *Json) Int() (int, error) {$/;"	f
+Int	vendor/github.com/bitly/go-simplejson/simplejson_go11.go	/^func (j *Json) Int() (int, error) {$/;"	f
+Int	vendor/github.com/urfave/cli/flag_generated.go	/^func (c *Context) Int(name string) int {$/;"	f
+Int64	config/config.go	/^func (c *ConfigFile) Int64(section, key string) (int64, error) {$/;"	f
+Int64	vendor/github.com/bitly/go-simplejson/simplejson_go10.go	/^func (j *Json) Int64() (int64, error) {$/;"	f
+Int64	vendor/github.com/bitly/go-simplejson/simplejson_go11.go	/^func (j *Json) Int64() (int64, error) {$/;"	f
+Int64	vendor/github.com/urfave/cli/flag_generated.go	/^func (c *Context) Int64(name string) int64 {$/;"	f
+Int64Flag	vendor/github.com/urfave/cli/flag_generated.go	/^type Int64Flag struct {$/;"	t
+Int64Slice	vendor/github.com/urfave/cli/flag.go	/^type Int64Slice []int64$/;"	t
+Int64Slice	vendor/github.com/urfave/cli/flag_generated.go	/^func (c *Context) Int64Slice(name string) []int64 {$/;"	f
+Int64SliceFlag	vendor/github.com/urfave/cli/flag_generated.go	/^type Int64SliceFlag struct {$/;"	t
+IntFlag	vendor/github.com/urfave/cli/flag_generated.go	/^type IntFlag struct {$/;"	t
+IntSlice	vendor/github.com/urfave/cli/flag.go	/^type IntSlice []int$/;"	t
+IntSlice	vendor/github.com/urfave/cli/flag_generated.go	/^func (c *Context) IntSlice(name string) []int {$/;"	f
+IntSliceFlag	vendor/github.com/urfave/cli/flag_generated.go	/^type IntSliceFlag struct {$/;"	t
+IntToBytes	internal/device/device.go	/^func IntToBytes(n int) []byte {$/;"	f
+Interface	vendor/github.com/bitly/go-simplejson/simplejson.go	/^func (j *Json) Interface() interface{} {$/;"	f
+IsClientConn	vendor/golang.org/x/net/websocket/websocket.go	/^func (ws *Conn) IsClientConn() bool { return ws.request == nil }$/;"	f
+IsConnected	internal/handler/mqtt_handler.go	/^func (h *MQTTHandler) IsConnected() bool{$/;"	f
+IsConnected	vendor/github.com/eclipse/paho.mqtt.golang/client.go	/^func (c *client) IsConnected() bool {$/;"	f
+IsServerConn	vendor/golang.org/x/net/websocket/websocket.go	/^func (ws *Conn) IsServerConn() bool { return ws.request != nil }$/;"	f
+IsSet	vendor/github.com/urfave/cli/context.go	/^func (c *Context) IsSet(name string) bool {$/;"	f
+IsTerminal	vendor/github.com/Sirupsen/logrus/terminal_appengine.go	/^func IsTerminal(f io.Writer) bool {$/;"	f
+IsTerminal	vendor/github.com/Sirupsen/logrus/terminal_notwindows.go	/^func IsTerminal(f io.Writer) bool {$/;"	f
+IsTerminal	vendor/github.com/Sirupsen/logrus/terminal_solaris.go	/^func IsTerminal(f io.Writer) bool {$/;"	f
+IsTerminal	vendor/github.com/Sirupsen/logrus/terminal_windows.go	/^func IsTerminal(f io.Writer) bool {$/;"	f
+JSON	vendor/golang.org/x/net/websocket/websocket.go	/^var JSON = Codec{jsonMarshal, jsonUnmarshal}$/;"	v
+JSONFormatter	vendor/github.com/Sirupsen/logrus/json_formatter.go	/^type JSONFormatter struct {$/;"	t
+Json	vendor/github.com/bitly/go-simplejson/simplejson.go	/^type Json struct {$/;"	t
+KeepAlive	vendor/github.com/eclipse/paho.mqtt.golang/options_reader.go	/^func (r *ClientOptionsReader) KeepAlive() time.Duration {$/;"	f
+Len	vendor/github.com/urfave/cli/category.go	/^func (c CommandCategories) Len() int {$/;"	f
+Len	vendor/github.com/urfave/cli/command.go	/^func (c CommandsByName) Len() int {$/;"	f
+Len	vendor/github.com/urfave/cli/flag.go	/^func (f FlagsByName) Len() int {$/;"	f
+Len	vendor/golang.org/x/net/websocket/hybi.go	/^func (frame *hybiFrameReader) Len() (n int) { return frame.length }$/;"	f
+Less	vendor/github.com/urfave/cli/category.go	/^func (c CommandCategories) Less(i, j int) bool {$/;"	f
+Less	vendor/github.com/urfave/cli/command.go	/^func (c CommandsByName) Less(i, j int) bool {$/;"	f
+Less	vendor/github.com/urfave/cli/flag.go	/^func (f FlagsByName) Less(i, j int) bool {$/;"	f
+Level	vendor/github.com/Sirupsen/logrus/logrus.go	/^type Level uint32$/;"	t
+LevelHooks	vendor/github.com/Sirupsen/logrus/hooks.go	/^type LevelHooks map[Level][]Hook$/;"	t
+LineBreak	config/config.go	/^var LineBreak = "\\n"$/;"	v
+LoadConfigFile	config/read.go	/^func LoadConfigFile(fileName string, moreFiles ...string) (c *ConfigFile, err error) {$/;"	f
+LoadFromData	config/read.go	/^func LoadFromData(data []byte) (c *ConfigFile, err error) {$/;"	f
+LoadFromReader	config/read.go	/^func LoadFromReader(in io.Reader) (c *ConfigFile, err error) {$/;"	f
+LocalAddr	vendor/golang.org/x/net/websocket/websocket.go	/^func (ws *Conn) LocalAddr() net.Addr {$/;"	f
+Lock	vendor/github.com/Sirupsen/logrus/logger.go	/^func (mw *MutexWrap) Lock() {$/;"	f
+Logger	vendor/github.com/Sirupsen/logrus/logger.go	/^type Logger struct {$/;"	t
+Logger	vendor/google.golang.org/grpc/grpclog/logger.go	/^type Logger interface {$/;"	t
+MES	vendor/github.com/eclipse/paho.mqtt.golang/components.go	/^	MES component = "[message] "$/;"	c
+MID	vendor/github.com/eclipse/paho.mqtt.golang/components.go	/^	MID component = "[msgids]  "$/;"	c
+MId	vendor/github.com/eclipse/paho.mqtt.golang/messageids.go	/^type MId uint16$/;"	t
+MODEL	internal/common/common.go	/^	MODEL       = "TG120"$/;"	c
+MQTTHandler	internal/handler/mqtt_handler.go	/^type MQTTHandler struct {$/;"	t
+Map	vendor/github.com/bitly/go-simplejson/simplejson.go	/^func (j *Json) Map() (map[string]interface{}, error) {$/;"	f
+MarshalJSON	vendor/github.com/bitly/go-simplejson/simplejson.go	/^func (j *Json) MarshalJSON() ([]byte, error) {$/;"	f
+MaskWriteRegister	modbus/client.go	/^func (mb *client) MaskWriteRegister(address, andMask, orMask uint16) (results []byte, err error) {$/;"	f
+MaxReconnectInterval	vendor/github.com/eclipse/paho.mqtt.golang/options_reader.go	/^func (r *ClientOptionsReader) MaxReconnectInterval() time.Duration {$/;"	f
+MemoryStore	vendor/github.com/eclipse/paho.mqtt.golang/memstore.go	/^type MemoryStore struct {$/;"	t
+Mergemap	internal/common/common.go	/^func Mergemap(lm ...map[string]string) map[string]string {$/;"	f
+Message	vendor/github.com/eclipse/paho.mqtt.golang/message.go	/^type Message interface {$/;"	t
+Message	vendor/golang.org/x/net/websocket/websocket.go	/^var Message = Codec{marshal, unmarshal}$/;"	v
+MessageChannelDepth	vendor/github.com/eclipse/paho.mqtt.golang/options_reader.go	/^func (r *ClientOptionsReader) MessageChannelDepth() uint {$/;"	f
+MessageHandler	vendor/github.com/eclipse/paho.mqtt.golang/options.go	/^type MessageHandler func(Client, Message)$/;"	t
+MessageID	vendor/github.com/eclipse/paho.mqtt.golang/message.go	/^func (m *message) MessageID() uint16 {$/;"	f
+MessageID	vendor/github.com/eclipse/paho.mqtt.golang/token.go	/^func (p *PublishToken) MessageID() uint16 {$/;"	f
+ModbusError	modbus/modbus.go	/^type ModbusError struct {$/;"	t
+ModbusRtu	internal/device/modbusrtu.go	/^type ModbusRtu struct {$/;"	t
+ModbusTcp	internal/device/modbustcp.go	/^type ModbusTcp struct {$/;"	t
+Mqttcmdhandler	internal/gateway/gateway.go	/^func (mygw *Gateway) Mqttcmdhandler(dpc chan handler.DataDownPayload) {$/;"	f
+MultiError	vendor/github.com/urfave/cli/errors.go	/^type MultiError struct {$/;"	t
+MustArray	vendor/github.com/bitly/go-simplejson/simplejson.go	/^func (j *Json) MustArray(args ...[]interface{}) []interface{} {$/;"	f
+MustBool	config/config.go	/^func (c *ConfigFile) MustBool(section, key string, defaultVal ...bool) bool {$/;"	f
+MustBool	vendor/github.com/bitly/go-simplejson/simplejson.go	/^func (j *Json) MustBool(args ...bool) bool {$/;"	f
+MustFloat64	config/config.go	/^func (c *ConfigFile) MustFloat64(section, key string, defaultVal ...float64) float64 {$/;"	f
+MustFloat64	vendor/github.com/bitly/go-simplejson/simplejson.go	/^func (j *Json) MustFloat64(args ...float64) float64 {$/;"	f
+MustInt	config/config.go	/^func (c *ConfigFile) MustInt(section, key string, defaultVal ...int) int {$/;"	f
+MustInt	vendor/github.com/bitly/go-simplejson/simplejson.go	/^func (j *Json) MustInt(args ...int) int {$/;"	f
+MustInt64	config/config.go	/^func (c *ConfigFile) MustInt64(section, key string, defaultVal ...int64) int64 {$/;"	f
+MustInt64	vendor/github.com/bitly/go-simplejson/simplejson.go	/^func (j *Json) MustInt64(args ...int64) int64 {$/;"	f
+MustMap	vendor/github.com/bitly/go-simplejson/simplejson.go	/^func (j *Json) MustMap(args ...map[string]interface{}) map[string]interface{} {$/;"	f
+MustString	vendor/github.com/bitly/go-simplejson/simplejson.go	/^func (j *Json) MustString(args ...string) string {$/;"	f
+MustStringArray	vendor/github.com/bitly/go-simplejson/simplejson.go	/^func (j *Json) MustStringArray(args ...[]string) []string {$/;"	f
+MustUint64	vendor/github.com/bitly/go-simplejson/simplejson.go	/^func (j *Json) MustUint64(args ...uint64) uint64 {$/;"	f
+MustValue	config/config.go	/^func (c *ConfigFile) MustValue(section, key string, defaultVal ...string) string {$/;"	f
+MustValueArray	config/config.go	/^func (c *ConfigFile) MustValueArray(section, key, delim string) []string {$/;"	f
+MustValueRange	config/config.go	/^func (c *ConfigFile) MustValueRange(section, key, defaultVal string, candidates []string) string {$/;"	f
+MustValueSet	config/config.go	/^func (c *ConfigFile) MustValueSet(section, key string, defaultVal ...string) (string, bool) {$/;"	f
+MutexWrap	vendor/github.com/Sirupsen/logrus/logger.go	/^type MutexWrap struct {$/;"	t
+NArg	vendor/github.com/urfave/cli/context.go	/^func (c *Context) NArg() int {$/;"	f
+NET	vendor/github.com/eclipse/paho.mqtt.golang/components.go	/^	NET component = "[net]     "$/;"	c
+Names	vendor/github.com/urfave/cli/command.go	/^func (c Command) Names() []string {$/;"	f
+Network	vendor/golang.org/x/net/websocket/websocket.go	/^func (addr *Addr) Network() string { return "websocket" }$/;"	f
+New	serial/serial_posix.go	/^func New() Port {$/;"	f
+New	serial/serial_windows.go	/^func New() Port {$/;"	f
+New	vendor/github.com/Sirupsen/logrus/logger.go	/^func New() *Logger {$/;"	f
+New	vendor/github.com/bitly/go-simplejson/simplejson.go	/^func New() *Json {$/;"	f
+NewASCIIClientHandler	modbus/asciiclient.go	/^func NewASCIIClientHandler(address string) *ASCIIClientHandler {$/;"	f
+NewApp	vendor/github.com/urfave/cli/app.go	/^func NewApp() *App {$/;"	f
+NewClient	modbus/client.go	/^func NewClient(handler ClientHandler) Client {$/;"	f
+NewClient	vendor/github.com/eclipse/paho.mqtt.golang/client.go	/^func NewClient(o *ClientOptions) Client {$/;"	f
+NewClient	vendor/golang.org/x/net/websocket/client.go	/^func NewClient(config *Config, rwc io.ReadWriteCloser) (ws *Conn, err error) {$/;"	f
+NewClient2	modbus/client.go	/^func NewClient2(packager Packager, transporter Transporter) Client {$/;"	f
+NewClientOptions	vendor/github.com/eclipse/paho.mqtt.golang/options.go	/^func NewClientOptions() *ClientOptions {$/;"	f
+NewConMap	internal/common/common.go	/^func NewConMap(confile string) (map[string]string, error) {$/;"	f
+NewConfig	vendor/golang.org/x/net/websocket/client.go	/^func NewConfig(server, origin string) (config *Config, err error) {$/;"	f
+NewContext	vendor/github.com/urfave/cli/context.go	/^func NewContext(app *App, set *flag.FlagSet, parentCtx *Context) *Context {$/;"	f
+NewControlPacket	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^func NewControlPacket(packetType byte) (cp ControlPacket) {$/;"	f
+NewControlPacketWithHeader	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^func NewControlPacketWithHeader(fh FixedHeader) (cp ControlPacket) {$/;"	f
+NewDev	internal/device/device.go	/^func (d *Device) NewDev(id string,ele map[string]string) Device {$/;"	f
+NewDev	internal/device/modbusrtu.go	/^func (d *ModbusRtu) NewDev(id string, ele map[string]string) (DeviceRWer, error) {$/;"	f
+NewDev	internal/device/modbustcp.go	/^func (d *ModbusTcp) NewDev(id string, ele map[string]string) (DeviceRWer, error) {$/;"	f
+NewDevHandler	internal/device/device.go	/^func NewDevHandler(devlistfile string) (map[string]DeviceRWer, error) {$/;"	f
+NewEntry	vendor/github.com/Sirupsen/logrus/entry.go	/^func NewEntry(logger *Logger) *Entry {$/;"	f
+NewExitError	vendor/github.com/urfave/cli/errors.go	/^func NewExitError(message interface{}, exitCode int) *ExitError {$/;"	f
+NewFileStore	vendor/github.com/eclipse/paho.mqtt.golang/filestore.go	/^func NewFileStore(directory string) *FileStore {$/;"	f
+NewFrameReader	vendor/golang.org/x/net/websocket/hybi.go	/^func (buf hybiFrameReaderFactory) NewFrameReader() (frame frameReader, err error) {$/;"	f
+NewFrameWriter	vendor/golang.org/x/net/websocket/hybi.go	/^func (buf hybiFrameWriterFactory) NewFrameWriter(payloadType byte) (frame frameWriter, err error) {$/;"	f
+NewFromReader	vendor/github.com/bitly/go-simplejson/simplejson_go10.go	/^func NewFromReader(r io.Reader) (*Json, error) {$/;"	f
+NewFromReader	vendor/github.com/bitly/go-simplejson/simplejson_go11.go	/^func NewFromReader(r io.Reader) (*Json, error) {$/;"	f
+NewJson	vendor/github.com/bitly/go-simplejson/simplejson.go	/^func NewJson(body []byte) (*Json, error) {$/;"	f
+NewMQTTHandler	internal/handler/mqtt_handler.go	/^func NewMQTTHandler(server, username, password, cafile ,trtop ,kl ,willmsg ,onlinemsg string) (Handler, error) {$/;"	f
+NewMemoryStore	vendor/github.com/eclipse/paho.mqtt.golang/memstore.go	/^func NewMemoryStore() *MemoryStore {$/;"	f
+NewMultiError	vendor/github.com/urfave/cli/errors.go	/^func NewMultiError(err ...error) MultiError {$/;"	f
+NewPerHost	vendor/golang.org/x/net/proxy/per_host.go	/^func NewPerHost(defaultDialer, bypass Dialer) *PerHost {$/;"	f
+NewRTUClientHandler	modbus/rtuclient.go	/^func NewRTUClientHandler(address string) *RTUClientHandler {$/;"	f
+NewServerConn	vendor/golang.org/x/net/websocket/hybi.go	/^func (c *hybiServerHandshaker) NewServerConn(buf *bufio.ReadWriter, rwc io.ReadWriteCloser, request *http.Request) *Conn {$/;"	f
+NewTCPClientHandler	modbus/tcpclient.go	/^func NewTCPClientHandler(address string) *TCPClientHandler {$/;"	f
+NumFlags	vendor/github.com/urfave/cli/context.go	/^func (c *Context) NumFlags() int {$/;"	f
+OnConnectHandler	vendor/github.com/eclipse/paho.mqtt.golang/options.go	/^type OnConnectHandler func(Client)$/;"	t
+OnUsageErrorFunc	vendor/github.com/urfave/cli/funcs.go	/^type OnUsageErrorFunc func(context *Context, err error, isSubcommand bool) error$/;"	t
+On_offline_msg	internal/gateway/gateway.go	/^func (mygw *Gateway) On_offline_msg(da uint) string {$/;"	f
+Open	serial/serial.go	/^func Open(c *Config) (p Port, err error) {$/;"	f
+Open	serial/serial_posix.go	/^func (p *port) Open(c *Config) (err error) {$/;"	f
+Open	serial/serial_windows.go	/^func (p *port) Open(c *Config) (err error) {$/;"	f
+Open	vendor/github.com/eclipse/paho.mqtt.golang/filestore.go	/^func (store *FileStore) Open() {$/;"	f
+Open	vendor/github.com/eclipse/paho.mqtt.golang/memstore.go	/^func (store *MemoryStore) Open() {$/;"	f
+OptionsReader	vendor/github.com/eclipse/paho.mqtt.golang/client.go	/^func (c *client) OptionsReader() ClientOptionsReader {$/;"	f
+Order	vendor/github.com/eclipse/paho.mqtt.golang/options_reader.go	/^func (r *ClientOptionsReader) Order() bool {$/;"	f
+Origin	vendor/golang.org/x/net/websocket/hybi.go	/^func Origin(config *Config, req *http.Request) (*url.URL, error) {$/;"	f
+OsExiter	vendor/github.com/urfave/cli/errors.go	/^var OsExiter = os.Exit$/;"	v
+PACKAGE_NAME	vendor/github.com/urfave/cli/runtests	/^PACKAGE_NAME = os.environ.get($/;"	v
+PNG	vendor/github.com/eclipse/paho.mqtt.golang/components.go	/^	PNG component = "[pinger]  "$/;"	c
+Packager	modbus/modbus.go	/^type Packager interface {$/;"	t
+PacketAndToken	vendor/github.com/eclipse/paho.mqtt.golang/token.go	/^type PacketAndToken struct {$/;"	t
+PacketNames	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^var PacketNames = map[uint8]string{$/;"	v
+Panic	vendor/github.com/Sirupsen/logrus/entry.go	/^func (entry *Entry) Panic(args ...interface{}) {$/;"	f
+Panic	vendor/github.com/Sirupsen/logrus/exported.go	/^func Panic(args ...interface{}) {$/;"	f
+Panic	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) Panic(args ...interface{}) {$/;"	f
+PanicLevel	vendor/github.com/Sirupsen/logrus/logrus.go	/^	PanicLevel Level = iota$/;"	c
+Panicf	vendor/github.com/Sirupsen/logrus/entry.go	/^func (entry *Entry) Panicf(format string, args ...interface{}) {$/;"	f
+Panicf	vendor/github.com/Sirupsen/logrus/exported.go	/^func Panicf(format string, args ...interface{}) {$/;"	f
+Panicf	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) Panicf(format string, args ...interface{}) {$/;"	f
+Panicln	vendor/github.com/Sirupsen/logrus/entry.go	/^func (entry *Entry) Panicln(args ...interface{}) {$/;"	f
+Panicln	vendor/github.com/Sirupsen/logrus/exported.go	/^func Panicln(args ...interface{}) {$/;"	f
+Panicln	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) Panicln(args ...interface{}) {$/;"	f
+Parent	vendor/github.com/urfave/cli/context.go	/^func (c *Context) Parent() *Context {$/;"	f
+ParseError	config/config.go	/^type ParseError int$/;"	t
+ParseLevel	vendor/github.com/Sirupsen/logrus/logrus.go	/^func ParseLevel(lvl string) (Level, error) {$/;"	f
+Password	vendor/github.com/eclipse/paho.mqtt.golang/options_reader.go	/^func (r *ClientOptionsReader) Password() string {$/;"	f
+Payload	vendor/github.com/eclipse/paho.mqtt.golang/message.go	/^func (m *message) Payload() []byte {$/;"	f
+PayloadType	vendor/golang.org/x/net/websocket/hybi.go	/^func (frame *hybiFrameReader) PayloadType() byte { return frame.header.OpCode }$/;"	f
+PerHost	vendor/golang.org/x/net/proxy/per_host.go	/^type PerHost struct {$/;"	t
+PingFrame	vendor/golang.org/x/net/websocket/websocket.go	/^	PingFrame         = 9$/;"	c
+PingTimeout	vendor/github.com/eclipse/paho.mqtt.golang/options_reader.go	/^func (r *ClientOptionsReader) PingTimeout() time.Duration {$/;"	f
+Pingreq	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^	Pingreq     = 12$/;"	c
+PingreqPacket	vendor/github.com/eclipse/paho.mqtt.golang/packets/pingreq.go	/^type PingreqPacket struct {$/;"	t
+Pingresp	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^	Pingresp    = 13$/;"	c
+PingrespPacket	vendor/github.com/eclipse/paho.mqtt.golang/packets/pingresp.go	/^type PingrespPacket struct {$/;"	t
+PongFrame	vendor/golang.org/x/net/websocket/websocket.go	/^	PongFrame         = 10$/;"	c
+Port	serial/serial.go	/^type Port interface {$/;"	t
+Present	vendor/github.com/urfave/cli/context.go	/^func (a Args) Present() bool {$/;"	f
+PrettyFormat	config/write.go	/^var PrettyFormat = true$/;"	v
+Print	vendor/github.com/Sirupsen/logrus/entry.go	/^func (entry *Entry) Print(args ...interface{}) {$/;"	f
+Print	vendor/github.com/Sirupsen/logrus/exported.go	/^func Print(args ...interface{}) {$/;"	f
+Print	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) Print(args ...interface{}) {$/;"	f
+Print	vendor/google.golang.org/grpc/grpclog/logger.go	/^func Print(args ...interface{}) {$/;"	f
+Printf	vendor/github.com/Sirupsen/logrus/entry.go	/^func (entry *Entry) Printf(format string, args ...interface{}) {$/;"	f
+Printf	vendor/github.com/Sirupsen/logrus/exported.go	/^func Printf(format string, args ...interface{}) {$/;"	f
+Printf	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) Printf(format string, args ...interface{}) {$/;"	f
+Printf	vendor/google.golang.org/grpc/grpclog/logger.go	/^func Printf(format string, args ...interface{}) {$/;"	f
+Println	vendor/github.com/Sirupsen/logrus/entry.go	/^func (entry *Entry) Println(args ...interface{}) {$/;"	f
+Println	vendor/github.com/Sirupsen/logrus/exported.go	/^func Println(args ...interface{}) {$/;"	f
+Println	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) Println(args ...interface{}) {$/;"	f
+Println	vendor/google.golang.org/grpc/grpclog/logger.go	/^func Println(args ...interface{}) {$/;"	f
+ProtocolDataUnit	modbus/modbus.go	/^type ProtocolDataUnit struct {$/;"	t
+ProtocolError	vendor/golang.org/x/net/websocket/websocket.go	/^type ProtocolError struct {$/;"	t
+ProtocolVersion	vendor/github.com/eclipse/paho.mqtt.golang/options_reader.go	/^func (r *ClientOptionsReader) ProtocolVersion() uint {$/;"	f
+ProtocolVersionHybi	vendor/golang.org/x/net/websocket/websocket.go	/^	ProtocolVersionHybi      = ProtocolVersionHybi13$/;"	c
+ProtocolVersionHybi13	vendor/golang.org/x/net/websocket/websocket.go	/^	ProtocolVersionHybi13    = 13$/;"	c
+Puback	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^	Puback      = 4$/;"	c
+PubackPacket	vendor/github.com/eclipse/paho.mqtt.golang/packets/puback.go	/^type PubackPacket struct {$/;"	t
+Pubcomp	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^	Pubcomp     = 7$/;"	c
+PubcompPacket	vendor/github.com/eclipse/paho.mqtt.golang/packets/pubcomp.go	/^type PubcompPacket struct {$/;"	t
+Publish	vendor/github.com/eclipse/paho.mqtt.golang/client.go	/^func (c *client) Publish(topic string, qos byte, retained bool, payload interface{}) Token {$/;"	f
+Publish	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^	Publish     = 3$/;"	c
+PublishPacket	vendor/github.com/eclipse/paho.mqtt.golang/packets/publish.go	/^type PublishPacket struct {$/;"	t
+PublishToken	vendor/github.com/eclipse/paho.mqtt.golang/token.go	/^type PublishToken struct {$/;"	t
+Pubrec	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^	Pubrec      = 5$/;"	c
+PubrecPacket	vendor/github.com/eclipse/paho.mqtt.golang/packets/pubrec.go	/^type PubrecPacket struct {$/;"	t
+Pubrel	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^	Pubrel      = 6$/;"	c
+PubrelPacket	vendor/github.com/eclipse/paho.mqtt.golang/packets/pubrel.go	/^type PubrelPacket struct {$/;"	t
+Put	vendor/github.com/eclipse/paho.mqtt.golang/filestore.go	/^func (store *FileStore) Put(key string, m packets.ControlPacket) {$/;"	f
+Put	vendor/github.com/eclipse/paho.mqtt.golang/memstore.go	/^func (store *MemoryStore) Put(key string, message packets.ControlPacket) {$/;"	f
+Qos	vendor/github.com/eclipse/paho.mqtt.golang/message.go	/^func (m *message) Qos() byte {$/;"	f
+RS485Config	serial/serial.go	/^type RS485Config struct {$/;"	t
+RTUClient	modbus/rtuclient.go	/^func RTUClient(address string) Client {$/;"	f
+RTUClientHandler	modbus/rtuclient.go	/^type RTUClientHandler struct {$/;"	t
+RWDevValue	internal/device/modbusrtu.go	/^func (d *ModbusRtu) RWDevValue(rw string, m dict) (ret dict, err error) {$/;"	f
+RWDevValue	internal/device/modbustcp.go	/^func (d *ModbusTcp) RWDevValue(rw string, m dict) (ret dict, err error) {$/;"	f
+Read	serial/serial_posix.go	/^func (p *port) Read(b []byte) (n int, err error) {$/;"	f
+Read	serial/serial_windows.go	/^func (p *port) Read(b []byte) (n int, err error) {$/;"	f
+Read	vendor/golang.org/x/net/websocket/hybi.go	/^func (frame *hybiFrameReader) Read(msg []byte) (n int, err error) {$/;"	f
+Read	vendor/golang.org/x/net/websocket/websocket.go	/^func (ws *Conn) Read(msg []byte) (n int, err error) {$/;"	f
+ReadCoils	modbus/client.go	/^func (mb *client) ReadCoils(address, quantity uint16) (results []byte, err error) {$/;"	f
+ReadDiscreteInputs	modbus/client.go	/^func (mb *client) ReadDiscreteInputs(address, quantity uint16) (results []byte, err error) {$/;"	f
+ReadFIFOQueue	modbus/client.go	/^func (mb *client) ReadFIFOQueue(address uint16) (results []byte, err error) {$/;"	f
+ReadHandshake	vendor/golang.org/x/net/websocket/hybi.go	/^func (c *hybiServerHandshaker) ReadHandshake(buf *bufio.Reader, req *http.Request) (code int, err error) {$/;"	f
+ReadHoldingRegisters	modbus/client.go	/^func (mb *client) ReadHoldingRegisters(address, quantity uint16) (results []byte, err error) {$/;"	f
+ReadInputRegisters	modbus/client.go	/^func (mb *client) ReadInputRegisters(address, quantity uint16) (results []byte, err error) {$/;"	f
+ReadPacket	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^func ReadPacket(r io.Reader) (cp ControlPacket, err error) {$/;"	f
+ReadWriteMultipleRegisters	modbus/client.go	/^func (mb *client) ReadWriteMultipleRegisters(readAddress, readQuantity, writeAddress, writeQuantity uint16, value []byte) (results []byte, err error) {$/;"	f
+Receive	vendor/golang.org/x/net/websocket/websocket.go	/^func (cd Codec) Receive(ws *Conn, v interface{}) (err error) {$/;"	f
+RegDevice	internal/device/device.go	/^var RegDevice = make(Devlist)$/;"	v
+RegisterDialerType	vendor/golang.org/x/net/proxy/proxy.go	/^func RegisterDialerType(scheme string, f func(*url.URL, Dialer) (Dialer, error)) {$/;"	f
+RegisterExitHandler	vendor/github.com/Sirupsen/logrus/alt_exit.go	/^func RegisterExitHandler(handler func()) {$/;"	f
+Reload	config/read.go	/^func (c *ConfigFile) Reload() (err error) {$/;"	f
+ReloadData	config/read.go	/^func (c *ConfigFile) ReloadData(in io.Reader) (err error) {$/;"	f
+RemoteAddr	vendor/golang.org/x/net/websocket/websocket.go	/^func (ws *Conn) RemoteAddr() net.Addr {$/;"	f
+Request	vendor/golang.org/x/net/websocket/websocket.go	/^func (ws *Conn) Request() *http.Request { return ws.request }$/;"	f
+Reset	vendor/github.com/eclipse/paho.mqtt.golang/filestore.go	/^func (store *FileStore) Reset() {$/;"	f
+Reset	vendor/github.com/eclipse/paho.mqtt.golang/memstore.go	/^func (store *MemoryStore) Reset() {$/;"	f
+Reset	vendor/github.com/eclipse/paho.mqtt.golang/ping.go	/^func (t *timer) Reset(d time.Duration) bool {$/;"	f
+Result	vendor/github.com/eclipse/paho.mqtt.golang/token.go	/^func (s *SubscribeToken) Result() map[string]byte {$/;"	f
+Retained	vendor/github.com/eclipse/paho.mqtt.golang/message.go	/^func (m *message) Retained() bool {$/;"	f
+ReturnCode	vendor/github.com/eclipse/paho.mqtt.golang/token.go	/^func (c *ConnectToken) ReturnCode() byte {$/;"	f
+Run	vendor/github.com/urfave/cli/app.go	/^func (a *App) Run(arguments []string) (err error) {$/;"	f
+Run	vendor/github.com/urfave/cli/command.go	/^func (c Command) Run(ctx *Context) (err error) {$/;"	f
+RunAndExitOnError	vendor/github.com/urfave/cli/app.go	/^func (a *App) RunAndExitOnError() {$/;"	f
+RunAsSubcommand	vendor/github.com/urfave/cli/app.go	/^func (a *App) RunAsSubcommand(ctx *Context) (err error) {$/;"	f
+SOCKS5	vendor/golang.org/x/net/proxy/socks5.go	/^func SOCKS5(network, addr string, auth *Auth, forward Dialer) (Dialer, error) {$/;"	f
+STA	vendor/github.com/eclipse/paho.mqtt.golang/components.go	/^	STA component = "[state]   "$/;"	c
+STR	vendor/github.com/eclipse/paho.mqtt.golang/components.go	/^	STR component = "[store]   "$/;"	c
+SaveConfigData	config/write.go	/^func SaveConfigData(c *ConfigFile, out io.Writer) (err error) {$/;"	f
+SaveConfigFile	config/write.go	/^func SaveConfigFile(c *ConfigFile, filename string) (err error) {$/;"	f
+Send	modbus/asciiclient.go	/^func (mb *asciiSerialTransporter) Send(aduRequest []byte) (aduResponse []byte, err error) {$/;"	f
+Send	modbus/rtuclient.go	/^func (mb *rtuSerialTransporter) Send(aduRequest []byte) (aduResponse []byte, err error) {$/;"	f
+Send	modbus/tcpclient.go	/^func (mb *tcpTransporter) Send(aduRequest []byte) (aduResponse []byte, err error) {$/;"	f
+Send	vendor/golang.org/x/net/websocket/websocket.go	/^func (cd Codec) Send(ws *Conn, v interface{}) (err error) {$/;"	f
+SendDataUp	internal/handler/mqtt_handler.go	/^func (h *MQTTHandler) SendDataUp(payload interface {}) error {$/;"	f
+ServeHTTP	vendor/golang.org/x/net/websocket/server.go	/^func (h Handler) ServeHTTP(w http.ResponseWriter, req *http.Request) {$/;"	f
+ServeHTTP	vendor/golang.org/x/net/websocket/server.go	/^func (s Server) ServeHTTP(w http.ResponseWriter, req *http.Request) {$/;"	f
+Server	vendor/golang.org/x/net/websocket/server.go	/^type Server struct {$/;"	t
+Servers	vendor/github.com/eclipse/paho.mqtt.golang/options_reader.go	/^func (r *ClientOptionsReader) Servers() []*url.URL {$/;"	f
+Set	vendor/github.com/bitly/go-simplejson/simplejson.go	/^func (j *Json) Set(key string, val interface{}) {$/;"	f
+Set	vendor/github.com/urfave/cli/context.go	/^func (c *Context) Set(name, value string) error {$/;"	f
+Set	vendor/github.com/urfave/cli/flag.go	/^func (f *Int64Slice) Set(value string) error {$/;"	f
+Set	vendor/github.com/urfave/cli/flag.go	/^func (f *IntSlice) Set(value string) error {$/;"	f
+Set	vendor/github.com/urfave/cli/flag.go	/^func (f *StringSlice) Set(value string) error {$/;"	f
+SetAutoReconnect	vendor/github.com/eclipse/paho.mqtt.golang/options.go	/^func (o *ClientOptions) SetAutoReconnect(a bool) *ClientOptions {$/;"	f
+SetBinaryWill	vendor/github.com/eclipse/paho.mqtt.golang/options.go	/^func (o *ClientOptions) SetBinaryWill(topic string, payload []byte, qos byte, retained bool) *ClientOptions {$/;"	f
+SetCleanSession	vendor/github.com/eclipse/paho.mqtt.golang/options.go	/^func (o *ClientOptions) SetCleanSession(clean bool) *ClientOptions {$/;"	f
+SetClientID	vendor/github.com/eclipse/paho.mqtt.golang/options.go	/^func (o *ClientOptions) SetClientID(id string) *ClientOptions {$/;"	f
+SetCommState	serial/zsyscall_windows.go	/^func SetCommState(handle syscall.Handle, dcb *c_DCB) (err error) {$/;"	f
+SetCommTimeouts	serial/zsyscall_windows.go	/^func SetCommTimeouts(handle syscall.Handle, timeouts *c_COMMTIMEOUTS) (err error) {$/;"	f
+SetConnectTimeout	vendor/github.com/eclipse/paho.mqtt.golang/options.go	/^func (o *ClientOptions) SetConnectTimeout(t time.Duration) *ClientOptions {$/;"	f
+SetConnectionLostHandler	vendor/github.com/eclipse/paho.mqtt.golang/options.go	/^func (o *ClientOptions) SetConnectionLostHandler(onLost ConnectionLostHandler) *ClientOptions {$/;"	f
+SetDeadline	vendor/golang.org/x/net/websocket/websocket.go	/^func (ws *Conn) SetDeadline(t time.Time) error {$/;"	f
+SetDefaultPublishHandler	vendor/github.com/eclipse/paho.mqtt.golang/options.go	/^func (o *ClientOptions) SetDefaultPublishHandler(defaultHandler MessageHandler) *ClientOptions {$/;"	f
+SetFormatter	vendor/github.com/Sirupsen/logrus/exported.go	/^func SetFormatter(formatter Formatter) {$/;"	f
+SetKeepAlive	vendor/github.com/eclipse/paho.mqtt.golang/options.go	/^func (o *ClientOptions) SetKeepAlive(k time.Duration) *ClientOptions {$/;"	f
+SetKeyComments	config/config.go	/^func (c *ConfigFile) SetKeyComments(section, key, comments string) bool {$/;"	f
+SetLevel	vendor/github.com/Sirupsen/logrus/exported.go	/^func SetLevel(level Level) {$/;"	f
+SetLogger	vendor/google.golang.org/grpc/grpclog/logger.go	/^func SetLogger(l Logger) {$/;"	f
+SetMaxReconnectInterval	vendor/github.com/eclipse/paho.mqtt.golang/options.go	/^func (o *ClientOptions) SetMaxReconnectInterval(t time.Duration) *ClientOptions {$/;"	f
+SetMessageChannelDepth	vendor/github.com/eclipse/paho.mqtt.golang/options.go	/^func (o *ClientOptions) SetMessageChannelDepth(s uint) *ClientOptions {$/;"	f
+SetNoLock	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) SetNoLock() {$/;"	f
+SetOnConnectHandler	vendor/github.com/eclipse/paho.mqtt.golang/options.go	/^func (o *ClientOptions) SetOnConnectHandler(onConn OnConnectHandler) *ClientOptions {$/;"	f
+SetOrderMatters	vendor/github.com/eclipse/paho.mqtt.golang/options.go	/^func (o *ClientOptions) SetOrderMatters(order bool) *ClientOptions {$/;"	f
+SetOutput	vendor/github.com/Sirupsen/logrus/exported.go	/^func SetOutput(out io.Writer) {$/;"	f
+SetPassword	vendor/github.com/eclipse/paho.mqtt.golang/options.go	/^func (o *ClientOptions) SetPassword(p string) *ClientOptions {$/;"	f
+SetPath	vendor/github.com/bitly/go-simplejson/simplejson.go	/^func (j *Json) SetPath(branch []string, val interface{}) {$/;"	f
+SetPingTimeout	vendor/github.com/eclipse/paho.mqtt.golang/options.go	/^func (o *ClientOptions) SetPingTimeout(k time.Duration) *ClientOptions {$/;"	f
+SetProtocolVersion	vendor/github.com/eclipse/paho.mqtt.golang/options.go	/^func (o *ClientOptions) SetProtocolVersion(pv uint) *ClientOptions {$/;"	f
+SetRead	vendor/github.com/eclipse/paho.mqtt.golang/ping.go	/^func (t *timer) SetRead(v bool) {$/;"	f
+SetReadDeadline	vendor/golang.org/x/net/websocket/websocket.go	/^func (ws *Conn) SetReadDeadline(t time.Time) error {$/;"	f
+SetSectionComments	config/config.go	/^func (c *ConfigFile) SetSectionComments(section, comments string) bool {$/;"	f
+SetStore	vendor/github.com/eclipse/paho.mqtt.golang/options.go	/^func (o *ClientOptions) SetStore(s Store) *ClientOptions {$/;"	f
+SetTLSConfig	vendor/github.com/eclipse/paho.mqtt.golang/options.go	/^func (o *ClientOptions) SetTLSConfig(t *tls.Config) *ClientOptions {$/;"	f
+SetUsername	vendor/github.com/eclipse/paho.mqtt.golang/options.go	/^func (o *ClientOptions) SetUsername(u string) *ClientOptions {$/;"	f
+SetValue	config/config.go	/^func (c *ConfigFile) SetValue(section, key, value string) bool {$/;"	f
+SetWill	vendor/github.com/eclipse/paho.mqtt.golang/options.go	/^func (o *ClientOptions) SetWill(topic string, payload string, qos byte, retained bool) *ClientOptions {$/;"	f
+SetWriteDeadline	vendor/golang.org/x/net/websocket/websocket.go	/^func (ws *Conn) SetWriteDeadline(t time.Time) error {$/;"	f
+SetWriteTimeout	vendor/github.com/eclipse/paho.mqtt.golang/options.go	/^func (o *ClientOptions) SetWriteTimeout(t time.Duration) *ClientOptions {$/;"	f
+Setup	vendor/github.com/urfave/cli/app.go	/^func (a *App) Setup() {$/;"	f
+ShowAppHelp	vendor/github.com/urfave/cli/help.go	/^func ShowAppHelp(c *Context) error {$/;"	f
+ShowCommandCompletions	vendor/github.com/urfave/cli/help.go	/^func ShowCommandCompletions(ctx *Context, command string) {$/;"	f
+ShowCommandHelp	vendor/github.com/urfave/cli/help.go	/^func ShowCommandHelp(ctx *Context, command string) error {$/;"	f
+ShowCompletions	vendor/github.com/urfave/cli/help.go	/^func ShowCompletions(c *Context) {$/;"	f
+ShowSubcommandHelp	vendor/github.com/urfave/cli/help.go	/^func ShowSubcommandHelp(c *Context) error {$/;"	f
+ShowVersion	vendor/github.com/urfave/cli/help.go	/^func ShowVersion(c *Context) {$/;"	f
+StandardLogger	vendor/github.com/Sirupsen/logrus/exported.go	/^func StandardLogger() *Logger {$/;"	f
+StdLogger	vendor/github.com/Sirupsen/logrus/logrus.go	/^type StdLogger interface {$/;"	t
+Stop	vendor/github.com/eclipse/paho.mqtt.golang/ping.go	/^func (t *timer) Stop() bool {$/;"	f
+Store	vendor/github.com/eclipse/paho.mqtt.golang/store.go	/^type Store interface {$/;"	t
+String	vendor/github.com/Sirupsen/logrus/entry.go	/^func (entry *Entry) String() (string, error) {$/;"	f
+String	vendor/github.com/Sirupsen/logrus/logrus.go	/^func (level Level) String() string {$/;"	f
+String	vendor/github.com/bitly/go-simplejson/simplejson.go	/^func (j *Json) String() (string, error) {$/;"	f
+String	vendor/github.com/eclipse/paho.mqtt.golang/packets/connack.go	/^func (ca *ConnackPacket) String() string {$/;"	f
+String	vendor/github.com/eclipse/paho.mqtt.golang/packets/connect.go	/^func (c *ConnectPacket) String() string {$/;"	f
+String	vendor/github.com/eclipse/paho.mqtt.golang/packets/disconnect.go	/^func (d *DisconnectPacket) String() string {$/;"	f
+String	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^func (fh FixedHeader) String() string {$/;"	f
+String	vendor/github.com/eclipse/paho.mqtt.golang/packets/pingreq.go	/^func (pr *PingreqPacket) String() string {$/;"	f
+String	vendor/github.com/eclipse/paho.mqtt.golang/packets/pingresp.go	/^func (pr *PingrespPacket) String() string {$/;"	f
+String	vendor/github.com/eclipse/paho.mqtt.golang/packets/puback.go	/^func (pa *PubackPacket) String() string {$/;"	f
+String	vendor/github.com/eclipse/paho.mqtt.golang/packets/pubcomp.go	/^func (pc *PubcompPacket) String() string {$/;"	f
+String	vendor/github.com/eclipse/paho.mqtt.golang/packets/publish.go	/^func (p *PublishPacket) String() string {$/;"	f
+String	vendor/github.com/eclipse/paho.mqtt.golang/packets/pubrec.go	/^func (pr *PubrecPacket) String() string {$/;"	f
+String	vendor/github.com/eclipse/paho.mqtt.golang/packets/pubrel.go	/^func (pr *PubrelPacket) String() string {$/;"	f
+String	vendor/github.com/eclipse/paho.mqtt.golang/packets/suback.go	/^func (sa *SubackPacket) String() string {$/;"	f
+String	vendor/github.com/eclipse/paho.mqtt.golang/packets/subscribe.go	/^func (s *SubscribePacket) String() string {$/;"	f
+String	vendor/github.com/eclipse/paho.mqtt.golang/packets/unsuback.go	/^func (ua *UnsubackPacket) String() string {$/;"	f
+String	vendor/github.com/eclipse/paho.mqtt.golang/packets/unsubscribe.go	/^func (u *UnsubscribePacket) String() string {$/;"	f
+String	vendor/github.com/urfave/cli/app.go	/^func (a Author) String() string {$/;"	f
+String	vendor/github.com/urfave/cli/flag.go	/^func (f *Int64Slice) String() string {$/;"	f
+String	vendor/github.com/urfave/cli/flag.go	/^func (f *IntSlice) String() string {$/;"	f
+String	vendor/github.com/urfave/cli/flag.go	/^func (f *StringSlice) String() string {$/;"	f
+String	vendor/github.com/urfave/cli/flag_generated.go	/^func (c *Context) String(name string) string {$/;"	f
+String	vendor/github.com/urfave/cli/flag_generated.go	/^func (f BoolFlag) String() string {$/;"	f
+String	vendor/github.com/urfave/cli/flag_generated.go	/^func (f BoolTFlag) String() string {$/;"	f
+String	vendor/github.com/urfave/cli/flag_generated.go	/^func (f DurationFlag) String() string {$/;"	f
+String	vendor/github.com/urfave/cli/flag_generated.go	/^func (f Float64Flag) String() string {$/;"	f
+String	vendor/github.com/urfave/cli/flag_generated.go	/^func (f GenericFlag) String() string {$/;"	f
+String	vendor/github.com/urfave/cli/flag_generated.go	/^func (f Int64Flag) String() string {$/;"	f
+String	vendor/github.com/urfave/cli/flag_generated.go	/^func (f Int64SliceFlag) String() string {$/;"	f
+String	vendor/github.com/urfave/cli/flag_generated.go	/^func (f IntFlag) String() string {$/;"	f
+String	vendor/github.com/urfave/cli/flag_generated.go	/^func (f IntSliceFlag) String() string {$/;"	f
+String	vendor/github.com/urfave/cli/flag_generated.go	/^func (f StringFlag) String() string {$/;"	f
+String	vendor/github.com/urfave/cli/flag_generated.go	/^func (f StringSliceFlag) String() string {$/;"	f
+String	vendor/github.com/urfave/cli/flag_generated.go	/^func (f Uint64Flag) String() string {$/;"	f
+String	vendor/github.com/urfave/cli/flag_generated.go	/^func (f UintFlag) String() string {$/;"	f
+StringArray	vendor/github.com/bitly/go-simplejson/simplejson.go	/^func (j *Json) StringArray() ([]string, error) {$/;"	f
+StringFlag	vendor/github.com/urfave/cli/flag_generated.go	/^type StringFlag struct {$/;"	t
+StringSlice	vendor/github.com/urfave/cli/flag.go	/^type StringSlice []string$/;"	t
+StringSlice	vendor/github.com/urfave/cli/flag_generated.go	/^func (c *Context) StringSlice(name string) []string {$/;"	f
+StringSliceFlag	vendor/github.com/urfave/cli/flag_generated.go	/^type StringSliceFlag struct {$/;"	t
+Suback	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^	Suback      = 9$/;"	c
+SubackPacket	vendor/github.com/eclipse/paho.mqtt.golang/packets/suback.go	/^type SubackPacket struct {$/;"	t
+SubcommandHelpTemplate	vendor/github.com/urfave/cli/help.go	/^var SubcommandHelpTemplate = `NAME:$/;"	v
+Subscribe	vendor/github.com/eclipse/paho.mqtt.golang/client.go	/^func (c *client) Subscribe(topic string, qos byte, callback MessageHandler) Token {$/;"	f
+Subscribe	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^	Subscribe   = 8$/;"	c
+SubscribeMultiple	vendor/github.com/eclipse/paho.mqtt.golang/client.go	/^func (c *client) SubscribeMultiple(filters map[string]byte, callback MessageHandler) Token {$/;"	f
+SubscribePacket	vendor/github.com/eclipse/paho.mqtt.golang/packets/subscribe.go	/^type SubscribePacket struct {$/;"	t
+SubscribeToken	vendor/github.com/eclipse/paho.mqtt.golang/token.go	/^type SubscribeToken struct {$/;"	t
+SupportedProtocolVersion	vendor/golang.org/x/net/websocket/websocket.go	/^	SupportedProtocolVersion = "13"$/;"	c
+Swap	vendor/github.com/urfave/cli/category.go	/^func (c CommandCategories) Swap(i, j int) {$/;"	f
+Swap	vendor/github.com/urfave/cli/command.go	/^func (c CommandsByName) Swap(i, j int) {$/;"	f
+Swap	vendor/github.com/urfave/cli/context.go	/^func (a Args) Swap(from, to int) error {$/;"	f
+Swap	vendor/github.com/urfave/cli/flag.go	/^func (f FlagsByName) Swap(i, j int) {$/;"	f
+TCPClient	modbus/tcpclient.go	/^func TCPClient(address string) Client {$/;"	f
+TCPClientHandler	modbus/tcpclient.go	/^type TCPClientHandler struct {$/;"	t
+TLSConfig	vendor/github.com/eclipse/paho.mqtt.golang/options_reader.go	/^func (r *ClientOptionsReader) TLSConfig() tls.Config {$/;"	f
+TST	vendor/github.com/eclipse/paho.mqtt.golang/components.go	/^	TST component = "[test]    "$/;"	c
+Tail	vendor/github.com/urfave/cli/context.go	/^func (a Args) Tail() []string {$/;"	f
+Termios	vendor/github.com/Sirupsen/logrus/terminal_bsd.go	/^type Termios syscall.Termios$/;"	t
+Termios	vendor/github.com/Sirupsen/logrus/terminal_linux.go	/^type Termios syscall.Termios$/;"	t
+TestASCIIDecoding	modbus/asciiclient_test.go	/^func TestASCIIDecoding(t *testing.T) {$/;"	f
+TestASCIIEncoding	modbus/asciiclient_test.go	/^func TestASCIIEncoding(t *testing.T) {$/;"	f
+TestCRC	modbus/crc_test.go	/^func TestCRC(t *testing.T) {$/;"	f
+TestCalculateResponseLength	modbus/rtuclient_test.go	/^func TestCalculateResponseLength(t *testing.T) {$/;"	f
+TestLRC	modbus/lrc_test.go	/^func TestLRC(t *testing.T) {$/;"	f
+TestRTUDecoding	modbus/rtuclient_test.go	/^func TestRTUDecoding(t *testing.T) {$/;"	f
+TestRTUEncoding	modbus/rtuclient_test.go	/^func TestRTUEncoding(t *testing.T) {$/;"	f
+TestReadWrite	serial/serial_test.go	/^func TestReadWrite(t *testing.T) {$/;"	f
+TestSerialCloseIdle	modbus/serial_test.go	/^func TestSerialCloseIdle(t *testing.T) {$/;"	f
+TestTCPDecoding	modbus/tcpclient_test.go	/^func TestTCPDecoding(t *testing.T) {$/;"	f
+TestTCPEncoding	modbus/tcpclient_test.go	/^func TestTCPEncoding(t *testing.T) {$/;"	f
+TestTCPTransporter	modbus/tcpclient_test.go	/^func TestTCPTransporter(t *testing.T) {$/;"	f
+TextFormatter	vendor/github.com/Sirupsen/logrus/text_formatter.go	/^type TextFormatter struct {$/;"	t
+TextFrame	vendor/golang.org/x/net/websocket/websocket.go	/^	TextFrame         = 1$/;"	c
+Token	vendor/github.com/eclipse/paho.mqtt.golang/token.go	/^type Token interface {$/;"	t
+Topic	vendor/github.com/eclipse/paho.mqtt.golang/message.go	/^func (m *message) Topic() string {$/;"	f
+TrailerReader	vendor/golang.org/x/net/websocket/hybi.go	/^func (frame *hybiFrameReader) TrailerReader() io.Reader { return nil }$/;"	f
+Transporter	modbus/modbus.go	/^type Transporter interface {$/;"	t
+Uint	vendor/github.com/urfave/cli/flag_generated.go	/^func (c *Context) Uint(name string) uint {$/;"	f
+Uint64	vendor/github.com/bitly/go-simplejson/simplejson_go10.go	/^func (j *Json) Uint64() (uint64, error) {$/;"	f
+Uint64	vendor/github.com/bitly/go-simplejson/simplejson_go11.go	/^func (j *Json) Uint64() (uint64, error) {$/;"	f
+Uint64	vendor/github.com/urfave/cli/flag_generated.go	/^func (c *Context) Uint64(name string) uint64 {$/;"	f
+Uint64Flag	vendor/github.com/urfave/cli/flag_generated.go	/^type Uint64Flag struct {$/;"	t
+UintFlag	vendor/github.com/urfave/cli/flag_generated.go	/^type UintFlag struct {$/;"	t
+UnknownFrame	vendor/golang.org/x/net/websocket/websocket.go	/^	UnknownFrame      = 255$/;"	c
+Unlock	vendor/github.com/Sirupsen/logrus/logger.go	/^func (mw *MutexWrap) Unlock() {$/;"	f
+UnmarshalJSON	vendor/github.com/bitly/go-simplejson/simplejson_go10.go	/^func (j *Json) UnmarshalJSON(p []byte) error {$/;"	f
+UnmarshalJSON	vendor/github.com/bitly/go-simplejson/simplejson_go11.go	/^func (j *Json) UnmarshalJSON(p []byte) error {$/;"	f
+Unpack	vendor/github.com/eclipse/paho.mqtt.golang/packets/connack.go	/^func (ca *ConnackPacket) Unpack(b io.Reader) error {$/;"	f
+Unpack	vendor/github.com/eclipse/paho.mqtt.golang/packets/connect.go	/^func (c *ConnectPacket) Unpack(b io.Reader) error {$/;"	f
+Unpack	vendor/github.com/eclipse/paho.mqtt.golang/packets/disconnect.go	/^func (d *DisconnectPacket) Unpack(b io.Reader) error {$/;"	f
+Unpack	vendor/github.com/eclipse/paho.mqtt.golang/packets/pingreq.go	/^func (pr *PingreqPacket) Unpack(b io.Reader) error {$/;"	f
+Unpack	vendor/github.com/eclipse/paho.mqtt.golang/packets/pingresp.go	/^func (pr *PingrespPacket) Unpack(b io.Reader) error {$/;"	f
+Unpack	vendor/github.com/eclipse/paho.mqtt.golang/packets/puback.go	/^func (pa *PubackPacket) Unpack(b io.Reader) error {$/;"	f
+Unpack	vendor/github.com/eclipse/paho.mqtt.golang/packets/pubcomp.go	/^func (pc *PubcompPacket) Unpack(b io.Reader) error {$/;"	f
+Unpack	vendor/github.com/eclipse/paho.mqtt.golang/packets/publish.go	/^func (p *PublishPacket) Unpack(b io.Reader) error {$/;"	f
+Unpack	vendor/github.com/eclipse/paho.mqtt.golang/packets/pubrec.go	/^func (pr *PubrecPacket) Unpack(b io.Reader) error {$/;"	f
+Unpack	vendor/github.com/eclipse/paho.mqtt.golang/packets/pubrel.go	/^func (pr *PubrelPacket) Unpack(b io.Reader) error {$/;"	f
+Unpack	vendor/github.com/eclipse/paho.mqtt.golang/packets/suback.go	/^func (sa *SubackPacket) Unpack(b io.Reader) error {$/;"	f
+Unpack	vendor/github.com/eclipse/paho.mqtt.golang/packets/subscribe.go	/^func (s *SubscribePacket) Unpack(b io.Reader) error {$/;"	f
+Unpack	vendor/github.com/eclipse/paho.mqtt.golang/packets/unsuback.go	/^func (ua *UnsubackPacket) Unpack(b io.Reader) error {$/;"	f
+Unpack	vendor/github.com/eclipse/paho.mqtt.golang/packets/unsubscribe.go	/^func (u *UnsubscribePacket) Unpack(b io.Reader) error {$/;"	f
+UnsetWill	vendor/github.com/eclipse/paho.mqtt.golang/options.go	/^func (o *ClientOptions) UnsetWill() *ClientOptions {$/;"	f
+Unsuback	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^	Unsuback    = 11$/;"	c
+UnsubackPacket	vendor/github.com/eclipse/paho.mqtt.golang/packets/unsuback.go	/^type UnsubackPacket struct {$/;"	t
+Unsubscribe	vendor/github.com/eclipse/paho.mqtt.golang/client.go	/^func (c *client) Unsubscribe(topics ...string) Token {$/;"	f
+Unsubscribe	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^	Unsubscribe = 10$/;"	c
+UnsubscribePacket	vendor/github.com/eclipse/paho.mqtt.golang/packets/unsubscribe.go	/^type UnsubscribePacket struct {$/;"	t
+UnsubscribeToken	vendor/github.com/eclipse/paho.mqtt.golang/token.go	/^type UnsubscribeToken struct {$/;"	t
+Update	internal/gateway/gateway.go	/^func (mygw *Gateway) Update() error {$/;"	f
+Username	vendor/github.com/eclipse/paho.mqtt.golang/options_reader.go	/^func (r *ClientOptionsReader) Username() string {$/;"	f
+VERSION	internal/common/common.go	/^	VERSION     = "1.0"$/;"	c
+Validate	vendor/github.com/eclipse/paho.mqtt.golang/packets/connect.go	/^func (c *ConnectPacket) Validate() byte {$/;"	f
+Value	vendor/github.com/urfave/cli/flag.go	/^func (f *Int64Slice) Value() []int64 {$/;"	f
+Value	vendor/github.com/urfave/cli/flag.go	/^func (f *IntSlice) Value() []int {$/;"	f
+Value	vendor/github.com/urfave/cli/flag.go	/^func (f *StringSlice) Value() []string {$/;"	f
+Verify	modbus/asciiclient.go	/^func (mb *asciiPackager) Verify(aduRequest []byte, aduResponse []byte) (err error) {$/;"	f
+Verify	modbus/rtuclient.go	/^func (mb *rtuPackager) Verify(aduRequest []byte, aduResponse []byte) (err error) {$/;"	f
+Verify	modbus/tcpclient.go	/^func (mb *tcpPackager) Verify(aduRequest []byte, aduResponse []byte) (err error) {$/;"	f
+Version	vendor/github.com/bitly/go-simplejson/simplejson.go	/^func Version() string {$/;"	f
+VersionFlag	vendor/github.com/urfave/cli/flag.go	/^var VersionFlag = BoolFlag{$/;"	v
+VersionPrinter	vendor/github.com/urfave/cli/help.go	/^var VersionPrinter = printVersion$/;"	v
+VisibleCategories	vendor/github.com/urfave/cli/app.go	/^func (a *App) VisibleCategories() []*CommandCategory {$/;"	f
+VisibleCommands	vendor/github.com/urfave/cli/app.go	/^func (a *App) VisibleCommands() []Command {$/;"	f
+VisibleCommands	vendor/github.com/urfave/cli/category.go	/^func (c *CommandCategory) VisibleCommands() []Command {$/;"	f
+VisibleFlags	vendor/github.com/urfave/cli/app.go	/^func (a *App) VisibleFlags() []Flag {$/;"	f
+VisibleFlags	vendor/github.com/urfave/cli/command.go	/^func (c Command) VisibleFlags() []Flag {$/;"	f
+WARN	vendor/github.com/eclipse/paho.mqtt.golang/trace.go	/^	WARN     *log.Logger$/;"	v
+Wait	vendor/github.com/eclipse/paho.mqtt.golang/messageids.go	/^func (d *DummyToken) Wait() bool {$/;"	f
+Wait	vendor/github.com/eclipse/paho.mqtt.golang/token.go	/^func (b *baseToken) Wait() bool {$/;"	f
+WaitTimeout	vendor/github.com/eclipse/paho.mqtt.golang/messageids.go	/^func (d *DummyToken) WaitTimeout(t time.Duration) bool {$/;"	f
+WaitTimeout	vendor/github.com/eclipse/paho.mqtt.golang/token.go	/^func (b *baseToken) WaitTimeout(d time.Duration) bool {$/;"	f
+Warn	vendor/github.com/Sirupsen/logrus/entry.go	/^func (entry *Entry) Warn(args ...interface{}) {$/;"	f
+Warn	vendor/github.com/Sirupsen/logrus/exported.go	/^func Warn(args ...interface{}) {$/;"	f
+Warn	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) Warn(args ...interface{}) {$/;"	f
+WarnLevel	vendor/github.com/Sirupsen/logrus/logrus.go	/^	WarnLevel$/;"	c
+Warnf	vendor/github.com/Sirupsen/logrus/entry.go	/^func (entry *Entry) Warnf(format string, args ...interface{}) {$/;"	f
+Warnf	vendor/github.com/Sirupsen/logrus/exported.go	/^func Warnf(format string, args ...interface{}) {$/;"	f
+Warnf	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) Warnf(format string, args ...interface{}) {$/;"	f
+Warning	vendor/github.com/Sirupsen/logrus/entry.go	/^func (entry *Entry) Warning(args ...interface{}) {$/;"	f
+Warning	vendor/github.com/Sirupsen/logrus/exported.go	/^func Warning(args ...interface{}) {$/;"	f
+Warning	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) Warning(args ...interface{}) {$/;"	f
+Warningf	vendor/github.com/Sirupsen/logrus/entry.go	/^func (entry *Entry) Warningf(format string, args ...interface{}) {$/;"	f
+Warningf	vendor/github.com/Sirupsen/logrus/exported.go	/^func Warningf(format string, args ...interface{}) {$/;"	f
+Warningf	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) Warningf(format string, args ...interface{}) {$/;"	f
+Warningln	vendor/github.com/Sirupsen/logrus/entry.go	/^func (entry *Entry) Warningln(args ...interface{}) {$/;"	f
+Warningln	vendor/github.com/Sirupsen/logrus/exported.go	/^func Warningln(args ...interface{}) {$/;"	f
+Warningln	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) Warningln(args ...interface{}) {$/;"	f
+Warnln	vendor/github.com/Sirupsen/logrus/entry.go	/^func (entry *Entry) Warnln(args ...interface{}) {$/;"	f
+Warnln	vendor/github.com/Sirupsen/logrus/exported.go	/^func Warnln(args ...interface{}) {$/;"	f
+Warnln	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) Warnln(args ...interface{}) {$/;"	f
+WillEnabled	vendor/github.com/eclipse/paho.mqtt.golang/options_reader.go	/^func (r *ClientOptionsReader) WillEnabled() bool {$/;"	f
+WillPayload	vendor/github.com/eclipse/paho.mqtt.golang/options_reader.go	/^func (r *ClientOptionsReader) WillPayload() []byte {$/;"	f
+WillQos	vendor/github.com/eclipse/paho.mqtt.golang/options_reader.go	/^func (r *ClientOptionsReader) WillQos() byte {$/;"	f
+WillRetained	vendor/github.com/eclipse/paho.mqtt.golang/options_reader.go	/^func (r *ClientOptionsReader) WillRetained() bool {$/;"	f
+WillTopic	vendor/github.com/eclipse/paho.mqtt.golang/options_reader.go	/^func (r *ClientOptionsReader) WillTopic() string {$/;"	f
+WithError	vendor/github.com/Sirupsen/logrus/entry.go	/^func (entry *Entry) WithError(err error) *Entry {$/;"	f
+WithError	vendor/github.com/Sirupsen/logrus/exported.go	/^func WithError(err error) *Entry {$/;"	f
+WithError	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) WithError(err error) *Entry {$/;"	f
+WithField	vendor/github.com/Sirupsen/logrus/entry.go	/^func (entry *Entry) WithField(key string, value interface{}) *Entry {$/;"	f
+WithField	vendor/github.com/Sirupsen/logrus/exported.go	/^func WithField(key string, value interface{}) *Entry {$/;"	f
+WithField	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) WithField(key string, value interface{}) *Entry {$/;"	f
+WithFields	vendor/github.com/Sirupsen/logrus/entry.go	/^func (entry *Entry) WithFields(fields Fields) *Entry {$/;"	f
+WithFields	vendor/github.com/Sirupsen/logrus/exported.go	/^func WithFields(fields Fields) *Entry {$/;"	f
+WithFields	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) WithFields(fields Fields) *Entry {$/;"	f
+Write	serial/serial_posix.go	/^func (p *port) Write(b []byte) (n int, err error) {$/;"	f
+Write	serial/serial_windows.go	/^func (p *port) Write(b []byte) (n int, err error) {$/;"	f
+Write	vendor/github.com/eclipse/paho.mqtt.golang/packets/connack.go	/^func (ca *ConnackPacket) Write(w io.Writer) error {$/;"	f
+Write	vendor/github.com/eclipse/paho.mqtt.golang/packets/connect.go	/^func (c *ConnectPacket) Write(w io.Writer) error {$/;"	f
+Write	vendor/github.com/eclipse/paho.mqtt.golang/packets/disconnect.go	/^func (d *DisconnectPacket) Write(w io.Writer) error {$/;"	f
+Write	vendor/github.com/eclipse/paho.mqtt.golang/packets/pingreq.go	/^func (pr *PingreqPacket) Write(w io.Writer) error {$/;"	f
+Write	vendor/github.com/eclipse/paho.mqtt.golang/packets/pingresp.go	/^func (pr *PingrespPacket) Write(w io.Writer) error {$/;"	f
+Write	vendor/github.com/eclipse/paho.mqtt.golang/packets/puback.go	/^func (pa *PubackPacket) Write(w io.Writer) error {$/;"	f
+Write	vendor/github.com/eclipse/paho.mqtt.golang/packets/pubcomp.go	/^func (pc *PubcompPacket) Write(w io.Writer) error {$/;"	f
+Write	vendor/github.com/eclipse/paho.mqtt.golang/packets/publish.go	/^func (p *PublishPacket) Write(w io.Writer) error {$/;"	f
+Write	vendor/github.com/eclipse/paho.mqtt.golang/packets/pubrec.go	/^func (pr *PubrecPacket) Write(w io.Writer) error {$/;"	f
+Write	vendor/github.com/eclipse/paho.mqtt.golang/packets/pubrel.go	/^func (pr *PubrelPacket) Write(w io.Writer) error {$/;"	f
+Write	vendor/github.com/eclipse/paho.mqtt.golang/packets/suback.go	/^func (sa *SubackPacket) Write(w io.Writer) error {$/;"	f
+Write	vendor/github.com/eclipse/paho.mqtt.golang/packets/subscribe.go	/^func (s *SubscribePacket) Write(w io.Writer) error {$/;"	f
+Write	vendor/github.com/eclipse/paho.mqtt.golang/packets/unsuback.go	/^func (ua *UnsubackPacket) Write(w io.Writer) error {$/;"	f
+Write	vendor/github.com/eclipse/paho.mqtt.golang/packets/unsubscribe.go	/^func (u *UnsubscribePacket) Write(w io.Writer) error {$/;"	f
+Write	vendor/golang.org/x/net/websocket/hybi.go	/^func (frame *hybiFrameWriter) Write(msg []byte) (n int, err error) {$/;"	f
+Write	vendor/golang.org/x/net/websocket/websocket.go	/^func (ws *Conn) Write(msg []byte) (n int, err error) {$/;"	f
+WriteClose	vendor/golang.org/x/net/websocket/hybi.go	/^func (handler *hybiFrameHandler) WriteClose(status int) (err error) {$/;"	f
+WriteMultipleCoils	modbus/client.go	/^func (mb *client) WriteMultipleCoils(address, quantity uint16, value []byte) (results []byte, err error) {$/;"	f
+WriteMultipleRegisters	modbus/client.go	/^func (mb *client) WriteMultipleRegisters(address, quantity uint16, value []byte) (results []byte, err error) {$/;"	f
+WritePong	vendor/golang.org/x/net/websocket/hybi.go	/^func (handler *hybiFrameHandler) WritePong(msg []byte) (n int, err error) {$/;"	f
+WriteSingleCoil	modbus/client.go	/^func (mb *client) WriteSingleCoil(address, value uint16) (results []byte, err error) {$/;"	f
+WriteSingleRegister	modbus/client.go	/^func (mb *client) WriteSingleRegister(address, value uint16) (results []byte, err error) {$/;"	f
+WriteTimeout	vendor/github.com/eclipse/paho.mqtt.golang/options_reader.go	/^func (r *ClientOptionsReader) WriteTimeout() time.Duration {$/;"	f
+Writer	vendor/github.com/Sirupsen/logrus/writer.go	/^func (entry *Entry) Writer() *io.PipeWriter {$/;"	f
+Writer	vendor/github.com/Sirupsen/logrus/writer.go	/^func (logger *Logger) Writer() *io.PipeWriter {$/;"	f
+WriterLevel	vendor/github.com/Sirupsen/logrus/writer.go	/^func (entry *Entry) WriterLevel(level Level) *io.PipeWriter {$/;"	f
+WriterLevel	vendor/github.com/Sirupsen/logrus/writer.go	/^func (logger *Logger) WriterLevel(level Level) *io.PipeWriter {$/;"	f
+WsHandle	internal/gateway/gateway.go	/^func (mygw *Gateway) WsHandle(ws *websocket.Conn) {$/;"	f
+Wscmdhandler	internal/gateway/gateway.go	/^func (mygw *Gateway) Wscmdhandler(req string, ws *websocket.Conn) {$/;"	f
+_	serial/zsyscall_windows.go	/^var _ unsafe.Pointer$/;"	v
+_	vendor/github.com/Sirupsen/logrus/logrus.go	/^	_ StdLogger = &Entry{}$/;"	v
+_	vendor/github.com/Sirupsen/logrus/logrus.go	/^	_ StdLogger = &Logger{}$/;"	v
+_	vendor/github.com/Sirupsen/logrus/logrus.go	/^	_ StdLogger = &log.Logger{}$/;"	v
+_DEPTH_VALUES	config/config.go	/^	_DEPTH_VALUES = 200$/;"	c
+_FancyFormatter	vendor/github.com/urfave/cli/generate-flag-types	/^                      argparse.RawDescriptionHelpFormatter):$/;"	c
+_WRITEFUNCS	vendor/github.com/urfave/cli/generate-flag-types	/^_WRITEFUNCS = {$/;"	v
+_combine_coverprofiles	vendor/github.com/urfave/cli/runtests	/^def _combine_coverprofiles(coverprofiles):$/;"	f
+_fwrite	vendor/github.com/urfave/cli/generate-flag-types	/^def _fwrite(outfile, text):$/;"	f
+_gen	vendor/github.com/urfave/cli/runtests	/^def _gen():$/;"	f
+_generate_flag_types	vendor/github.com/urfave/cli/generate-flag-types	/^def _generate_flag_types(writefunc, output_go, input_json):$/;"	f
+_gfmrun	vendor/github.com/urfave/cli/runtests	/^def _gfmrun():$/;"	f
+_gfmrun_count	vendor/github.com/urfave/cli/runtests	/^def _gfmrun_count():$/;"	f
+_is_go_runnable	vendor/github.com/urfave/cli/runtests	/^def _is_go_runnable(line):$/;"	f
+_run	vendor/github.com/urfave/cli/runtests	/^def _run(command):$/;"	f
+_set_typedef_defaults	vendor/github.com/urfave/cli/generate-flag-types	/^def _set_typedef_defaults(typedef):$/;"	f
+_test	vendor/github.com/urfave/cli/runtests	/^def _test():$/;"	f
+_toc	vendor/github.com/urfave/cli/runtests	/^def _toc():$/;"	f
+_vet	vendor/github.com/urfave/cli/runtests	/^def _vet():$/;"	f
+_write_altsrc_flag_types	vendor/github.com/urfave/cli/generate-flag-types	/^def _write_altsrc_flag_types(outfile, types):$/;"	f
+_write_cli_flag_types	vendor/github.com/urfave/cli/generate-flag-types	/^def _write_cli_flag_types(outfile, types):$/;"	f
+addRoute	vendor/github.com/eclipse/paho.mqtt.golang/router.go	/^func (r *router) addRoute(topic string, callback MessageHandler) {$/;"	f
+all	vendor/github.com/eclipse/paho.mqtt.golang/filestore.go	/^func (store *FileStore) all() []string {$/;"	f
+alllogic	vendor/github.com/eclipse/paho.mqtt.golang/net.go	/^func alllogic(c *client) {$/;"	f
+appActionDeprecationURL	vendor/github.com/urfave/cli/app.go	/^	appActionDeprecationURL         = fmt.Sprintf("%s#deprecated-cli-app-action-signature", changeLogURL)$/;"	v
+appendFlag	vendor/github.com/urfave/cli/app.go	/^func (a *App) appendFlag(flag Flag) {$/;"	f
+appendKeyValue	vendor/github.com/Sirupsen/logrus/text_formatter.go	/^func (f *TextFormatter) appendKeyValue(b *bytes.Buffer, key string, value interface{}) {$/;"	f
+appendValue	vendor/github.com/Sirupsen/logrus/text_formatter.go	/^func (f *TextFormatter) appendValue(b *bytes.Buffer, value interface{}) {$/;"	f
+asciiEnd	modbus/asciiclient.go	/^	asciiEnd     = "\\r\\n"$/;"	c
+asciiMaxSize	modbus/asciiclient.go	/^	asciiMaxSize = 513$/;"	c
+asciiMinSize	modbus/asciiclient.go	/^	asciiMinSize = 3$/;"	c
+asciiPackager	modbus/asciiclient.go	/^type asciiPackager struct {$/;"	t
+asciiSerialTransporter	modbus/asciiclient.go	/^type asciiSerialTransporter struct {$/;"	t
+asciiStart	modbus/asciiclient.go	/^	asciiStart   = ":"$/;"	c
+backupTermios	serial/serial_posix.go	/^func (p *port) backupTermios() {$/;"	f
+baseTimestamp	vendor/github.com/Sirupsen/logrus/text_formatter.go	/^	baseTimestamp time.Time$/;"	v
+baseToken	vendor/github.com/eclipse/paho.mqtt.golang/token.go	/^type baseToken struct {$/;"	t
+baudRates	serial/serial_bsd.go	/^var baudRates = map[int]uint32{$/;"	v
+baudRates	serial/serial_darwin.go	/^var baudRates = map[int]uint64{$/;"	v
+baudRates	serial/serial_linux.go	/^var baudRates = map[int]uint32{$/;"	v
+blue	vendor/github.com/Sirupsen/logrus/text_formatter.go	/^	blue    = 34$/;"	c
+boolToByte	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^func boolToByte(b bool) byte {$/;"	f
+bufferPool	vendor/github.com/Sirupsen/logrus/entry.go	/^var bufferPool *sync.Pool$/;"	v
+c_COMMTIMEOUTS	serial/types_windows.go	/^type c_COMMTIMEOUTS C.COMMTIMEOUTS$/;"	t
+c_COMMTIMEOUTS	serial/ztypes_windows.go	/^type c_COMMTIMEOUTS struct {$/;"	t
+c_DCB	serial/types_windows.go	/^type c_DCB C.DCB$/;"	t
+c_DCB	serial/ztypes_windows.go	/^type c_DCB struct {$/;"	t
+c_EVENPARITY	serial/types_windows.go	/^	c_EVENPARITY  = C.EVENPARITY$/;"	c
+c_EVENPARITY	serial/ztypes_windows.go	/^	c_EVENPARITY  = 0x2$/;"	c
+c_MAXDWORD	serial/types_windows.go	/^	c_MAXDWORD    = C.MAXDWORD$/;"	c
+c_MAXDWORD	serial/ztypes_windows.go	/^	c_MAXDWORD    = 0xffffffff$/;"	c
+c_NOPARITY	serial/types_windows.go	/^	c_NOPARITY    = C.NOPARITY$/;"	c
+c_NOPARITY	serial/ztypes_windows.go	/^	c_NOPARITY    = 0x0$/;"	c
+c_ODDPARITY	serial/types_windows.go	/^	c_ODDPARITY   = C.ODDPARITY$/;"	c
+c_ODDPARITY	serial/ztypes_windows.go	/^	c_ODDPARITY   = 0x1$/;"	c
+c_ONESTOPBIT	serial/types_windows.go	/^	c_ONESTOPBIT  = C.ONESTOPBIT$/;"	c
+c_ONESTOPBIT	serial/ztypes_windows.go	/^	c_ONESTOPBIT  = 0x0$/;"	c
+c_TWOSTOPBITS	serial/types_windows.go	/^	c_TWOSTOPBITS = C.TWOSTOPBITS$/;"	c
+c_TWOSTOPBITS	serial/ztypes_windows.go	/^	c_TWOSTOPBITS = 0x2$/;"	c
+calculateDelay	modbus/rtuclient.go	/^func (mb *rtuSerialTransporter) calculateDelay(chars int) time.Duration {$/;"	f
+calculateResponseLength	modbus/rtuclient.go	/^func calculateResponseLength(adu []byte) int {$/;"	f
+changeLogURL	vendor/github.com/urfave/cli/app.go	/^	changeLogURL                    = "https:\/\/github.com\/urfave\/cli\/blob\/master\/CHANGELOG.md"$/;"	v
+charSizes	serial/serial_bsd.go	/^var charSizes = map[int]uint32{$/;"	v
+charSizes	serial/serial_darwin.go	/^var charSizes = map[int]uint64{$/;"	v
+charSizes	serial/serial_linux.go	/^var charSizes = map[int]uint32{$/;"	v
+checkCommandCompletions	vendor/github.com/urfave/cli/help.go	/^func checkCommandCompletions(c *Context, name string) bool {$/;"	f
+checkCommandHelp	vendor/github.com/urfave/cli/help.go	/^func checkCommandHelp(c *Context, name string) bool {$/;"	f
+checkCompletions	vendor/github.com/urfave/cli/help.go	/^func checkCompletions(c *Context) bool {$/;"	f
+checkHelp	vendor/github.com/urfave/cli/help.go	/^func checkHelp(c *Context) bool {$/;"	f
+checkOrigin	vendor/golang.org/x/net/websocket/server.go	/^func checkOrigin(config *Config, req *http.Request) (err error) {$/;"	f
+checkPty	serial/serial_test.go	/^func checkPty(t *testing.T) {$/;"	f
+checkShellCompleteFlag	vendor/github.com/urfave/cli/help.go	/^func checkShellCompleteFlag(a *App, arguments []string) (bool, []string) {$/;"	f
+checkSubcommandHelp	vendor/github.com/urfave/cli/help.go	/^func checkSubcommandHelp(c *Context) bool {$/;"	f
+checkVersion	vendor/github.com/urfave/cli/help.go	/^func checkVersion(c *Context) bool {$/;"	f
+chkerr	vendor/github.com/eclipse/paho.mqtt.golang/oops.go	/^func chkerr(e error) {$/;"	f
+cleanUp	vendor/github.com/eclipse/paho.mqtt.golang/messageids.go	/^func (mids *messageIds) cleanUp() {$/;"	f
+cli	vendor/github.com/urfave/cli/app.go	/^package cli$/;"	p
+cli	vendor/github.com/urfave/cli/category.go	/^package cli$/;"	p
+cli	vendor/github.com/urfave/cli/cli.go	/^package cli$/;"	p
+cli	vendor/github.com/urfave/cli/command.go	/^package cli$/;"	p
+cli	vendor/github.com/urfave/cli/context.go	/^package cli$/;"	p
+cli	vendor/github.com/urfave/cli/errors.go	/^package cli$/;"	p
+cli	vendor/github.com/urfave/cli/flag.go	/^package cli$/;"	p
+cli	vendor/github.com/urfave/cli/flag_generated.go	/^package cli$/;"	p
+cli	vendor/github.com/urfave/cli/funcs.go	/^package cli$/;"	p
+cli	vendor/github.com/urfave/cli/help.go	/^package cli$/;"	p
+client	modbus/client.go	/^type client struct {$/;"	t
+client	vendor/github.com/eclipse/paho.mqtt.golang/client.go	/^type client struct {$/;"	t
+close	modbus/serial.go	/^func (mb *serialPort) close() (err error) {$/;"	f
+close	modbus/tcpclient.go	/^func (mb *tcpTransporter) close() (err error) {$/;"	f
+closeConn	vendor/github.com/eclipse/paho.mqtt.golang/client.go	/^func (c *client) closeConn() {$/;"	f
+closeIdle	modbus/serial.go	/^func (mb *serialPort) closeIdle() {$/;"	f
+closeIdle	modbus/tcpclient.go	/^func (mb *tcpTransporter) closeIdle() {$/;"	f
+closeStatusAbnormalClosure	vendor/golang.org/x/net/websocket/hybi.go	/^	closeStatusAbnormalClosure   = 1006$/;"	c
+closeStatusBadMessageData	vendor/golang.org/x/net/websocket/hybi.go	/^	closeStatusBadMessageData    = 1007$/;"	c
+closeStatusExtensionMismatch	vendor/golang.org/x/net/websocket/hybi.go	/^	closeStatusExtensionMismatch = 1010$/;"	c
+closeStatusFrameTooLarge	vendor/golang.org/x/net/websocket/hybi.go	/^	closeStatusFrameTooLarge     = 1004$/;"	c
+closeStatusGoingAway	vendor/golang.org/x/net/websocket/hybi.go	/^	closeStatusGoingAway         = 1001$/;"	c
+closeStatusNoStatusRcvd	vendor/golang.org/x/net/websocket/hybi.go	/^	closeStatusNoStatusRcvd      = 1005$/;"	c
+closeStatusNormal	vendor/golang.org/x/net/websocket/hybi.go	/^	closeStatusNormal            = 1000$/;"	c
+closeStatusPolicyViolation	vendor/golang.org/x/net/websocket/hybi.go	/^	closeStatusPolicyViolation   = 1008$/;"	c
+closeStatusProtocolError	vendor/golang.org/x/net/websocket/hybi.go	/^	closeStatusProtocolError     = 1002$/;"	c
+closeStatusTooBigData	vendor/golang.org/x/net/websocket/hybi.go	/^	closeStatusTooBigData        = 1009$/;"	c
+closeStatusUnsupportedData	vendor/golang.org/x/net/websocket/hybi.go	/^	closeStatusUnsupportedData   = 1003$/;"	c
+closeStop	vendor/github.com/eclipse/paho.mqtt.golang/client.go	/^func (c *client) closeStop() {$/;"	f
+common	internal/common/common.go	/^package common$/;"	p
+compileTime	vendor/github.com/urfave/cli/app.go	/^func compileTime() time.Time {$/;"	f
+component	vendor/github.com/eclipse/paho.mqtt.golang/components.go	/^type component string$/;"	t
+config	config/config.go	/^package config$/;"	p
+config	config/read.go	/^package config$/;"	p
+config	config/write.go	/^package config$/;"	p
+connStatus	vendor/github.com/eclipse/paho.mqtt.golang/client.go	/^type connStatus uint$/;"	t
+connect	modbus/serial.go	/^func (mb *serialPort) connect() error {$/;"	f
+connect	modbus/tcpclient.go	/^func (mb *tcpTransporter) connect() error {$/;"	f
+connect	vendor/github.com/eclipse/paho.mqtt.golang/client.go	/^func (c *client) connect() byte {$/;"	f
+connect	vendor/golang.org/x/net/proxy/socks5.go	/^func (s *socks5) connect(conn net.Conn, target string) error {$/;"	f
+connected	vendor/github.com/eclipse/paho.mqtt.golang/client.go	/^	connected$/;"	c
+connecting	vendor/github.com/eclipse/paho.mqtt.golang/client.go	/^	connecting$/;"	c
+connectionStatus	vendor/github.com/eclipse/paho.mqtt.golang/client.go	/^func (c *client) connectionStatus() connStatus {$/;"	f
+contactSysadmin	vendor/github.com/urfave/cli/app.go	/^	contactSysadmin = "This is an error in the application.  Please contact the distributor of this application if this is not you."$/;"	v
+copyFlag	vendor/github.com/urfave/cli/context.go	/^func copyFlag(name string, ff *flag.Flag, set *flag.FlagSet) {$/;"	f
+corruptExt	vendor/github.com/eclipse/paho.mqtt.golang/filestore.go	/^	corruptExt = ".CORRUPT"$/;"	c
+corruptpath	vendor/github.com/eclipse/paho.mqtt.golang/filestore.go	/^func corruptpath(store string, key string) string {$/;"	f
+crc	modbus/crc.go	/^type crc struct {$/;"	t
+crcHighBytes	modbus/crc.go	/^var crcHighBytes = []byte{$/;"	v
+crcLowBytes	modbus/crc.go	/^var crcLowBytes = []byte{$/;"	v
+dataBlock	modbus/client.go	/^func dataBlock(value ...uint16) []byte {$/;"	f
+dataBlockSuffix	modbus/client.go	/^func dataBlockSuffix(suffix []byte, value ...uint16) []byte {$/;"	f
+decodeByte	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^func decodeByte(b io.Reader) byte {$/;"	f
+decodeBytes	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^func decodeBytes(b io.Reader) []byte {$/;"	f
+decodeLength	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^func decodeLength(r io.Reader) int {$/;"	f
+decodeString	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^func decodeString(b io.Reader) string {$/;"	f
+decodeUint16	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^func decodeUint16(b io.Reader) uint16 {$/;"	f
+defaultPlaceholder	vendor/github.com/urfave/cli/flag.go	/^const defaultPlaceholder = "value"$/;"	c
+del	vendor/github.com/eclipse/paho.mqtt.golang/filestore.go	/^func (store *FileStore) del(key string) {$/;"	f
+deleteRoute	vendor/github.com/eclipse/paho.mqtt.golang/router.go	/^func (r *router) deleteRoute(topic string) {$/;"	f
+device	internal/device/device.go	/^package device$/;"	p
+device	internal/device/modbusrtu.go	/^package device$/;"	p
+device	internal/device/modbustcp.go	/^package device$/;"	p
+dialWithDialer	vendor/golang.org/x/net/websocket/dial.go	/^func dialWithDialer(dialer *net.Dialer, config *Config) (conn net.Conn, err error) {$/;"	f
+dialerForRequest	vendor/golang.org/x/net/proxy/per_host.go	/^func (p *PerHost) dialerForRequest(host string) Dialer {$/;"	f
+dict	internal/device/device.go	/^type dict map[string]interface{}$/;"	t
+dict	internal/gateway/gateway.go	/^type dict map[string]interface{}$/;"	t
+direct	vendor/golang.org/x/net/proxy/direct.go	/^type direct struct{}$/;"	t
+disconnect	vendor/github.com/eclipse/paho.mqtt.golang/client.go	/^func (c *client) disconnect() {$/;"	f
+disconnected	vendor/github.com/eclipse/paho.mqtt.golang/client.go	/^	disconnected connStatus = iota$/;"	c
+do_getvar	internal/gateway/gateway.go	/^func (mygw *Gateway) do_getvar(req *simplejson.Json, ws *websocket.Conn) {$/;"	f
+do_help	internal/gateway/gateway.go	/^func (mygw *Gateway) do_help(req *simplejson.Json, ws *websocket.Conn) {$/;"	f
+do_setvar	internal/gateway/gateway.go	/^func (mygw *Gateway) do_setvar(req *simplejson.Json, ws *websocket.Conn) {$/;"	f
+eachName	vendor/github.com/urfave/cli/flag.go	/^func eachName(longName string, fn func(string)) {$/;"	f
+enableProcessedOutput	vendor/github.com/Sirupsen/logrus/terminal_windows.go	/^	enableProcessedOutput           = 0x0001$/;"	c
+enableRS485	serial/serial_posix.go	/^func enableRS485(fd int, config *RS485Config) error {$/;"	f
+enableVirtualTerminalProcessing	vendor/github.com/Sirupsen/logrus/terminal_windows.go	/^	enableVirtualTerminalProcessing = 0x0004$/;"	c
+enableWrapAtEolOutput	vendor/github.com/Sirupsen/logrus/terminal_windows.go	/^	enableWrapAtEolOutput           = 0x0002$/;"	c
+encodeBytes	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^func encodeBytes(field []byte) []byte {$/;"	f
+encodeLength	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^func encodeLength(length int) []byte {$/;"	f
+encodeString	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^func encodeString(field string) []byte {$/;"	f
+encodeUint16	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^func encodeUint16(num uint16) []byte {$/;"	f
+encoderesponseup	internal/gateway/gateway.go	/^func (mygw *Gateway) encoderesponseup(req *simplejson.Json, data interface{}, status int, ws *websocket.Conn) error {$/;"	f
+errInvalidActionType	vendor/github.com/urfave/cli/app.go	/^	errInvalidActionType = NewExitError("ERROR invalid Action type. "+$/;"	v
+errSetDeadline	vendor/golang.org/x/net/websocket/websocket.go	/^var errSetDeadline = errors.New("websocket: cannot set deadline: not using a net.Conn")$/;"	v
+errWriter	vendor/github.com/urfave/cli/app.go	/^func (a *App) errWriter() io.Writer {$/;"	f
+errorWatch	vendor/github.com/eclipse/paho.mqtt.golang/net.go	/^func errorWatch(c *client) {$/;"	f
+errorableFlag	vendor/github.com/urfave/cli/flag.go	/^type errorableFlag interface {$/;"	t
+exists	vendor/github.com/eclipse/paho.mqtt.golang/filestore.go	/^func exists(file string) bool {$/;"	f
+fdget	serial/serial_bsd.go	/^func fdget(fd int, fds *syscall.FdSet) (index, offset int) {$/;"	f
+fdget	serial/serial_darwin.go	/^func fdget(fd int, fds *syscall.FdSet) (index, offset int) {$/;"	f
+fdget	serial/serial_linux.go	/^func fdget(fd int, fds *syscall.FdSet) (index, offset int) {$/;"	f
+fdisset	serial/serial_bsd.go	/^func fdisset(fd int, fds *syscall.FdSet) bool {$/;"	f
+fdisset	serial/serial_darwin.go	/^func fdisset(fd int, fds *syscall.FdSet) bool {$/;"	f
+fdisset	serial/serial_linux.go	/^func fdisset(fd int, fds *syscall.FdSet) bool {$/;"	f
+fdset	serial/serial_bsd.go	/^func fdset(fd int, fds *syscall.FdSet) {$/;"	f
+fdset	serial/serial_darwin.go	/^func fdset(fd int, fds *syscall.FdSet) {$/;"	f
+fdset	serial/serial_linux.go	/^func fdset(fd int, fds *syscall.FdSet) {$/;"	f
+fieldKey	vendor/github.com/Sirupsen/logrus/json_formatter.go	/^type fieldKey string$/;"	t
+flagSet	vendor/github.com/urfave/cli/flag.go	/^func flagSet(name string, flags []Flag) (*flag.FlagSet, error) {$/;"	f
+flagValue	vendor/github.com/urfave/cli/flag.go	/^func flagValue(f Flag) reflect.Value {$/;"	f
+flowComplete	vendor/github.com/eclipse/paho.mqtt.golang/messageids.go	/^func (d *DummyToken) flowComplete() {$/;"	f
+flowComplete	vendor/github.com/eclipse/paho.mqtt.golang/token.go	/^func (b *baseToken) flowComplete() {$/;"	f
+flush	modbus/tcpclient.go	/^func (mb *tcpTransporter) flush(b []byte) (err error) {$/;"	f
+forceDisconnect	vendor/github.com/eclipse/paho.mqtt.golang/client.go	/^func (c *client) forceDisconnect() {$/;"	f
+frameHandler	vendor/golang.org/x/net/websocket/websocket.go	/^type frameHandler interface {$/;"	t
+frameReader	vendor/golang.org/x/net/websocket/websocket.go	/^type frameReader interface {$/;"	t
+frameReaderFactory	vendor/golang.org/x/net/websocket/websocket.go	/^type frameReaderFactory interface {$/;"	t
+frameWriter	vendor/golang.org/x/net/websocket/websocket.go	/^type frameWriter interface {$/;"	t
+frameWriterFactory	vendor/golang.org/x/net/websocket/websocket.go	/^type frameWriterFactory interface {$/;"	t
+freeID	vendor/github.com/eclipse/paho.mqtt.golang/messageids.go	/^func (mids *messageIds) freeID(id uint16) {$/;"	f
+fullpath	vendor/github.com/eclipse/paho.mqtt.golang/filestore.go	/^func fullpath(store string, key string) string {$/;"	f
+gateway	internal/gateway/gateway.go	/^package gateway$/;"	p
+gateway_help	internal/gateway/gateway.go	/^func gateway_help() interface{} {$/;"	f
+generateMaskingKey	vendor/golang.org/x/net/websocket/hybi.go	/^func generateMaskingKey() (maskingKey []byte, err error) {$/;"	f
+generateNonce	vendor/golang.org/x/net/websocket/hybi.go	/^func generateNonce() (nonce []byte) {$/;"	f
+getError	config/config.go	/^type getError struct {$/;"	t
+getID	vendor/github.com/eclipse/paho.mqtt.golang/messageids.go	/^func (mids *messageIds) getID(t Token) uint16 {$/;"	f
+getNonceAccept	vendor/golang.org/x/net/websocket/hybi.go	/^func getNonceAccept(nonce []byte) (expected []byte, err error) {$/;"	f
+getToken	vendor/github.com/eclipse/paho.mqtt.golang/messageids.go	/^func (mids *messageIds) getToken(id uint16) Token {$/;"	f
+getVersion	vendor/github.com/Sirupsen/logrus/terminal_windows.go	/^func getVersion() (float64, error) {$/;"	f
+get_set_base	internal/gateway/gateway.go	/^func (mygw *Gateway) get_set_base(req *simplejson.Json, rw string, ws *websocket.Conn) {$/;"	f
+globalContext	vendor/github.com/urfave/cli/context.go	/^func globalContext(ctx *Context) *Context {$/;"	f
+gray	vendor/github.com/Sirupsen/logrus/text_formatter.go	/^	gray    = 37$/;"	c
+green	vendor/github.com/Sirupsen/logrus/text_formatter.go	/^	green   = 32$/;"	c
+grpclog	vendor/google.golang.org/grpc/grpclog/logger.go	/^package grpclog \/\/ import "google.golang.org\/grpc\/grpclog"$/;"	p
+handleMultiError	vendor/github.com/urfave/cli/errors.go	/^func handleMultiError(multiErr MultiError) int {$/;"	f
+handler	internal/handler/handler.go	/^package handler$/;"	p
+handler	internal/handler/mqtt_handler.go	/^package handler$/;"	p
+handlers	vendor/github.com/Sirupsen/logrus/alt_exit.go	/^var handlers = []func(){}$/;"	v
+handshakeHeader	vendor/golang.org/x/net/websocket/hybi.go	/^	handshakeHeader = map[string]bool{$/;"	v
+hasFlag	vendor/github.com/urfave/cli/app.go	/^func (a *App) hasFlag(flag Flag) bool {$/;"	f
+helpCommand	vendor/github.com/urfave/cli/help.go	/^var helpCommand = Command{$/;"	v
+helpPrinter	vendor/github.com/urfave/cli/help.go	/^type helpPrinter func(w io.Writer, templ string, data interface{})$/;"	t
+helpSubcommand	vendor/github.com/urfave/cli/help.go	/^var helpSubcommand = Command{$/;"	v
+hexTable	modbus/asciiclient.go	/^	hexTable = "0123456789ABCDEF"$/;"	c
+hybiClientHandshake	vendor/golang.org/x/net/websocket/hybi.go	/^func hybiClientHandshake(config *Config, br *bufio.Reader, bw *bufio.Writer) (err error) {$/;"	f
+hybiFrameHandler	vendor/golang.org/x/net/websocket/hybi.go	/^type hybiFrameHandler struct {$/;"	t
+hybiFrameHeader	vendor/golang.org/x/net/websocket/hybi.go	/^type hybiFrameHeader struct {$/;"	t
+hybiFrameReader	vendor/golang.org/x/net/websocket/hybi.go	/^type hybiFrameReader struct {$/;"	t
+hybiFrameReaderFactory	vendor/golang.org/x/net/websocket/hybi.go	/^type hybiFrameReaderFactory struct {$/;"	t
+hybiFrameWriter	vendor/golang.org/x/net/websocket/hybi.go	/^type hybiFrameWriter struct {$/;"	t
+hybiFrameWriterFactory	vendor/golang.org/x/net/websocket/hybi.go	/^type hybiFrameWriterFactory struct {$/;"	t
+hybiServerHandshaker	vendor/golang.org/x/net/websocket/hybi.go	/^type hybiServerHandshaker struct {$/;"	t
+inboundKeyFromMID	vendor/github.com/eclipse/paho.mqtt.golang/store.go	/^func inboundKeyFromMID(id uint16) string {$/;"	f
+inboundPrefix	vendor/github.com/eclipse/paho.mqtt.golang/store.go	/^	inboundPrefix  = "i."$/;"	c
+incoming	vendor/github.com/eclipse/paho.mqtt.golang/net.go	/^func incoming(c *client) {$/;"	f
+init	cmd/tg120/main.go	/^func init() {$/;"	f
+init	config/config.go	/^func init() {$/;"	f
+init	internal/device/device.go	/^func init() {$/;"	f
+init	internal/device/modbusrtu.go	/^func init() {$/;"	f
+init	internal/device/modbustcp.go	/^func init() {$/;"	f
+init	vendor/github.com/Sirupsen/logrus/entry.go	/^func init() {$/;"	f
+init	vendor/github.com/Sirupsen/logrus/terminal_windows.go	/^func init() {$/;"	f
+init	vendor/github.com/Sirupsen/logrus/text_formatter.go	/^func (f *TextFormatter) init(entry *Entry) {$/;"	f
+init	vendor/github.com/Sirupsen/logrus/text_formatter.go	/^func init() {$/;"	f
+init	vendor/github.com/eclipse/paho.mqtt.golang/trace.go	/^func init() {$/;"	f
+initget	internal/gateway/gateway.go	/^func (mygw *Gateway) initget(req *simplejson.Json, ws *websocket.Conn) {$/;"	f
+initset	internal/gateway/gateway.go	/^func (mygw *Gateway) initset(req *simplejson.Json, ws *websocket.Conn) error {$/;"	f
+internalConnLost	vendor/github.com/eclipse/paho.mqtt.golang/client.go	/^func (c *client) internalConnLost(err error) {$/;"	f
+ioctlReadTermios	vendor/github.com/Sirupsen/logrus/terminal_bsd.go	/^const ioctlReadTermios = syscall.TIOCGETA$/;"	c
+ioctlReadTermios	vendor/github.com/Sirupsen/logrus/terminal_linux.go	/^const ioctlReadTermios = syscall.TCGETS$/;"	c
+jsonMarshal	vendor/golang.org/x/net/websocket/websocket.go	/^func jsonMarshal(v interface{}) (msg []byte, payloadType byte, err error) {$/;"	f
+jsonUnmarshal	vendor/golang.org/x/net/websocket/websocket.go	/^func jsonUnmarshal(msg []byte, payloadType byte, v interface{}) (err error) {$/;"	f
+keepalive	vendor/github.com/eclipse/paho.mqtt.golang/ping.go	/^func keepalive(c *client) {$/;"	f
+kernel32	vendor/github.com/Sirupsen/logrus/terminal_windows.go	/^var kernel32 = syscall.NewLazyDLL("kernel32.dll")$/;"	v
+level	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) level() Level {$/;"	f
+loadFile	config/read.go	/^func (c *ConfigFile) loadFile(fileName string) (err error) {$/;"	f
+log	vendor/github.com/Sirupsen/logrus/entry.go	/^func (entry Entry) log(level Level, msg string) {$/;"	f
+logf	modbus/serial.go	/^func (mb *serialPort) logf(format string, v ...interface{}) {$/;"	f
+logf	modbus/tcpclient.go	/^func (mb *tcpTransporter) logf(format string, v ...interface{}) {$/;"	f
+logger	vendor/google.golang.org/grpc/grpclog/logger.go	/^var logger Logger = log.New(os.Stderr, "", log.LstdFlags)$/;"	v
+logrus	vendor/github.com/Sirupsen/logrus/alt_exit.go	/^package logrus$/;"	p
+logrus	vendor/github.com/Sirupsen/logrus/doc.go	/^package logrus$/;"	p
+logrus	vendor/github.com/Sirupsen/logrus/entry.go	/^package logrus$/;"	p
+logrus	vendor/github.com/Sirupsen/logrus/exported.go	/^package logrus$/;"	p
+logrus	vendor/github.com/Sirupsen/logrus/formatter.go	/^package logrus$/;"	p
+logrus	vendor/github.com/Sirupsen/logrus/hooks.go	/^package logrus$/;"	p
+logrus	vendor/github.com/Sirupsen/logrus/json_formatter.go	/^package logrus$/;"	p
+logrus	vendor/github.com/Sirupsen/logrus/logger.go	/^package logrus$/;"	p
+logrus	vendor/github.com/Sirupsen/logrus/logrus.go	/^package logrus$/;"	p
+logrus	vendor/github.com/Sirupsen/logrus/terminal_appengine.go	/^package logrus$/;"	p
+logrus	vendor/github.com/Sirupsen/logrus/terminal_bsd.go	/^package logrus$/;"	p
+logrus	vendor/github.com/Sirupsen/logrus/terminal_linux.go	/^package logrus$/;"	p
+logrus	vendor/github.com/Sirupsen/logrus/terminal_notwindows.go	/^package logrus$/;"	p
+logrus	vendor/github.com/Sirupsen/logrus/terminal_solaris.go	/^package logrus$/;"	p
+logrus	vendor/github.com/Sirupsen/logrus/terminal_windows.go	/^package logrus$/;"	p
+logrus	vendor/github.com/Sirupsen/logrus/text_formatter.go	/^package logrus$/;"	p
+logrus	vendor/github.com/Sirupsen/logrus/writer.go	/^package logrus$/;"	p
+lookupBool	vendor/github.com/urfave/cli/flag_generated.go	/^func lookupBool(name string, set *flag.FlagSet) bool {$/;"	f
+lookupBoolT	vendor/github.com/urfave/cli/flag_generated.go	/^func lookupBoolT(name string, set *flag.FlagSet) bool {$/;"	f
+lookupDuration	vendor/github.com/urfave/cli/flag_generated.go	/^func lookupDuration(name string, set *flag.FlagSet) time.Duration {$/;"	f
+lookupFloat64	vendor/github.com/urfave/cli/flag_generated.go	/^func lookupFloat64(name string, set *flag.FlagSet) float64 {$/;"	f
+lookupGeneric	vendor/github.com/urfave/cli/flag_generated.go	/^func lookupGeneric(name string, set *flag.FlagSet) interface{} {$/;"	f
+lookupGlobalFlagSet	vendor/github.com/urfave/cli/context.go	/^func lookupGlobalFlagSet(name string, ctx *Context) *flag.FlagSet {$/;"	f
+lookupInt	vendor/github.com/urfave/cli/flag_generated.go	/^func lookupInt(name string, set *flag.FlagSet) int {$/;"	f
+lookupInt64	vendor/github.com/urfave/cli/flag_generated.go	/^func lookupInt64(name string, set *flag.FlagSet) int64 {$/;"	f
+lookupInt64Slice	vendor/github.com/urfave/cli/flag_generated.go	/^func lookupInt64Slice(name string, set *flag.FlagSet) []int64 {$/;"	f
+lookupIntSlice	vendor/github.com/urfave/cli/flag_generated.go	/^func lookupIntSlice(name string, set *flag.FlagSet) []int {$/;"	f
+lookupString	vendor/github.com/urfave/cli/flag_generated.go	/^func lookupString(name string, set *flag.FlagSet) string {$/;"	f
+lookupStringSlice	vendor/github.com/urfave/cli/flag_generated.go	/^func lookupStringSlice(name string, set *flag.FlagSet) []string {$/;"	f
+lookupUint	vendor/github.com/urfave/cli/flag_generated.go	/^func lookupUint(name string, set *flag.FlagSet) uint {$/;"	f
+lookupUint64	vendor/github.com/urfave/cli/flag_generated.go	/^func lookupUint64(name string, set *flag.FlagSet) uint64 {$/;"	f
+lrc	modbus/lrc.go	/^type lrc struct {$/;"	t
+mIDFromKey	vendor/github.com/eclipse/paho.mqtt.golang/store.go	/^func mIDFromKey(key string) uint16 {$/;"	f
+main	cmd/tg120/main.go	/^func main() {$/;"	f
+main	cmd/tg120/main.go	/^package main$/;"	p
+main	vendor/github.com/urfave/cli/generate-flag-types	/^def main(sysargs=sys.argv[:]):$/;"	f
+main	vendor/github.com/urfave/cli/runtests	/^def main(sysargs=sys.argv[:]):$/;"	f
+manager_dev_delete	internal/gateway/gateway.go	/^func (mygw *Gateway) manager_dev_delete(req *simplejson.Json, ws *websocket.Conn) {$/;"	f
+manager_dev_list	internal/gateway/gateway.go	/^func (mygw *Gateway) manager_dev_list(req *simplejson.Json, ws *websocket.Conn) {$/;"	f
+manager_dev_suppotlist	internal/gateway/gateway.go	/^func (mygw *Gateway) manager_dev_suppotlist(req *simplejson.Json, ws *websocket.Conn) {$/;"	f
+manager_dev_update	internal/gateway/gateway.go	/^func (mygw *Gateway) manager_dev_update(req *simplejson.Json, ws *websocket.Conn) {$/;"	f
+manager_listcommif	internal/gateway/gateway.go	/^func (mygw *Gateway) manager_listcommif(req *simplejson.Json, ws *websocket.Conn) {$/;"	f
+manager_set_interval	internal/gateway/gateway.go	/^func (mygw *Gateway) manager_set_interval(req *simplejson.Json, ws *websocket.Conn) {$/;"	f
+manager_set_system_time	internal/gateway/gateway.go	/^func (mygw *Gateway) manager_set_system_time(req *simplejson.Json, ws *websocket.Conn) {$/;"	f
+manager_update_drive	internal/gateway/gateway.go	/^func (mygw *Gateway) manager_update_drive(req *simplejson.Json, ws *websocket.Conn) {$/;"	f
+manager_updatecommif	internal/gateway/gateway.go	/^func (mygw *Gateway) manager_updatecommif(req *simplejson.Json, ws *websocket.Conn) {$/;"	f
+marshal	vendor/golang.org/x/net/websocket/websocket.go	/^func marshal(v interface{}) (msg []byte, payloadType byte, err error) {$/;"	f
+match	vendor/github.com/eclipse/paho.mqtt.golang/router.go	/^func (r *route) match(topic string) bool {$/;"	f
+match	vendor/github.com/eclipse/paho.mqtt.golang/router.go	/^func match(route []string, topic []string) bool {$/;"	f
+matchAndDispatch	vendor/github.com/eclipse/paho.mqtt.golang/router.go	/^func (r *router) matchAndDispatch(messages <-chan *packets.PublishPacket, order bool, client *client) {$/;"	f
+maxControlFramePayloadLength	vendor/golang.org/x/net/websocket/hybi.go	/^	maxControlFramePayloadLength = 125$/;"	c
+message	vendor/github.com/eclipse/paho.mqtt.golang/message.go	/^type message struct {$/;"	t
+messageFromPublish	vendor/github.com/eclipse/paho.mqtt.golang/message.go	/^func messageFromPublish(p *packets.PublishPacket) Message {$/;"	f
+messageIds	vendor/github.com/eclipse/paho.mqtt.golang/messageids.go	/^type messageIds struct {$/;"	t
+modbus	modbus/api.go	/^package modbus$/;"	p
+modbus	modbus/asciiclient.go	/^package modbus$/;"	p
+modbus	modbus/asciiclient_test.go	/^package modbus$/;"	p
+modbus	modbus/client.go	/^package modbus$/;"	p
+modbus	modbus/crc.go	/^package modbus$/;"	p
+modbus	modbus/crc_test.go	/^package modbus$/;"	p
+modbus	modbus/lrc.go	/^package modbus$/;"	p
+modbus	modbus/lrc_test.go	/^package modbus$/;"	p
+modbus	modbus/modbus.go	/^package modbus$/;"	p
+modbus	modbus/rtuclient.go	/^package modbus$/;"	p
+modbus	modbus/rtuclient_test.go	/^package modbus$/;"	p
+modbus	modbus/serial.go	/^package modbus$/;"	p
+modbus	modbus/serial_test.go	/^package modbus$/;"	p
+modbus	modbus/tcpclient.go	/^package modbus$/;"	p
+modbus	modbus/tcpclient_test.go	/^package modbus$/;"	p
+modkernel32	serial/zsyscall_windows.go	/^	modkernel32 = syscall.NewLazyDLL("kernel32.dll")$/;"	v
+mqtt	vendor/github.com/eclipse/paho.mqtt.golang/client.go	/^package mqtt$/;"	p
+mqtt	vendor/github.com/eclipse/paho.mqtt.golang/components.go	/^package mqtt$/;"	p
+mqtt	vendor/github.com/eclipse/paho.mqtt.golang/filestore.go	/^package mqtt$/;"	p
+mqtt	vendor/github.com/eclipse/paho.mqtt.golang/memstore.go	/^package mqtt$/;"	p
+mqtt	vendor/github.com/eclipse/paho.mqtt.golang/message.go	/^package mqtt$/;"	p
+mqtt	vendor/github.com/eclipse/paho.mqtt.golang/messageids.go	/^package mqtt$/;"	p
+mqtt	vendor/github.com/eclipse/paho.mqtt.golang/net.go	/^package mqtt$/;"	p
+mqtt	vendor/github.com/eclipse/paho.mqtt.golang/oops.go	/^package mqtt$/;"	p
+mqtt	vendor/github.com/eclipse/paho.mqtt.golang/options.go	/^package mqtt$/;"	p
+mqtt	vendor/github.com/eclipse/paho.mqtt.golang/options_reader.go	/^package mqtt$/;"	p
+mqtt	vendor/github.com/eclipse/paho.mqtt.golang/ping.go	/^package mqtt$/;"	p
+mqtt	vendor/github.com/eclipse/paho.mqtt.golang/router.go	/^package mqtt$/;"	p
+mqtt	vendor/github.com/eclipse/paho.mqtt.golang/store.go	/^package mqtt$/;"	p
+mqtt	vendor/github.com/eclipse/paho.mqtt.golang/token.go	/^package mqtt$/;"	p
+mqtt	vendor/github.com/eclipse/paho.mqtt.golang/topic.go	/^package mqtt$/;"	p
+mqtt	vendor/github.com/eclipse/paho.mqtt.golang/trace.go	/^package mqtt$/;"	p
+mqttconnect	cmd/tg120/main.go	/^func mqttconnect(c *cli.Context, gateway *gw.Gateway) {$/;"	f
+msgExt	vendor/github.com/eclipse/paho.mqtt.golang/filestore.go	/^	msgExt     = ".msg"$/;"	c
+msghandler	internal/gateway/gateway.go	/^func (mygw *Gateway) msghandler(request *simplejson.Json, ws *websocket.Conn) {$/;"	f
+mustGetGateway	cmd/tg120/main.go	/^func mustGetGateway(c *cli.Context) gw.Gateway {$/;"	f
+needsQuoting	vendor/github.com/Sirupsen/logrus/text_formatter.go	/^func (f *TextFormatter) needsQuoting(text string) bool {$/;"	f
+newConfigFile	config/config.go	/^func newConfigFile(fileNames []string) *ConfigFile {$/;"	f
+newConnectMsgFromOptions	vendor/github.com/eclipse/paho.mqtt.golang/message.go	/^func newConnectMsgFromOptions(options *ClientOptions) *packets.ConnectPacket {$/;"	f
+newEntry	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) newEntry() *Entry {$/;"	f
+newHandle	serial/serial_windows.go	/^func newHandle(c *Config) (handle syscall.Handle, err error) {$/;"	f
+newHybiClientConn	vendor/golang.org/x/net/websocket/hybi.go	/^func newHybiClientConn(config *Config, buf *bufio.ReadWriter, rwc io.ReadWriteCloser) *Conn {$/;"	f
+newHybiConn	vendor/golang.org/x/net/websocket/hybi.go	/^func newHybiConn(config *Config, buf *bufio.ReadWriter, rwc io.ReadWriteCloser, request *http.Request) *Conn {$/;"	f
+newHybiServerConn	vendor/golang.org/x/net/websocket/hybi.go	/^func newHybiServerConn(config *Config, buf *bufio.ReadWriter, rwc io.ReadWriteCloser, request *http.Request) *Conn {$/;"	f
+newRouter	vendor/github.com/eclipse/paho.mqtt.golang/router.go	/^func newRouter() (*router, chan bool) {$/;"	f
+newServerConn	vendor/golang.org/x/net/websocket/server.go	/^func newServerConn(rwc io.ReadWriteCloser, buf *bufio.ReadWriter, req *http.Request, config *Config, handshake func(*Config, *http.Request) error) (conn *Conn, err error) {$/;"	f
+newTLSConfig	internal/handler/mqtt_handler.go	/^func newTLSConfig(cafile string) (*tls.Config, error) {$/;"	f
+newTermios	serial/serial_posix.go	/^func newTermios(c *Config) (termios *syscall.Termios, err error) {$/;"	f
+newToken	vendor/github.com/eclipse/paho.mqtt.golang/token.go	/^func newToken(tType byte) Token {$/;"	f
+nocolor	vendor/github.com/Sirupsen/logrus/text_formatter.go	/^	nocolor = 0$/;"	c
+nopCloser	modbus/serial_test.go	/^type nopCloser struct {$/;"	t
+normalizeFlags	vendor/github.com/urfave/cli/context.go	/^func normalizeFlags(flags []Flag, set *flag.FlagSet) error {$/;"	f
+onConnected	internal/handler/mqtt_handler.go	/^func (h *MQTTHandler) onConnected(c mqtt.Client) {$/;"	f
+onConnectionLost	internal/handler/mqtt_handler.go	/^func (h *MQTTHandler) onConnectionLost(c mqtt.Client, reason error) {$/;"	f
+openConnection	vendor/github.com/eclipse/paho.mqtt.golang/net.go	/^func openConnection(uri *url.URL, tlsc *tls.Config, timeout time.Duration) (net.Conn, error) {$/;"	f
+outboundKeyFromMID	vendor/github.com/eclipse/paho.mqtt.golang/store.go	/^func outboundKeyFromMID(id uint16) string {$/;"	f
+outboundPrefix	vendor/github.com/eclipse/paho.mqtt.golang/store.go	/^	outboundPrefix = "o."$/;"	c
+outgoing	vendor/github.com/eclipse/paho.mqtt.golang/net.go	/^func outgoing(c *client) {$/;"	f
+pack	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^func (fh *FixedHeader) pack() bytes.Buffer {$/;"	f
+packets	vendor/github.com/eclipse/paho.mqtt.golang/packets/connack.go	/^package packets$/;"	p
+packets	vendor/github.com/eclipse/paho.mqtt.golang/packets/connect.go	/^package packets$/;"	p
+packets	vendor/github.com/eclipse/paho.mqtt.golang/packets/disconnect.go	/^package packets$/;"	p
+packets	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^package packets$/;"	p
+packets	vendor/github.com/eclipse/paho.mqtt.golang/packets/pingreq.go	/^package packets$/;"	p
+packets	vendor/github.com/eclipse/paho.mqtt.golang/packets/pingresp.go	/^package packets$/;"	p
+packets	vendor/github.com/eclipse/paho.mqtt.golang/packets/puback.go	/^package packets$/;"	p
+packets	vendor/github.com/eclipse/paho.mqtt.golang/packets/pubcomp.go	/^package packets$/;"	p
+packets	vendor/github.com/eclipse/paho.mqtt.golang/packets/publish.go	/^package packets$/;"	p
+packets	vendor/github.com/eclipse/paho.mqtt.golang/packets/pubrec.go	/^package packets$/;"	p
+packets	vendor/github.com/eclipse/paho.mqtt.golang/packets/pubrel.go	/^package packets$/;"	p
+packets	vendor/github.com/eclipse/paho.mqtt.golang/packets/suback.go	/^package packets$/;"	p
+packets	vendor/github.com/eclipse/paho.mqtt.golang/packets/subscribe.go	/^package packets$/;"	p
+packets	vendor/github.com/eclipse/paho.mqtt.golang/packets/unsuback.go	/^package packets$/;"	p
+packets	vendor/github.com/eclipse/paho.mqtt.golang/packets/unsubscribe.go	/^package packets$/;"	p
+parseAuthority	vendor/golang.org/x/net/websocket/client.go	/^func parseAuthority(location *url.URL) string {$/;"	f
+persistInbound	vendor/github.com/eclipse/paho.mqtt.golang/store.go	/^func persistInbound(s Store, m packets.ControlPacket) {$/;"	f
+persistOutbound	vendor/github.com/eclipse/paho.mqtt.golang/store.go	/^func persistOutbound(s Store, m packets.ControlPacket) {$/;"	f
+port	serial/serial_posix.go	/^type port struct {$/;"	t
+port	serial/serial_windows.go	/^type port struct {$/;"	t
+portMap	vendor/golang.org/x/net/websocket/client.go	/^var portMap = map[string]string{$/;"	v
+prefixFieldClashes	vendor/github.com/Sirupsen/logrus/formatter.go	/^func prefixFieldClashes(data Fields) {$/;"	f
+prefixFor	vendor/github.com/urfave/cli/flag.go	/^func prefixFor(name string) (prefix string) {$/;"	f
+prefixedNames	vendor/github.com/urfave/cli/flag.go	/^func prefixedNames(fullName, placeholder string) string {$/;"	f
+printColored	vendor/github.com/Sirupsen/logrus/text_formatter.go	/^func (f *TextFormatter) printColored(b *bytes.Buffer, entry *Entry, keys []string, timestampFormat string) {$/;"	f
+printHelp	vendor/github.com/urfave/cli/help.go	/^func printHelp(out io.Writer, templ string, data interface{}) {$/;"	f
+printVersion	vendor/github.com/urfave/cli/help.go	/^func printVersion(c *Context) {$/;"	f
+procGetCommState	serial/zsyscall_windows.go	/^	procGetCommState    = modkernel32.NewProc("GetCommState")$/;"	v
+procGetCommTimeouts	serial/zsyscall_windows.go	/^	procGetCommTimeouts = modkernel32.NewProc("GetCommTimeouts")$/;"	v
+procGetConsoleMode	vendor/github.com/Sirupsen/logrus/terminal_windows.go	/^	procGetConsoleMode = kernel32.NewProc("GetConsoleMode")$/;"	v
+procSetCommState	serial/zsyscall_windows.go	/^	procSetCommState    = modkernel32.NewProc("SetCommState")$/;"	v
+procSetCommTimeouts	serial/zsyscall_windows.go	/^	procSetCommTimeouts = modkernel32.NewProc("SetCommTimeouts")$/;"	v
+procSetConsoleMode	vendor/github.com/Sirupsen/logrus/terminal_windows.go	/^	procSetConsoleMode = kernel32.NewProc("SetConsoleMode")$/;"	v
+proxy	vendor/golang.org/x/net/proxy/direct.go	/^package proxy$/;"	p
+proxy	vendor/golang.org/x/net/proxy/per_host.go	/^package proxy$/;"	p
+proxy	vendor/golang.org/x/net/proxy/proxy.go	/^package proxy \/\/ import "golang.org\/x\/net\/proxy"$/;"	p
+proxy	vendor/golang.org/x/net/proxy/socks5.go	/^package proxy$/;"	p
+proxySchemes	vendor/golang.org/x/net/proxy/proxy.go	/^var proxySchemes map[string]func(*url.URL, Dialer) (Dialer, error)$/;"	v
+pty1	serial/serial_test.go	/^	pty1 = "\/dev\/ttys009"$/;"	c
+pty2	serial/serial_test.go	/^	pty2 = "\/dev\/ttys010"$/;"	c
+pushByte	modbus/lrc.go	/^func (lrc *lrc) pushByte(b byte) *lrc {$/;"	f
+pushBytes	modbus/crc.go	/^func (crc *crc) pushBytes(bs []byte) *crc {$/;"	f
+pushBytes	modbus/lrc.go	/^func (lrc *lrc) pushBytes(data []byte) *lrc {$/;"	f
+read	config/read.go	/^func (c *ConfigFile) read(reader io.Reader) (err error) {$/;"	f
+readError	config/read.go	/^type readError struct {$/;"	t
+readHex	modbus/asciiclient.go	/^func readHex(data []byte) (value byte, err error) {$/;"	f
+reconnect	vendor/github.com/eclipse/paho.mqtt.golang/client.go	/^func (c *client) reconnect() {$/;"	f
+reconnecting	vendor/github.com/eclipse/paho.mqtt.golang/client.go	/^	reconnecting$/;"	c
+red	vendor/github.com/Sirupsen/logrus/text_formatter.go	/^	red     = 31$/;"	c
+releaseEntry	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) releaseEntry(entry *Entry) {$/;"	f
+removeZone	vendor/golang.org/x/net/websocket/hybi.go	/^func removeZone(host string) string {$/;"	f
+reset	modbus/crc.go	/^func (crc *crc) reset() *crc {$/;"	f
+reset	modbus/lrc.go	/^func (lrc *lrc) reset() *lrc {$/;"	f
+resolve	vendor/github.com/Sirupsen/logrus/json_formatter.go	/^func (f FieldMap) resolve(key fieldKey) string {$/;"	f
+responseError	modbus/client.go	/^func responseError(response *ProtocolDataUnit) error {$/;"	f
+responseLengthTests	modbus/rtuclient_test.go	/^var responseLengthTests = []struct {$/;"	v
+restoreTermios	serial/serial_posix.go	/^func (p *port) restoreTermios() {$/;"	f
+route	vendor/github.com/eclipse/paho.mqtt.golang/router.go	/^type route struct {$/;"	t
+routeIncludesTopic	vendor/github.com/eclipse/paho.mqtt.golang/router.go	/^func routeIncludesTopic(route, topic string) bool {$/;"	f
+router	vendor/github.com/eclipse/paho.mqtt.golang/router.go	/^type router struct {$/;"	t
+rs485Enabled	serial/serial_posix.go	/^	rs485Enabled      = 1 << 0$/;"	c
+rs485RTSAfterSend	serial/serial_posix.go	/^	rs485RTSAfterSend = 1 << 2$/;"	c
+rs485RTSOnSend	serial/serial_posix.go	/^	rs485RTSOnSend    = 1 << 1$/;"	c
+rs485RXDuringTX	serial/serial_posix.go	/^	rs485RXDuringTX   = 1 << 4$/;"	c
+rs485Tiocs	serial/serial_posix.go	/^	rs485Tiocs        = 0x542f$/;"	c
+rs485_ioctl_opts	serial/serial_posix.go	/^type rs485_ioctl_opts struct {$/;"	t
+rtuExceptionSize	modbus/rtuclient.go	/^	rtuExceptionSize = 5$/;"	c
+rtuMaxSize	modbus/rtuclient.go	/^	rtuMaxSize = 256$/;"	c
+rtuMinSize	modbus/rtuclient.go	/^	rtuMinSize = 4$/;"	c
+rtuPackager	modbus/rtuclient.go	/^type rtuPackager struct {$/;"	t
+rtuSerialTransporter	modbus/rtuclient.go	/^type rtuSerialTransporter struct {$/;"	t
+run	cmd/tg120/main.go	/^func run(c *cli.Context) error {$/;"	f
+runAndExitOnErrorDeprecationURL	vendor/github.com/urfave/cli/app.go	/^	runAndExitOnErrorDeprecationURL = fmt.Sprintf("%s#deprecated-cli-app-runandexitonerror", changeLogURL)$/;"	v
+runHandler	vendor/github.com/Sirupsen/logrus/alt_exit.go	/^func runHandler(handler func()) {$/;"	f
+runHandlers	vendor/github.com/Sirupsen/logrus/alt_exit.go	/^func runHandlers() {$/;"	f
+rxmsgHandler	internal/handler/mqtt_handler.go	/^func (h *MQTTHandler) rxmsgHandler(c mqtt.Client, msg mqtt.Message) {$/;"	f
+send	modbus/client.go	/^func (mb *client) send(request *ProtocolDataUnit) (response *ProtocolDataUnit, err error) {$/;"	f
+sendPing	vendor/github.com/eclipse/paho.mqtt.golang/ping.go	/^func sendPing(pt *timer, rt *timer, c *client) {$/;"	f
+serial	serial/serial.go	/^package serial$/;"	p
+serial	serial/serial_bsd.go	/^package serial$/;"	p
+serial	serial/serial_darwin.go	/^package serial$/;"	p
+serial	serial/serial_linux.go	/^package serial$/;"	p
+serial	serial/serial_posix.go	/^package serial$/;"	p
+serial	serial/serial_test.go	/^package serial$/;"	p
+serial	serial/serial_windows.go	/^package serial$/;"	p
+serial	serial/syscall_windows.go	/^package serial$/;"	p
+serial	serial/types_windows.go	/^package serial$/;"	p
+serial	serial/zsyscall_windows.go	/^package serial$/;"	p
+serial	serial/ztypes_windows.go	/^package serial$/;"	p
+serialIdleTimeout	modbus/serial.go	/^	serialIdleTimeout = 60 * time.Second$/;"	c
+serialPort	modbus/serial.go	/^type serialPort struct {$/;"	t
+serialTimeout	modbus/serial.go	/^	serialTimeout     = 5 * time.Second$/;"	c
+serveWebSocket	vendor/golang.org/x/net/websocket/server.go	/^func (s Server) serveWebSocket(w http.ResponseWriter, req *http.Request) {$/;"	f
+serverHandshaker	vendor/golang.org/x/net/websocket/websocket.go	/^type serverHandshaker interface {$/;"	t
+setConnected	vendor/github.com/eclipse/paho.mqtt.golang/client.go	/^func (c *client) setConnected(status connStatus) {$/;"	f
+setDefaultHandler	vendor/github.com/eclipse/paho.mqtt.golang/router.go	/^func (r *router) setDefaultHandler(handler MessageHandler) {$/;"	f
+setLevel	vendor/github.com/Sirupsen/logrus/logger.go	/^func (logger *Logger) setLevel(level Level) {$/;"	f
+setSerialConfig	serial/serial_windows.go	/^func (p *port) setSerialConfig(c *Config) error {$/;"	f
+setTermios	serial/serial_posix.go	/^func (p *port) setTermios(termios *syscall.Termios) (err error) {$/;"	f
+setTimeouts	serial/serial_windows.go	/^func (p *port) setTimeouts(c *Config) error {$/;"	f
+signalError	vendor/github.com/eclipse/paho.mqtt.golang/net.go	/^func signalError(c chan<- error, err error) {$/;"	f
+simplejson	vendor/github.com/bitly/go-simplejson/simplejson.go	/^package simplejson$/;"	p
+simplejson	vendor/github.com/bitly/go-simplejson/simplejson_go10.go	/^package simplejson$/;"	p
+simplejson	vendor/github.com/bitly/go-simplejson/simplejson_go11.go	/^package simplejson$/;"	p
+socks5	vendor/golang.org/x/net/proxy/socks5.go	/^type socks5 struct {$/;"	t
+socks5AuthNone	vendor/golang.org/x/net/proxy/socks5.go	/^	socks5AuthNone     = 0$/;"	c
+socks5AuthPassword	vendor/golang.org/x/net/proxy/socks5.go	/^	socks5AuthPassword = 2$/;"	c
+socks5Connect	vendor/golang.org/x/net/proxy/socks5.go	/^const socks5Connect = 1$/;"	c
+socks5Domain	vendor/golang.org/x/net/proxy/socks5.go	/^	socks5Domain = 3$/;"	c
+socks5Errors	vendor/golang.org/x/net/proxy/socks5.go	/^var socks5Errors = []string{$/;"	v
+socks5IP4	vendor/golang.org/x/net/proxy/socks5.go	/^	socks5IP4    = 1$/;"	c
+socks5IP6	vendor/golang.org/x/net/proxy/socks5.go	/^	socks5IP6    = 4$/;"	c
+socks5Version	vendor/golang.org/x/net/proxy/socks5.go	/^const socks5Version = 5$/;"	c
+sprintlnn	vendor/github.com/Sirupsen/logrus/entry.go	/^func (entry *Entry) sprintlnn(args ...interface{}) string {$/;"	f
+startApp	vendor/github.com/urfave/cli/command.go	/^func (c Command) startApp(ctx *Context) error {$/;"	f
+startCloseTimer	modbus/serial.go	/^func (mb *serialPort) startCloseTimer() {$/;"	f
+startCloseTimer	modbus/tcpclient.go	/^func (mb *tcpTransporter) startCloseTimer() {$/;"	f
+std	vendor/github.com/Sirupsen/logrus/exported.go	/^	std = New()$/;"	v
+stringifyFlag	vendor/github.com/urfave/cli/flag.go	/^func stringifyFlag(f Flag) string {$/;"	f
+stringifyInt64SliceFlag	vendor/github.com/urfave/cli/flag.go	/^func stringifyInt64SliceFlag(f Int64SliceFlag) string {$/;"	f
+stringifyIntSliceFlag	vendor/github.com/urfave/cli/flag.go	/^func stringifyIntSliceFlag(f IntSliceFlag) string {$/;"	f
+stringifySliceFlag	vendor/github.com/urfave/cli/flag.go	/^func stringifySliceFlag(usage, name string, defaultVals []string) string {$/;"	f
+stringifyStringSliceFlag	vendor/github.com/urfave/cli/flag.go	/^func stringifyStringSliceFlag(f StringSliceFlag) string {$/;"	f
+syscallSelect	serial/serial_bsd.go	/^func syscallSelect(n int, r *syscall.FdSet, w *syscall.FdSet, e *syscall.FdSet, tv *syscall.Timeval) error {$/;"	f
+syscallSelect	serial/serial_darwin.go	/^func syscallSelect(n int, r *syscall.FdSet, w *syscall.FdSet, e *syscall.FdSet, tv *syscall.Timeval) error {$/;"	f
+syscallSelect	serial/serial_linux.go	/^func syscallSelect(n int, r *syscall.FdSet, w *syscall.FdSet, e *syscall.FdSet, tv *syscall.Timeval) error {$/;"	f
+tcgetattr	serial/serial_bsd.go	/^func tcgetattr(fd int, termios *syscall.Termios) (err error) {$/;"	f
+tcgetattr	serial/serial_darwin.go	/^func tcgetattr(fd int, termios *syscall.Termios) (err error) {$/;"	f
+tcgetattr	serial/serial_linux.go	/^func tcgetattr(fd int, termios *syscall.Termios) (err error) {$/;"	f
+tcpHeaderSize	modbus/tcpclient.go	/^	tcpHeaderSize = 7$/;"	c
+tcpIdleTimeout	modbus/tcpclient.go	/^	tcpIdleTimeout = 60 * time.Second$/;"	c
+tcpMaxLength	modbus/tcpclient.go	/^	tcpMaxLength  = 260$/;"	c
+tcpPackager	modbus/tcpclient.go	/^type tcpPackager struct {$/;"	t
+tcpProtocolIdentifier	modbus/tcpclient.go	/^	tcpProtocolIdentifier uint16 = 0x0000$/;"	c
+tcpTimeout	modbus/tcpclient.go	/^	tcpTimeout     = 10 * time.Second$/;"	c
+tcpTransporter	modbus/tcpclient.go	/^type tcpTransporter struct {$/;"	t
+tcsetattr	serial/serial_bsd.go	/^func tcsetattr(fd int, termios *syscall.Termios) (err error) {$/;"	f
+tcsetattr	serial/serial_darwin.go	/^func tcsetattr(fd int, termios *syscall.Termios) (err error) {$/;"	f
+tcsetattr	serial/serial_linux.go	/^func tcsetattr(fd int, termios *syscall.Termios) (err error) {$/;"	f
+timer	vendor/github.com/eclipse/paho.mqtt.golang/ping.go	/^type timer struct {$/;"	t
+tmpExt	vendor/github.com/eclipse/paho.mqtt.golang/filestore.go	/^	tmpExt     = ".tmp"$/;"	c
+tmppath	vendor/github.com/eclipse/paho.mqtt.golang/filestore.go	/^func tmppath(store string, key string) string {$/;"	f
+toBYTE	serial/types_windows.go	/^func toBYTE(val int) C.BYTE {$/;"	f
+toBYTE	serial/ztypes_windows.go	/^func toBYTE(val int) uint8 {$/;"	f
+toDWORD	serial/types_windows.go	/^func toDWORD(val int) C.DWORD {$/;"	f
+toDWORD	serial/ztypes_windows.go	/^func toDWORD(val int) uint32 {$/;"	f
+unmarshal	vendor/golang.org/x/net/websocket/websocket.go	/^func unmarshal(msg []byte, payloadType byte, v interface{}) (err error) {$/;"	f
+unpack	vendor/github.com/eclipse/paho.mqtt.golang/packets/packets.go	/^func (fh *FixedHeader) unpack(typeAndFlags byte, r io.Reader) {$/;"	f
+unquoteUsage	vendor/github.com/urfave/cli/flag.go	/^func unquoteUsage(usage string) (string, string) {$/;"	f
+update_rstat	internal/gateway/gateway.go	/^func (mygw *Gateway) update_rstat() {$/;"	f
+validateSubscribeMap	vendor/github.com/eclipse/paho.mqtt.golang/topic.go	/^func validateSubscribeMap(subs map[string]byte) ([]string, []byte, error) {$/;"	f
+validateTopicAndQos	vendor/github.com/eclipse/paho.mqtt.golang/topic.go	/^func validateTopicAndQos(topic string, qos byte) error {$/;"	f
+value	modbus/crc.go	/^func (crc *crc) value() uint16 {$/;"	f
+value	modbus/lrc.go	/^func (lrc *lrc) value() byte {$/;"	f
+value	vendor/github.com/urfave/cli/context.go	/^func (c *Context) value(name string) interface{} {$/;"	f
+varPattern	config/config.go	/^var varPattern = regexp.MustCompile(`%\\(([^\\)]+)\\)s`)$/;"	v
+visibleFlags	vendor/github.com/urfave/cli/flag.go	/^func visibleFlags(fl []Flag) []Flag {$/;"	f
+websocket	vendor/golang.org/x/net/websocket/client.go	/^package websocket$/;"	p
+websocket	vendor/golang.org/x/net/websocket/dial.go	/^package websocket$/;"	p
+websocket	vendor/golang.org/x/net/websocket/hybi.go	/^package websocket$/;"	p
+websocket	vendor/golang.org/x/net/websocket/server.go	/^package websocket$/;"	p
+websocket	vendor/golang.org/x/net/websocket/websocket.go	/^package websocket \/\/ import "golang.org\/x\/net\/websocket"$/;"	p
+websocketGUID	vendor/golang.org/x/net/websocket/hybi.go	/^	websocketGUID = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"$/;"	c
+withEnvHint	vendor/github.com/urfave/cli/flag.go	/^func withEnvHint(envVar, str string) string {$/;"	f
+write	vendor/github.com/eclipse/paho.mqtt.golang/filestore.go	/^func write(store, key string, m packets.ControlPacket) {$/;"	f
+writeHex	modbus/asciiclient.go	/^func writeHex(buf *bytes.Buffer, value []byte) (err error) {$/;"	f
+writerFinalizer	vendor/github.com/Sirupsen/logrus/writer.go	/^func writerFinalizer(writer *io.PipeWriter) {$/;"	f
+writerScanner	vendor/github.com/Sirupsen/logrus/writer.go	/^func (entry *Entry) writerScanner(reader *io.PipeReader, printFunc func(args ...interface{})) {$/;"	f
+yellow	vendor/github.com/Sirupsen/logrus/text_formatter.go	/^	yellow  = 33$/;"	c

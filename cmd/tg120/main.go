@@ -47,6 +47,7 @@ func run(c *cli.Context) error {
 	ctx := context.Background()
 
 	ctx, cancel := context.WithCancel(ctx)
+
 	defer cancel()
 	log.WithFields(log.Fields{
 		"version": common.VERSION,
@@ -57,7 +58,7 @@ func run(c *cli.Context) error {
 	//	http.HandleFunc("/", yjhttp)
 	gateway := mustGetGateway(c)
 	go func() {
-		http.Handle("/", http.FileServer(http.Dir("templates")))
+		http.Handle("/", http.FileServer(http.Dir(common.TEMPLATE)))
 		http.Handle("/message", websocket.Handler(gateway.WsHandle))
 		if err := http.ListenAndServe(":8000", nil); err != nil {
 			log.Fatal("ListenAndServe:", err)
@@ -110,7 +111,7 @@ func run(c *cli.Context) error {
 			time.Sleep(time.Second * time.Duration(pub_interval))
 			if pub_interval != 0 {
 				for _, dev := range gateway.DevIfMap {
-					let, _ := dev.RWDevValue("r",nil)
+					let, _ := dev.RWDevValue("r", nil)
 					if err := gateway.EncodeAutoup(let); err != nil {
 						log.Errorf("auto updata error : %s", err)
 					}
