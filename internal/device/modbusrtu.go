@@ -48,7 +48,7 @@ func (d *ModbusRtu) NewDev(id string, ele map[string]string) (DeviceRWer, error)
 }
 
 func (d *ModbusRtu) GetElement() (dict, error) {
-	conn := dict {
+	conn := dict{
 		/***********************设备的特有的参数*****************************/
 		"devaddr":          d.devaddr,
 		"commif":           d.commif,
@@ -61,7 +61,7 @@ func (d *ModbusRtu) GetElement() (dict, error) {
 		"Quantity":         d.Quantity,
 		/***********************设备的特有的参数*****************************/
 	}
-	data := dict {
+	data := dict{
 		"_devid": d.devid,
 		"_type":  d.devtype,
 		"_conn":  conn,
@@ -104,7 +104,7 @@ func (d *ModbusRtu) HelpDoc() interface{} {
 	}
 	data := dict{
 		"_devid": "添加设备对象的id",
-		"_type":  "ModbusRtu",//设备类型
+		"_type":  "ModbusRtu", //设备类型
 		"_conn":  conn,
 	}
 	dev_update := dict{
@@ -179,7 +179,7 @@ func (d *ModbusRtu) RWDevValue(rw string, m dict) (ret dict, err error) {
 	handler.SlaveId = byte(slaveid)
 	handler.Timeout = 1 * time.Second
 	ret = map[string]interface{}{}
-
+	ret["_devid"] = d.devid
 	err = handler.Connect()
 	if err != nil {
 		return nil, err
@@ -225,24 +225,24 @@ func (d *ModbusRtu) RWDevValue(rw string, m dict) (ret dict, err error) {
 			}
 			ret["Modbus-value"] = retlist
 		}
-	}else if rw == "w" {
+	} else if rw == "w" {
 		var results []byte
 		var value uint16
 		var valuelist []byte
 		if v, ok := m["value"].(json.Number); !ok && (function_code == 5 || function_code == 6) {
 			return nil, errors.New("write modbus singlecoil or registers need value : uint16")
 		} else {
-			v64,_ := v.Int64()
+			v64, _ := v.Int64()
 			value = uint16(v64)
 		}
-		if vif, ok := m["value"].([]interface {}); !ok && (function_code == 15 || function_code == 16) {
+		if vif, ok := m["value"].([]interface{}); !ok && (function_code == 15 || function_code == 16) {
 			return nil, errors.New("write modbus singlecoil or registers need value : [uint8...]")
 		} else {
-			for _,v := range vif {
-				if vi,ok := v.(json.Number); ok {
-					vi64,_ := vi.Int64()
+			for _, v := range vif {
+				if vi, ok := v.(json.Number); ok {
+					vi64, _ := vi.Int64()
 					valuelist = append(valuelist, IntToBytes(int(vi64))[3])
-				}else{
+				} else {
 					return nil, errors.New("write modbus singlecoil or registers need value : [uint8...]")
 				}
 			}

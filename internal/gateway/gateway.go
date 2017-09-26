@@ -654,8 +654,11 @@ func (mygw *Gateway) get_set_base(req *simplejson.Json, rw string, ws *websocket
 						id, ok := das["_devid"].(string)
 						if ok {
 							if mf, ok := mygw.DevIfMap[id]; ok {
-								vals, _ := mf.RWDevValue(rw, das)
-								mygw.encoderesponseup(request, vals, 0, ws)
+								if vals, err := mf.RWDevValue(rw, das); err == nil {
+									mygw.encoderesponseup(request, vals, 0, ws)
+								} else {
+									mygw.encoderesponseup(request, dict{"_devid": id, "error": err.Error()}, 1, ws)
+								}
 							} else {
 								mygw.encoderesponseup(request, fmt.Sprintf("%s不存在", id), 1, ws)
 							}
@@ -673,7 +676,7 @@ func (mygw *Gateway) get_set_base(req *simplejson.Json, rw string, ws *websocket
 					if vals, err := mf.RWDevValue(rw, datam); err == nil {
 						mygw.encoderesponseup(request, vals, 0, ws)
 					} else {
-						mygw.encoderesponseup(request, err.Error(), 1, ws)
+						mygw.encoderesponseup(request, dict{"_devid": id, "error": err.Error()}, 1, ws)
 					}
 				} else {
 					mygw.encoderesponseup(request, fmt.Sprintf("%s不存在", id), 1, ws)
@@ -743,10 +746,15 @@ func (mygw *Gateway) EncodeAutoup(data map[string]interface{}) error {
 		"from":    from,
 		"msgtype": "request",
 	}
+	status := 0
+	if data["error"] != nil {
+		status = 1
+	}
 	request := map[string]interface{}{
-		"cmd":       "do/auto_up_data",
-		"data":      data,
-		"timestamp": time.Now().Unix(),
+		"cmd":        "do/auto_up_data",
+		"data":       data,
+		"statuscode": status,
+		"timestamp":  time.Now().Unix(),
 	}
 	uj.Set("header", header)
 	uj.Set("request", request)
@@ -776,9 +784,10 @@ func (mygw *Gateway) On_offline_msg(da uint) string {
 		"msgtype": "update",
 	}
 	req := map[string]interface{}{
-		"cmd":       "push/state.do",
-		"data":      da,
-		"timestamp": time.Now().Unix(),
+		"cmd":        "push/state.do",
+		"data":       da,
+		"statuscode": 0,
+		"timestamp":  time.Now().Unix(),
 	}
 	uj.Set("header", header)
 	uj.Set("request", req)

@@ -110,13 +110,19 @@ func run(c *cli.Context) error {
 			}
 			time.Sleep(time.Second * time.Duration(pub_interval))
 			if pub_interval != 0 {
-				for _, dev := range gateway.DevIfMap {
-					let, _ := dev.RWDevValue("r", nil)
+				for id, dev := range gateway.DevIfMap {
+					let, err := dev.RWDevValue("r", nil)
+					if err != nil {
+						let = map[string]interface{}{
+							"_devid": id,
+							"error":  err.Error(),
+						}
+					}
 					if err := gateway.EncodeAutoup(let); err != nil {
 						log.Errorf("auto updata error : %s", err)
 					}
 					///////////////////////测试时延时1秒,最终要取消//////////////////////////////////////
-					time.Sleep(time.Second)
+					//	time.Sleep(time.Second)
 					////////////////////////////////////////////////////////////////////////////////////
 				}
 			} else {

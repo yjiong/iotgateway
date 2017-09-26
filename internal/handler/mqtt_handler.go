@@ -133,14 +133,14 @@ func (h *MQTTHandler) rxmsgHandler(c mqtt.Client, msg mqtt.Message) {
 	//		return
 	//	}
 	mymsgjson, err := simplejson.NewJson(msg.Payload())
-	logsb, _ := mymsgjson.EncodePretty()
-	log.WithFields(log.Fields{"topic": msg.Topic(), "payload": string(logsb)}).Info("handler/mqtt: subscribeing data-received" + fmt.Sprintf(" Qos=%d", msg.Qos()))
 	if err != nil {
 		log.WithFields(log.Fields{
-			"msg2json": msg.Payload(),
+			"msg_payload": string(msg.Payload()),
 		}).Errorf("message is not json format: %s", err)
 		return
 	}
+	logsb, _ := mymsgjson.EncodePretty()
+	log.WithFields(log.Fields{"topic": msg.Topic(), "payload": string(logsb)}).Info("handler/mqtt: subscribeing data-received" + fmt.Sprintf(" Qos=%d", msg.Qos()))
 	h.dataDownChan <- DataDownPayload{Pj: mymsgjson}
 }
 

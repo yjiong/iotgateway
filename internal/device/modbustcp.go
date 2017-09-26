@@ -148,7 +148,7 @@ func (d *ModbusTcp) RWDevValue(rw string, m dict) (ret dict, err error) {
 	handler.SlaveId = byte(slaveid)
 	handler.Timeout = 1 * time.Second
 	ret = map[string]interface{}{}
-
+	ret["_devid"] = d.devid
 	err = handler.Connect()
 	if err != nil {
 		return nil, err
