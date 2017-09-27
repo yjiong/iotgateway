@@ -67,10 +67,11 @@ func resetdefip(gp gpio.Pin) {
 				"iface eth0 inet static\n" +
 				"address 192.168.1.188\n" +
 				"netmask 255.255.255.0\n" +
+				"gateway 192.168.1.1\n" +
 				"auto wlan0\n" +
 				"iface wlan0 inet static\n" +
 				"address 192.168.8.1\n" +
-				"netmask 255.255.255.0"
+				"netmask 255.255.255.0\n"
 			if _, err := os.Stat(common.INTERFACES); err != nil {
 				if os.IsNotExist(err) {
 					f, _ := os.Create(common.INTERFACES)
