@@ -758,7 +758,9 @@ func (mygw *Gateway) EncodeAutoup(data map[string]interface{}) error {
 	}
 	uj.Set("header", header)
 	uj.Set("request", request)
-	errstat = mygw.Handler.SendDataUp(uj)
+	if common.Mqtt_connected {
+		errstat = mygw.Handler.SendDataUp(uj)
+	}
 	//	if wsuj, ok := uj.MarshalJSON(); ok == nil {
 	if wsuj, ok := json.Marshal(data); ok == nil {
 		for _, ws := range mygw.WsMap {

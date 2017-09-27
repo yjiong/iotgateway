@@ -177,7 +177,7 @@ func (d *ModbusRtu) RWDevValue(rw string, m dict) (ret dict, err error) {
 	handler.StopBits = d.StopBits
 	slaveid, _ := strconv.Atoi(d.devaddr)
 	handler.SlaveId = byte(slaveid)
-	handler.Timeout = 1 * time.Second
+	handler.Timeout = 2 * time.Second
 	ret = map[string]interface{}{}
 	ret["_devid"] = d.devid
 	err = handler.Connect()
