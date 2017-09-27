@@ -72,9 +72,7 @@ func run(c *cli.Context) error {
 			}
 		}
 	}()
-	mqttconnect(c, &gateway)
-	//接受消息命令并执行
-	go gateway.Mqttcmdhandler(gateway.Handler.DataDownChan())
+
 	go func() {
 		/////////////////////////用chan方式实现命令处理///////////////////////////////
 		for cmd := range gateway.Cmdchan {
@@ -130,6 +128,10 @@ func run(c *cli.Context) error {
 			}
 		}
 	}()
+
+	mqttconnect(c, &gateway)
+	//接受消息命令并执行
+	go gateway.Mqttcmdhandler(gateway.Handler.DataDownChan())
 
 	sigChan := make(chan os.Signal)
 	exitChan := make(chan struct{})
