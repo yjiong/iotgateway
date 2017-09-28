@@ -9,6 +9,7 @@ import (
 
 	//	"sync"
 	log "github.com/Sirupsen/logrus"
+	simplejson "github.com/bitly/go-simplejson"
 	"github.com/yjiong/go_tg120/serial"
 )
 
@@ -160,12 +161,20 @@ func (d *RSBAS) CheckKey(ele dict) (bool, error) {
 
 /***************************************读写接口实现**************************************************/
 func (d *RSBAS) read_cmd(taddr byte) []byte {
-	sum := (0xa5 + 0x81 + int(taddr)) & 0xff
+	sum := (0x81 + int(taddr)) & 0xff
 	cmd := []byte{0xa5, 0x81, taddr, 0x00, 0x00, IntToBytes(sum)[3], 0x5a}
 	return cmd
 }
 
+func (d *RSBAS) r_data_sum(data []byte) byte {
+	sum := 0
+	for i := 1; i < 9; i++ {
+		sum += int(data[i])
+	}
+	return IntToBytes(sum & 0xff)[3]
+}
 func (d *RSBAS) RWDevValue(rw string, m dict) (ret dict, err error) {
+	//log.SetLevel(log.DebugLevel)
 	serconfig := serial.Config{}
 	serconfig.Address = "/dev/ttyUSB0" // Commif[d.commif]
 	serconfig.BaudRate = 9600          //d.BaudRate
@@ -173,7 +182,7 @@ func (d *RSBAS) RWDevValue(rw string, m dict) (ret dict, err error) {
 	serconfig.Parity = "N"             //d.Parity
 	serconfig.StopBits = 1             // d.StopBits
 	serconfig.Timeout = 2 * time.Second
-	taddr := byte(1)
+	taddr := byte(0x2)
 	ret = map[string]interface{}{}
 	ret["_devid"] = d.devid
 	rsport, err := serial.Open(&serconfig)
@@ -185,15 +194,70 @@ func (d *RSBAS) RWDevValue(rw string, m dict) (ret dict, err error) {
 
 	if rw == "r" {
 		results := make([]byte, 11)
-		if _, ok := rsport.Write(d.read_cmd(taddr)); ok != nil {
-			log.Errorf("send cmd error  %s", ok.Error())
-			return nil, ok
+		for i := 0; i < 3; i++ {
+			log.Debugf("send cmd = %x", d.read_cmd(taddr))
+			if _, ok := rsport.Write(d.read_cmd(taddr)); ok != nil {
+				log.Errorf("send cmd error  %s", ok.Error())
+				return nil, ok
+			}
+			time.Sleep(100 * time.Millisecond)
+			var len int
+			len, err = rsport.Read(results)
+			//if err != nil {
+			//log.Errorf("serial read error  %s", err.Error())
+			//}
+			if err == nil && len == 11 && results[9] == d.r_data_sum(results) {
+				log.Debugf("receive data = %x len = %d sum = %x", results, len, d.r_data_sum(results))
+				break
+			}
+			time.Sleep(10 * time.Second)
 		}
-		if len, err := rsport.Read(results); len != 11 || err != nil {
-			log.Errorf("serial read error  %s", err.Error())
+		if err != nil {
+			log.Errorf("read RSBAS faild %s", err.Error())
 			return nil, err
+		} else {
+			var value = make(map[bool]string)
+			D1 := results[3]
+			D2 := results[4]
+			D3 := results[5]
+			D4 := results[6]
+			//D5 := results[7]
+			D6 := results[8]
+			ret["当前轿厢所处层站"] = fmt.Sprintf("%d", int(D1))
+			value = map[bool]string{true: "是", false: "否"}
+			ret["上行"] = value[D2&0x01 > 0]
+			ret["下行"] = value[D2&0x02 > 0]
+			ret["运行中"] = value[D2&0x04 > 0]
+			ret["检修"] = value[D2&0x08 > 0]
+			ret["电梯故障"] = value[D2&0x10 == 0]
+			ret["泊梯"] = value[D2&0x20 > 0]
+			ret["消防专用"] = value[D2&0x40 > 0]
+			ret["消防返回"] = value[D2&0x80 > 0]
+			ret["并联正常"] = value[D3&0x01 > 0]
+			ret["群管理正常"] = value[D3&0x02 > 0]
+			ret["电源正常"] = value[D3&0x04 > 0]
+			ret["轿门门锁关闭"] = value[D3&0x08 > 0]
+			ret["自发电运行"] = value[D3&0x10 > 0]
+			ret["电梯到达"] = value[D3&0x20 > 0]
+			ret["电梯开门"] = value[D3&0x40 > 0]
+			ret["电梯关门"] = value[D3&0x80 > 0]
+			ret["地震运行"] = value[D4&0x01 > 0]
+			ret["安全装置正常"] = value[D4&0x02 > 0]
+			ret["专用运行"] = value[D4&0x04 > 0]
+			ret["火灾管制运行"] = value[D4&0x08 > 0]
+			ret["位于门区"] = value[D4&0x10 > 0]
+			ret["自救运行"] = value[D4&0x20 > 0]
+			ret["发生A2级故障"] = value[D4&0x40 > 0]
+			ret["发生A1级故障"] = value[D4&0x80 > 0]
+			ret["厅门们锁关闭"] = value[D6&0x01 > 0]
+			ret["抱闸打开"] = value[D6&0x02 > 0]
+			ret["安全触板动作"] = value[D6&0x04 > 0]
+			ret["光电保护动作"] = value[D6&0x08 > 0]
 		}
-		log.Info(results)
+		jsret, _ := json.Marshal(ret)
+		inforet, _ := simplejson.NewJson(jsret)
+		pinforet, _ := inforet.EncodePretty()
+		log.Info(string(pinforet))
 	}
 	return ret, nil
 }
