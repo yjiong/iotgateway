@@ -5,6 +5,7 @@ import (
 )
 
 func main() {
-	rsbas := device.RSBAS{}
+	r := device.RSBAS{}
+	rsbas, _ := r.NewDev("rsbas-0", map[string]string{"devaddr": "2"})
 	rsbas.RWDevValue("r", nil)
 }
