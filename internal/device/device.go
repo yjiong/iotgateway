@@ -1,11 +1,12 @@
 package device
 
 import (
+	"bytes"
+	"encoding/binary"
 	log "github.com/Sirupsen/logrus"
 	"github.com/yjiong/go_tg120/config"
 	"github.com/yjiong/go_tg120/internal/common"
-	"bytes"
-	"encoding/binary"
+	"sync"
 	//	"strconv"
 	//	"strings"
 	//	"fmt"
@@ -13,6 +14,7 @@ import (
 
 var RegDevice = make(Devlist)
 var Commif = make(map[string]string)
+var Mutex = make(map[string]*sync.Mutex)
 
 type dict map[string]interface{}
 
@@ -28,10 +30,14 @@ func init() {
 		return
 	}
 	Commif = comm
+	for ifname, _ := range comm {
+		Mutex[ifname] = new(sync.Mutex)
+		log.Info(Mutex)
+	}
 }
 
 type DeviceRWer interface {
-	NewDev(id string,ele map[string]string) (DeviceRWer, error)
+	NewDev(id string, ele map[string]string) (DeviceRWer, error)
 	RWDevValue(rw string, m dict) (dict, error)
 	CheckKey(e dict) (bool, error)
 	GetElement() (dict, error)
@@ -62,7 +68,7 @@ func NewDevHandler(devlistfile string) (map[string]DeviceRWer, error) {
 			log.Errorf("get %s element error : %s", devid, err)
 			continue
 		}
-		dtype, ok_type := ele["_type"]; 
+		dtype, ok_type := ele["_type"]
 		if !ok_type {
 			log.Errorf("get %s element type error : %s", devid, err)
 			continue
@@ -76,13 +82,13 @@ func NewDevHandler(devlistfile string) (map[string]DeviceRWer, error) {
 			continue
 		}
 		if _, ok := RegDevice[dtype]; ok {
-			devlist[devid], _ = RegDevice[dtype].NewDev(devid,ele)
+			devlist[devid], _ = RegDevice[dtype].NewDev(devid, ele)
 		}
 	}
 	return devlist, nil
 }
 
-func (d *Device) NewDev(id string,ele map[string]string) Device {
+func (d *Device) NewDev(id string, ele map[string]string) Device {
 	return Device{
 		devid:   id,
 		devtype: ele["_type"],
@@ -92,15 +98,15 @@ func (d *Device) NewDev(id string,ele map[string]string) Device {
 }
 
 func IntToBytes(n int) []byte {
-    tmp := int32(n)
-    bytesBuffer := bytes.NewBuffer([]byte{})
-    binary.Write(bytesBuffer, binary.BigEndian, tmp)
-    return bytesBuffer.Bytes()
+	tmp := int32(n)
+	bytesBuffer := bytes.NewBuffer([]byte{})
+	binary.Write(bytesBuffer, binary.BigEndian, tmp)
+	return bytesBuffer.Bytes()
 }
 
 func BytesToInt(b []byte) int {
-    bytesBuffer := bytes.NewBuffer(b)
-    var tmp int32
-    binary.Read(bytesBuffer, binary.BigEndian, &tmp)
-    return int(tmp)
+	bytesBuffer := bytes.NewBuffer(b)
+	var tmp int32
+	binary.Read(bytesBuffer, binary.BigEndian, &tmp)
+	return int(tmp)
 }

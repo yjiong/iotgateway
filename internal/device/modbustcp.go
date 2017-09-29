@@ -12,7 +12,6 @@ import (
 	"github.com/yjiong/go_tg120/modbus"
 )
 
-//var mutex sync.Mutex
 type ModbusTcp struct {
 	//继承于Device
 	Device

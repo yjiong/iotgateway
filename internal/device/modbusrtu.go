@@ -11,7 +11,6 @@ import (
 	"github.com/yjiong/go_tg120/modbus"
 )
 
-//var mutex sync.Mutex
 type ModbusRtu struct {
 	//继承于Device
 	Device
@@ -170,6 +169,9 @@ func (d *ModbusRtu) CheckKey(ele dict) (bool, error) {
 
 /***************************************读写接口实现**************************************************/
 func (d *ModbusRtu) RWDevValue(rw string, m dict) (ret dict, err error) {
+	sermutex := Mutex[d.commif]
+	sermutex.Lock()
+	defer sermutex.Unlock()
 	handler := modbus.NewRTUClientHandler(Commif[d.commif])
 	handler.BaudRate = d.BaudRate
 	handler.DataBits = d.DataBits

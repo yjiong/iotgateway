@@ -18,10 +18,10 @@ type RSBAS struct {
 	//继承于Device
 	Device
 	/**************按不同设备自定义*************************/
-	BaudRate int
-	DataBits int
-	StopBits int
-	Parity   string
+	//BaudRate int
+	//DataBits int
+	//StopBits int
+	//Parity   string
 
 	/**************按不同设备自定义*************************/
 }
@@ -34,10 +34,10 @@ func (d *RSBAS) NewDev(id string, ele map[string]string) (DeviceRWer, error) {
 	ndev := new(RSBAS)
 	ndev.Device = d.Device.NewDev(id, ele)
 	/***********************初始化设备的特有的参数*****************************/
-	ndev.BaudRate, _ = strconv.Atoi(ele["BaudRate"])
-	ndev.DataBits, _ = strconv.Atoi(ele["DataBits "])
-	ndev.StopBits, _ = strconv.Atoi(ele["StopBits"])
-	ndev.Parity, _ = ele["Parity"]
+	//ndev.BaudRate, _ = strconv.Atoi(ele["BaudRate"])
+	//ndev.DataBits, _ = strconv.Atoi(ele["DataBits "])
+	//ndev.StopBits, _ = strconv.Atoi(ele["StopBits"])
+	//ndev.Parity, _ = ele["Parity"]
 	/***********************初始化设备的特有的参数*****************************/
 	return ndev, nil
 }
@@ -45,12 +45,12 @@ func (d *RSBAS) NewDev(id string, ele map[string]string) (DeviceRWer, error) {
 func (d *RSBAS) GetElement() (dict, error) {
 	conn := dict{
 		/***********************设备的特有的参数*****************************/
-		"devaddr":  d.devaddr,
-		"commif":   d.commif,
-		"BaudRate": d.BaudRate,
-		"DataBits": d.DataBits,
-		"StopBits": d.StopBits,
-		"Parity":   d.Parity,
+		"devaddr": d.devaddr,
+		"commif":  d.commif,
+		//"BaudRate": d.BaudRate,
+		//"DataBits": d.DataBits,
+		//"StopBits": d.StopBits,
+		//"Parity":   d.Parity,
 		/***********************设备的特有的参数*****************************/
 	}
 	data := dict{
@@ -122,12 +122,15 @@ func (d *RSBAS) r_data_sum(data []byte) byte {
 }
 func (d *RSBAS) RWDevValue(rw string, m dict) (ret dict, err error) {
 	//log.SetLevel(log.DebugLevel)
+	sermutex := Mutex[d.commif]
+	sermutex.Lock()
+	defer sermutex.Unlock()
 	serconfig := serial.Config{}
-	serconfig.Address = "/dev/ttyUSB0" // Commif[d.commif]
-	serconfig.BaudRate = 9600          //d.BaudRate
-	serconfig.DataBits = 8             //d.DataBits
-	serconfig.Parity = "N"             //d.Parity
-	serconfig.StopBits = 1             // d.StopBits
+	serconfig.Address = Commif[d.commif]
+	serconfig.BaudRate = 9600 //d.BaudRate
+	serconfig.DataBits = 8    //d.DataBits
+	serconfig.Parity = "N"    //d.Parity
+	serconfig.StopBits = 1    // d.StopBits
 	slaveid, _ := strconv.Atoi(d.devaddr)
 	taddr := byte(slaveid)
 	serconfig.Timeout = 2 * time.Second
@@ -142,7 +145,7 @@ func (d *RSBAS) RWDevValue(rw string, m dict) (ret dict, err error) {
 
 	if rw == "r" {
 		results := make([]byte, 11)
-		for i := 0; i < 3; i++ {
+		for i := 0; i < 2; i++ {
 			log.Debugf("send cmd = %x", d.read_cmd(taddr))
 			if _, ok := rsport.Write(d.read_cmd(taddr)); ok != nil {
 				log.Errorf("send cmd error  %s", ok.Error())
@@ -158,7 +161,9 @@ func (d *RSBAS) RWDevValue(rw string, m dict) (ret dict, err error) {
 				log.Debugf("receive data = %x len = %d sum = %x", results, len, d.r_data_sum(results))
 				break
 			}
-			time.Sleep(10 * time.Second)
+			if i < 1 {
+				time.Sleep(10 * time.Second)
+			}
 		}
 		if err != nil {
 			log.Errorf("read RSBAS faild %s", err.Error())

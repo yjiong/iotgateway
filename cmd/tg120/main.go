@@ -80,7 +80,6 @@ func run(c *cli.Context) error {
 				if cmdv, ok := cmd.(gw.Cmdfp); ok {
 					cmdv.Cmdfunc(cmdv.Param)
 				}
-
 			}()
 		}
 		//////////////////////////用队列的方式实现命令处理//////////////////////////////
@@ -119,8 +118,8 @@ func run(c *cli.Context) error {
 					if err := gateway.EncodeAutoup(let); err != nil {
 						log.Errorf("auto updata error : %s", err)
 					}
-					///////////////////////测试时延时1秒,最终要取消//////////////////////////////////////
-					//	time.Sleep(time.Second)
+					///////////////////////测试时延时1秒,最终要取消??///////////////////////////////////
+					//time.Sleep(time.Second)
 					////////////////////////////////////////////////////////////////////////////////////
 				}
 			} else {
