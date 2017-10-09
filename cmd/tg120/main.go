@@ -187,7 +187,8 @@ func mqttconnect(c *cli.Context, gateway *gw.Gateway) {
 			c.String("mqtt-username"),
 			c.String("mqtt-password"),
 			c.String("mqtt-ca-cert"),
-			c.String("tr_topic"),
+			c.String("client_id"),
+			c.String("server_id"),
 			"60",
 			willmsg,
 			onlinemsg)
@@ -200,9 +201,10 @@ func mqttconnect(c *cli.Context, gateway *gw.Gateway) {
 		user, _ := conm["_username"]
 		passwd, _ := conm["_password"]
 		cert, _ := conm["ca_cert"]
-		topic, _ := conm["_client_id"]
+		ctopic, _ := conm["_client_id"]
+		stopic, _ := conm["_server_name"]
 		keeplive, _ := conm["_keepalive"]
-		h, err = handler.NewMQTTHandler("tcp://"+server+":"+port, user, passwd, cert, topic, keeplive, willmsg, onlinemsg)
+		h, err = handler.NewMQTTHandler("tcp://"+server+":"+port, user, passwd, cert, ctopic, stopic, keeplive, willmsg, onlinemsg)
 		if err != nil {
 
 			log.Fatalf("setup mqtt handler error: %s", err)
@@ -250,10 +252,16 @@ func main() {
 			EnvVar: "LOG_LEVEL",
 		},
 		cli.StringFlag{
-			Name:   "tr_topic",
-			Value:  "TG120-GOLANG",
-			Usage:  "subscribe publish topic",
-			EnvVar: "THINGS_TOPIC",
+			Name:   "client_id",
+			Value:  "IotGW-GOLANG",
+			Usage:  "subscribe publish topic client strings",
+			EnvVar: "CLIENT_ID",
+		},
+		cli.StringFlag{
+			Name:   "server_id",
+			Value:  "iotserver",
+			Usage:  "subscribe publish topic server strings",
+			EnvVar: "SERVER_ID",
 		},
 		cli.IntFlag{
 			Name:  "interval",
