@@ -28,11 +28,12 @@ type MQTTHandler struct {
 	conn         mqtt.Client
 	dataDownChan chan DataDownPayload
 	wg           sync.WaitGroup
-	Topic        string
+	Client_id    string
+	Server_id    string
 }
 
 // NewMQTTHandler creates a new MQTTHandler.
-func NewMQTTHandler(server, username, password, cafile, trtop, kl, willmsg, onlinemsg string) (Handler, error) {
+func NewMQTTHandler(server, username, password, cafile, client_id, server_id, kl, willmsg, onlinemsg string) (Handler, error) {
 	h := MQTTHandler{
 		dataDownChan: make(chan DataDownPayload),
 	}
@@ -45,8 +46,9 @@ func NewMQTTHandler(server, username, password, cafile, trtop, kl, willmsg, onli
 	opts.SetConnectionLostHandler(h.onConnectionLost)
 	kplv, _ := strconv.Atoi(kl)
 	opts.SetKeepAlive(time.Duration(kplv) * time.Second)
-	h.Topic = trtop
-	opts.SetWill("things/"+h.Topic, willmsg, 1, true)
+	h.Client_id = client_id
+	h.Server_id = server_id
+	opts.SetWill(h.Server_id+"/"+h.Client_id, willmsg, 1, true)
 	if cafile != "" {
 		tlsconfig, err := newTLSConfig(cafile)
 		if err != nil {
@@ -67,7 +69,7 @@ func NewMQTTHandler(server, username, password, cafile, trtop, kl, willmsg, onli
 			break
 		}
 	}
-	h.conn.Publish("things/"+h.Topic, 1, true, onlinemsg)
+	h.conn.Publish(h.Server_id+"/"+h.Client_id, 1, true, onlinemsg)
 	return &h, nil
 }
 
@@ -93,8 +95,8 @@ func newTLSConfig(cafile string) (*tls.Config, error) {
 // Close stops the handler.
 func (h *MQTTHandler) Close() error {
 	log.Info("handler/mqtt: closing handler")
-	if token := h.conn.Unsubscribe(h.Topic); token.Wait() && token.Error() != nil {
-		return fmt.Errorf("handler/mqtt: unsubscribe from %s error: %s", h.Topic, token.Error())
+	if token := h.conn.Unsubscribe(h.Client_id + "/" + h.Server_id); token.Wait() && token.Error() != nil {
+		return fmt.Errorf("handler/mqtt: unsubscribe from %s error: %s", h.Client_id, token.Error())
 	}
 	log.Info("handler/mqtt: handling last items in queue")
 	h.wg.Wait()
@@ -109,7 +111,7 @@ func (h *MQTTHandler) SendDataUp(payload interface{}) error {
 		return fmt.Errorf("handler/mqtt: data-up payload marshal error: %s", err)
 	}
 
-	topic := "things/" + h.Topic
+	topic := h.Server_id + "/" + h.Client_id
 	if token := h.conn.Publish(topic, 0, false, b); token.Wait() && token.Error() != nil {
 		return fmt.Errorf("handler/mqtt: publish data-up error: %s", err)
 	}
@@ -147,9 +149,9 @@ func (h *MQTTHandler) rxmsgHandler(c mqtt.Client, msg mqtt.Message) {
 func (h *MQTTHandler) onConnected(c mqtt.Client) {
 	log.Info("handler/mqtt: connected to mqtt broker")
 	for {
-		log.WithField("topic", h.Topic+"/things").Info("handler/mqtt: subscribling to things topic")
-		if token := h.conn.Subscribe(h.Topic+"/things", 2, h.rxmsgHandler); token.Wait() && token.Error() != nil {
-			log.WithField("topic", h.Topic+"/things").Errorf("handler/mqtt: subscribe error: %s", token.Error())
+		log.WithField("topic", h.Client_id+"/"+h.Server_id).Info("handler/mqtt: subscribling to things topic")
+		if token := h.conn.Subscribe(h.Client_id+"/"+h.Server_id, 2, h.rxmsgHandler); token.Wait() && token.Error() != nil {
+			log.WithField("topic", h.Client_id+"/"+h.Server_id).Errorf("handler/mqtt: subscribe error: %s", token.Error())
 			time.Sleep(time.Second)
 			continue
 		}

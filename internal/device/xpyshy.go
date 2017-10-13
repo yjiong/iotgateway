@@ -11,7 +11,7 @@ import (
 
 //var mutex sync.Mutex
 type xp_yshy struct {
-	//继承于Device
+	//继承于ModebusRtu
 	ModbusRtu
 	/**************按不同设备自定义*************************/
 
