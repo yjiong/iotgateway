@@ -32,7 +32,7 @@ func init() {
 	Commif = comm
 	for ifname, _ := range comm {
 		Mutex[ifname] = new(sync.Mutex)
-		log.Info(Mutex)
+		log.Info(ifname)
 	}
 }
 
