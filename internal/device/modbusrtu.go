@@ -238,14 +238,14 @@ func (d *ModbusRtu) RWDevValue(rw string, m dict) (ret dict, err error) {
 			value = uint16(v64)
 		}
 		if vif, ok := m["value"].([]interface{}); !ok && (function_code == 15 || function_code == 16) {
-			return nil, errors.New("write modbus singlecoil or registers need value : [uint8...]")
+			return nil, errors.New("write modbus singlecoil or registers need values : [uint8...]")
 		} else {
 			for _, v := range vif {
 				if vi, ok := v.(json.Number); ok {
 					vi64, _ := vi.Int64()
 					valuelist = append(valuelist, IntToBytes(int(vi64))[3])
 				} else {
-					return nil, errors.New("write modbus singlecoil or registers need value : [uint8...]")
+					return nil, errors.New("write modbus singlecoil or registers need value: [uint8...]")
 				}
 			}
 		}

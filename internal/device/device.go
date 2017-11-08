@@ -8,8 +8,8 @@ import (
 	"github.com/yjiong/go_tg120/internal/common"
 	"sync"
 	//	"strconv"
-	//	"strings"
 	//	"fmt"
+	//	"strings"
 )
 
 var RegDevice = make(Devlist)
@@ -32,7 +32,7 @@ func init() {
 	Commif = comm
 	for ifname, _ := range comm {
 		Mutex[ifname] = new(sync.Mutex)
-		log.Info(ifname)
+		//log.Info(ifname)
 	}
 }
 
@@ -50,6 +50,7 @@ type Device struct {
 	devtype string
 	commif  string
 	devaddr string
+	mutex   *sync.Mutex
 }
 
 type Devlist map[string]DeviceRWer
@@ -89,11 +90,13 @@ func NewDevHandler(devlistfile string) (map[string]DeviceRWer, error) {
 }
 
 func (d *Device) NewDev(id string, ele map[string]string) Device {
+	dmutex := new(sync.Mutex)
 	return Device{
 		devid:   id,
 		devtype: ele["_type"],
 		commif:  ele["commif"],
 		devaddr: ele["devaddr"],
+		mutex:   dmutex,
 	}
 }
 
@@ -109,4 +112,12 @@ func BytesToInt(b []byte) int {
 	var tmp int32
 	binary.Read(bytesBuffer, binary.BigEndian, &tmp)
 	return int(tmp)
+}
+
+func Hex2Bcd(n byte) byte {
+	return IntToBytes(int(n)>>4*10 + int(n)&0x0f)[3]
+}
+
+func Bcd2Hex(n byte) byte {
+	return IntToBytes((int(n)/10)<<4 + int(n)%10)[3]
 }

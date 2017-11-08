@@ -127,8 +127,7 @@ func (d *DTSD422) read_cmd(taddr string, di []byte) []byte {
 	cmd := []byte{0x68}
 	for i := 12; i >= 2; i -= 2 {
 		temp, _ := strconv.Atoi(saddr[i-2 : i])
-		temp = temp/10*16 + temp%10
-		cmd = append(cmd, IntToBytes(temp)[3])
+		cmd = append(cmd, Bcd2Hex(IntToBytes(temp)[3]))
 	}
 	cmd = append(cmd, []byte{0x68, 0x11, 0x04}...)
 	cdi := d.plus33(di)
@@ -186,9 +185,6 @@ func (d *DTSD422) RWDevValue(rw string, m dict) (ret dict, err error) {
 			time.Sleep(500 * time.Millisecond)
 			var len int
 			len, err = rsport.Read(results)
-			//if err != nil {
-			//log.Errorf("serial read error  %s", err.Error())
-			//}
 			if err == nil {
 				var startbyte int
 				for i, v := range results {
@@ -202,10 +198,10 @@ func (d *DTSD422) RWDevValue(rw string, m dict) (ret dict, err error) {
 					log.Debugf("校验正确")
 					valb := d.sub33(results[startbyte+14 : len-2])
 					log.Debugf("%x", valb)
-					ret["正向有功电能"] = float64(valb[0]/16*10+valb[0]%16)*10000.0 +
-						float64(valb[1]/16*10+valb[1]%16)*100.0 +
-						float64(valb[2]/16*10+valb[2]%16) +
-						float64(valb[2]/16*10+valb[2]%16)/100.0
+					ret["正向有功电能"] = float64(Hex2Bcd(valb[0]))*10000 +
+						float64(Hex2Bcd(valb[1]))*100 +
+						float64(Hex2Bcd(valb[2])) +
+						float64(Hex2Bcd(valb[3]))/100
 					err = nil
 					break
 				} else {
@@ -219,10 +215,7 @@ func (d *DTSD422) RWDevValue(rw string, m dict) (ret dict, err error) {
 		if err != nil {
 			log.Errorf("read DTSD422 faild %s", err.Error())
 			return nil, err
-		} else {
-			//var value = make(map[bool]string)
 		}
-
 		log.Info(ret)
 	}
 	return ret, nil

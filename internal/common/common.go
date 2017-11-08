@@ -12,7 +12,7 @@ import (
 
 const (
 	VERSION    = "1.0"
-	MODEL      = "TG120"
+	MODEL      = "TG150"
 	INTERFACES = "/etc/network/interfaces"
 )
 

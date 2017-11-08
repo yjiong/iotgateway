@@ -191,7 +191,7 @@ func (d *xp_yshy) RWDevValue(rw string, m dict) (ret dict, err error) {
 			ret["水表流量"] = fmt.Sprintf("%0.1f%s", float64(dl[14]*0x1000000+dl[15]*0x10000+dl[16]*0x100+dl[17])/10.0, "立方/小时")
 			log.Info(ret)
 		} else {
-			ret["status"] = "offline"
+			ret["_status"] = "offline"
 		}
 	}
 	return ret, err

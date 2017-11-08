@@ -165,12 +165,12 @@ func (mygw *Gateway) WsHandle(ws *websocket.Conn) {
 			break
 		}
 		log.Info("websocket message received = %s", reply)
-		notice := `若您没有接收到请求应答,请发送{"request":{"cmd":"help"}}查看命令帮助`
-		if err = websocket.Message.Send(ws, notice); err != nil {
-			log.Infof("Websocket Message send error : %s", err)
-			delete(mygw.WsMap, no)
-			break
-		}
+		//notice := `若您没有接收到请求应答,请发送{"request":{"cmd":"help"}}查看命令帮助`
+		//if err = websocket.Message.Send(ws, notice); err != nil {
+		//log.Infof("Websocket Message send error : %s", err)
+		//delete(mygw.WsMap, no)
+		//break
+		//}
 		wsnochan := map[int]string{
 			no: reply,
 		}
@@ -745,7 +745,7 @@ func (mygw *Gateway) EncodeAutoup(data map[string]interface{}) error {
 	}
 	header := map[string]interface{}{
 		"from":    from,
-		"msgtype": "request",
+		"msgtype": "update",
 	}
 	status := 0
 	if data["error"] != nil {
@@ -763,7 +763,7 @@ func (mygw *Gateway) EncodeAutoup(data map[string]interface{}) error {
 		errstat = mygw.Handler.SendDataUp(uj)
 	}
 	//	if wsuj, ok := uj.MarshalJSON(); ok == nil {
-	if wsuj, ok := json.Marshal(data); ok == nil {
+	if wsuj, ok := json.Marshal(uj); ok == nil {
 		for _, ws := range mygw.WsMap {
 			//			websocket.Message.Send(ws, wsuj)
 			_, errstat = ws.Write(wsuj)
@@ -838,7 +838,7 @@ func (mygw *Gateway) encoderesponseup(req *simplejson.Json, data interface{}, st
 		errstat = mygw.Handler.SendDataUp(uj)
 	} else {
 		//		if msg, err := uj.MarshalJSON(); err == nil {
-		if msg, err := json.Marshal(data); err == nil {
+		if msg, err := json.Marshal(uj); err == nil {
 			_, errstat = ws.Write(msg)
 			log.Infoln("websocket message send = %v", uj)
 		}
