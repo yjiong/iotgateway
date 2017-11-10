@@ -121,3 +121,6 @@ func Hex2Bcd(n byte) byte {
 func Bcd2Hex(n byte) byte {
 	return IntToBytes((int(n)/10)<<4 + int(n)%10)[3]
 }
+func Bcd2_2f(a, b int) float64 {
+	return float64((a>>4*10+a&0x0f)*100 + (b>>4*10 + b&0x0f))
+}

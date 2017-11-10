@@ -147,7 +147,7 @@ func (d *DTSD422) r_data_sum(data []byte) byte {
 	return IntToBytes(sum & 0xff)[3]
 }
 func (d *DTSD422) RWDevValue(rw string, m dict) (ret dict, err error) {
-	log.SetLevel(log.DebugLevel)
+	//log.SetLevel(log.DebugLevel)
 	di_Forward_active_power := []byte{0x00, 0x01, 0x00, 0x00} //正向有功电能数据(ff块)
 	//di_Voltages := []byte{0x02, 0x01, 0xFF, 0x00}             //电压数据块
 	//di_Currents := []byte{0x02, 0x02, 0xFF, 0x00}             //电流数据块

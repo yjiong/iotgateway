@@ -36,17 +36,18 @@ func main() {
 	//
 	//f := math.Float32frombits(n2)
 
-	r := device.TC100R8{}
+	r := device.QDSL_SM510{}
 	//r := device.DTSD422{}
-	tval, _ := r.NewDev("dev-0", map[string]string{
+	tval, _ := r.NewDev("sm510", map[string]string{
 		//"devaddr": "3300027014",
-		"devaddr": "3",
-		"commif":  "rs485-1",
+		"devaddr": "1",
+		"commif":  "192.168.1.17:502",
+		//"commif":  "rs485-1",
 		//"BaudRate": "19200",
 		//"DataBits": "8",
 		//"StopBits": "1",
 	})
 	tval.RWDevValue("w", nil)
-	tval.RWDevValue("r", nil)
+	//tval.RWDevValue("r", nil)
 
 }

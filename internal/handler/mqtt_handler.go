@@ -30,6 +30,7 @@ type MQTTHandler struct {
 	wg           sync.WaitGroup
 	Client_id    string
 	Server_id    string
+	onlinemsg    string
 }
 
 // NewMQTTHandler creates a new MQTTHandler.
@@ -48,6 +49,7 @@ func NewMQTTHandler(server, username, password, cafile, client_id, server_id, kl
 	opts.SetKeepAlive(time.Duration(kplv) * time.Second)
 	h.Client_id = client_id
 	h.Server_id = server_id
+	h.onlinemsg = onlinemsg
 	opts.SetWill(h.Server_id+"/"+h.Client_id, willmsg, 1, true)
 	if cafile != "" {
 		tlsconfig, err := newTLSConfig(cafile)
@@ -69,7 +71,6 @@ func NewMQTTHandler(server, username, password, cafile, client_id, server_id, kl
 			break
 		}
 	}
-	h.conn.Publish(h.Server_id+"/"+h.Client_id, 1, true, onlinemsg)
 	return &h, nil
 }
 
@@ -156,6 +157,7 @@ func (h *MQTTHandler) onConnected(c mqtt.Client) {
 			continue
 		}
 		common.Mqtt_connected = true
+		h.conn.Publish(h.Server_id+"/"+h.Client_id, 1, true, h.onlinemsg)
 		return
 	}
 }
