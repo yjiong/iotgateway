@@ -10,7 +10,7 @@ import (
 )
 
 //var mutex sync.Mutex
-type xp_yshy struct {
+type XP_YSHY struct {
 	//继承于ModebusRtu
 	ModbusRtu
 	/**************按不同设备自定义*************************/
@@ -19,11 +19,11 @@ type xp_yshy struct {
 }
 
 func init() {
-	RegDevice["xp_yshy"] = &xp_yshy{}
+	RegDevice["XP_YSHY"] = &XP_YSHY{}
 }
 
-func (d *xp_yshy) NewDev(id string, ele map[string]string) (DeviceRWer, error) {
-	ndev := new(xp_yshy)
+func (d *XP_YSHY) NewDev(id string, ele map[string]string) (DeviceRWer, error) {
+	ndev := new(XP_YSHY)
 	ndev.Device = d.Device.NewDev(id, ele)
 	/***********************初始化设备的特有的参数*****************************/
 	ndev.BaudRate, _ = strconv.Atoi(ele["BaudRate"])
@@ -39,7 +39,7 @@ func (d *xp_yshy) NewDev(id string, ele map[string]string) (DeviceRWer, error) {
 	return ndev, nil
 }
 
-func (d *xp_yshy) GetElement() (dict, error) {
+func (d *XP_YSHY) GetElement() (dict, error) {
 	conn := dict{
 		/***********************设备的特有的参数*****************************/
 		"devaddr":          d.devaddr,
@@ -62,16 +62,16 @@ func (d *xp_yshy) GetElement() (dict, error) {
 }
 
 /***********************设备的参数说明帮助***********************************/
-func (d *xp_yshy) HelpDoc() interface{} {
+func (d *XP_YSHY) HelpDoc() interface{} {
 	conn := dict{
 		"devaddr": "设备地址",
-		/***********xp_yshy设备的参数*****************************/
+		/***********XP_YSHY设备的参数*****************************/
 		"commif":   "通信接口,比如(rs485-1)",
 		"BaudRate": "波特率,比如(9600)",
 		"DataBits": "数据位,比如(8)",
 		"Parity":   "校验,(N,E,O)",
 		"StopBits": "停止位,比如(1)",
-		/***********xp_yshy设备的参数*****************************/
+		/***********XP_YSHY设备的参数*****************************/
 	}
 	r_parameter := dict{
 		"_devid": "被读取设备对象的id",
@@ -85,7 +85,7 @@ func (d *xp_yshy) HelpDoc() interface{} {
 	}
 	data := dict{
 		"_devid": "添加设备对象的id",
-		"_type":  "xp_yshy", //设备类型
+		"_type":  "XP_YSHY", //设备类型
 		"_conn":  conn,
 	}
 	dev_update := dict{
@@ -117,19 +117,19 @@ func (d *xp_yshy) HelpDoc() interface{} {
 /***********************设备的参数说明帮助***********************************/
 
 /***************************************添加设备参数检验**********************************************/
-func (d *xp_yshy) CheckKey(ele dict) (bool, error) {
+func (d *XP_YSHY) CheckKey(ele dict) (bool, error) {
 
 	if _, ok := ele["BaudRate"].(json.Number); !ok {
-		return false, errors.New(fmt.Sprintf("xp_yshy device must have int type element 波特率 :BaudRate"))
+		return false, errors.New(fmt.Sprintf("XP_YSHY device must have int type element 波特率 :BaudRate"))
 	}
 	if _, ok := ele["DataBits"].(json.Number); !ok {
-		return false, errors.New(fmt.Sprintf("xp_yshy device must have int type element 数据位 :DataBits"))
+		return false, errors.New(fmt.Sprintf("XP_YSHY device must have int type element 数据位 :DataBits"))
 	}
 	if _, ok := ele["StopBits"].(json.Number); !ok {
-		return false, errors.New(fmt.Sprintf("xp_yshy device must have int type element 停止位 :StopBits"))
+		return false, errors.New(fmt.Sprintf("XP_YSHY device must have int type element 停止位 :StopBits"))
 	}
 	if _, ok := ele["Parity"].(string); !ok {
-		return false, errors.New(fmt.Sprintf("xp_yshy device must have string type element 校验 :Parity"))
+		return false, errors.New(fmt.Sprintf("XP_YSHY device must have string type element 校验 :Parity"))
 	}
 	return true, nil
 }
@@ -137,7 +137,7 @@ func (d *xp_yshy) CheckKey(ele dict) (bool, error) {
 /***************************************添加设备参数检验**********************************************/
 
 /***************************************读写接口实现**************************************************/
-func (d *xp_yshy) RWDevValue(rw string, m dict) (ret dict, err error) {
+func (d *XP_YSHY) RWDevValue(rw string, m dict) (ret dict, err error) {
 	ret = make(dict)
 	ret["_devid"] = d.devid
 	status := map[bool]string{

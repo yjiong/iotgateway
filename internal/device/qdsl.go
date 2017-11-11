@@ -26,10 +26,10 @@ func (d *QDSL_SM510) NewDev(id string, ele map[string]string) (DeviceRWer, error
 	ndev := new(QDSL_SM510)
 	ndev.Device = d.Device.NewDev(id, ele)
 	/***********************初始化设备的特有的参数*****************************/
-	//ndev.BaudRate = 19200 //, _ = strconv.Atoi(ele["BaudRate"])
-	//ndev.DataBits = 8     //, _ = strconv.Atoi(ele["DataBits "])
-	//ndev.StopBits = 1     //, _ = strconv.Atoi(ele["StopBits"])
-	//ndev.Parity = "N"     //, _ = ele["Parity"]
+	ndev.BaudRate = 19200 //, _ = strconv.Atoi(ele["BaudRate"])
+	ndev.DataBits = 8     //, _ = strconv.Atoi(ele["DataBits "])
+	ndev.StopBits = 1     //, _ = strconv.Atoi(ele["StopBits"])
+	ndev.Parity = "N"     //, _ = ele["Parity"]
 	//ndev.Function_code = 3
 	//	saint, _ := strconv.Atoi(ele["Starting_address"])
 	//ndev.Starting_address = 0
@@ -41,14 +41,14 @@ func (d *QDSL_SM510) NewDev(id string, ele map[string]string) (DeviceRWer, error
 
 func (d *QDSL_SM510) GetElement() (dict, error) {
 	conn := dict{
-		/***********************设备的特有的参数*****************************/
-		"devaddr":  d.devaddr,
-		"commif":   d.commif,
-		"BaudRate": 19200,
-		"DataBits": 8,
-		"StopBits": 1,
-		"Parity":   "N",
-		/***********************设备的特有的参数*****************************/
+	/***********************设备的特有的参数*****************************/
+	//"devaddr":  d.devaddr,
+	//"commif":   d.commif,
+	//"BaudRate": 19200,
+	//"DataBits": 8,
+	//"StopBits": 1,
+	//"Parity":   "N",
+	/***********************设备的特有的参数*****************************/
 	}
 	data := dict{
 		"_devid": d.devid,
@@ -63,7 +63,16 @@ func (d *QDSL_SM510) HelpDoc() interface{} {
 	conn := dict{
 		"devaddr": "设备地址",
 		/***********QDSL_SM510设备的参数*****************************/
-		//"commif":   "通信接口,比如(rs485-1)",
+		"备注":       "由于寄存器不连续,请一条命令设置一个字段",
+		"定时交换分钟数":  "单位分钟,大于0小于9999,int类型",
+		"无水停机压力":   "单位MP,大于0小于9999,int类型",
+		"无水停机延时":   "单位秒,大于0小于9999,int类型",
+		"有水开机压力":   "单位MP,大于0小于9999,int类型",
+		"有水开机延时":   "单位秒,大于0小于9999,int类型",
+		"设备通讯地址":   "大于0小于9999,int类型",
+		"设定压力":     "单位MP,初始化值0.300MP,大于0,小于10,小数位3位,float类型",
+		"软件超压保护偏差": "单位MP,初始化值0.300MP,大于0,小于10,小数位3位,float类型",
+		"远程启动停止":   "=1停止,=0启动",
 		//"BaudRate": "波特率,比如(9600)",
 		//"DataBits": "数据位,比如(8)",
 		//"Parity":   "校验,(N,E,O)",
@@ -204,7 +213,7 @@ func (d *QDSL_SM510) RWDevValue(rw string, m dict) (ret dict, err error) {
 		if err == nil {
 			tdl := mdict["Modbus-value"]
 			dl, ok := tdl.([]int)
-			log.Info(dl)
+			//log.Info(dl)
 			if ok {
 				ret["设定压力"] = Bcd2_2f(dl[0], dl[1]) / 1000.0
 				ret["有水开机压力"] = Bcd2_2f(dl[2], dl[3]) / 1000.0
@@ -231,7 +240,7 @@ func (d *QDSL_SM510) RWDevValue(rw string, m dict) (ret dict, err error) {
 			for i := 0; i < 32; i += 2 {
 				mdata[i/2] = dl[i]*0x100 + dl[i+1]
 			}
-			log.Info(dl)
+			//log.Info(dl)
 			if ok {
 				ret["过程和报警序号"] = mdata[0]
 				ret["过程和报警序号"] = mdata[0]
@@ -353,7 +362,7 @@ func (d *QDSL_SM510) RWDevValue(rw string, m dict) (ret dict, err error) {
 	jsret, _ := json.Marshal(ret)
 	inforet, _ := simplejson.NewJson(jsret)
 	pinforet, _ := inforet.EncodePretty()
-	log.Info(string(pinforet))
+	log.Debugln(string(pinforet))
 	return ret, err
 }
 

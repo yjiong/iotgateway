@@ -428,6 +428,11 @@ func (mygw *Gateway) initget(req *simplejson.Json, ws *websocket.Conn) {
 		upm = map[string]string{
 			"_client_ip": ipstr,
 		}
+		if common.Mqtt_connected {
+			cm["net_status"] = "online"
+		} else {
+			cm["net_status"] = "offline"
+		}
 		upm = common.Mergemap(cm, upm)
 	} else {
 		mygw.encoderesponseup(req, fmt.Sprintf("获取配置参数失败 : %s", err), 1, ws)

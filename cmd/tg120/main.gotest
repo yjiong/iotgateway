@@ -1,0 +1,26 @@
+package main
+
+import (
+	//"fmt"
+	//"math"
+	log "github.com/Sirupsen/logrus"
+	"github.com/yjiong/go_tg120/internal/device"
+)
+
+func main() {
+	log.SetLevel(log.DebugLevel)
+	r := device.QDSL_SM510{}
+	//r := device.xp_yshy{}
+	//r := device.DTSD422{}
+	tval, _ := r.NewDev("sm510", map[string]string{
+		//"devaddr": "3300027014",
+		"devaddr": "1",
+		"commif":  "rs485-1",
+		//"BaudRate": "19200",
+		//"DataBits": "8",
+		//"StopBits": "1",
+	})
+	//tval.RWDevValue("w", nil)
+	log.Debugln(tval.RWDevValue("r", nil))
+
+}
