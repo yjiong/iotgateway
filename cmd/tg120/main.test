@@ -9,10 +9,11 @@ import (
 
 func main() {
 	log.SetLevel(log.DebugLevel)
-	r := device.QDSL_SM510{}
-	//r := device.xp_yshy{}
+	//r := device.QDSL_SM510{}
+	//r := device.rsbas{}
+	r := device.FUJITSU{}
 	//r := device.DTSD422{}
-	tval, _ := r.NewDev("sm510", map[string]string{
+	tval, _ := r.NewDev("fujit", map[string]string{
 		//"devaddr": "3300027014",
 		"devaddr": "1",
 		"commif":  "rs485-1",
@@ -20,7 +21,14 @@ func main() {
 		//"DataBits": "8",
 		//"StopBits": "1",
 	})
+	elem := map[string]interface{}{
+		"_varname": "室内机",
+		//"_varname":  "室外机",
+		"_varvalue": "1",
+	}
 	//tval.RWDevValue("w", nil)
-	log.Debugln(tval.RWDevValue("r", nil))
+	if _, err := tval.RWDevValue("r", elem); err != nil {
+		log.Debugf("error=%s", err)
+	}
 
 }
