@@ -492,7 +492,7 @@ func (d *TC100R8) doManual(m dict) (ret dict, err error) {
 
 	// 初始化 8个回路都不操作
 	for i := 0; i < 8; i++ {
-		wbyte[i*4] = "0"
+		wbyte[i*4] = "255"
 		wbyte[i*4+1] = "0"
 		wbyte[i*4+2] = "0"
 		wbyte[i*4+3] = "0"
@@ -507,7 +507,7 @@ func (d *TC100R8) doManual(m dict) (ret dict, err error) {
 				delay, ok3 := kmap["delay"].(string)
 				onoff, ok4 := kmap["switch"].(string)
 				if ok1 && ok2 && ok3 && ok4 {
-					log.Debugln("xxxxxxxxxxxxxxxxxx", manualValue)
+					//log.Debugln("xxxxxxxxxxxxxxxxxx", manualValue)
 					lineint, _ := strconv.Atoi(line)
 					log.Debugln("line=", lineint)
 					log.Debugln("status=", status[stat])
@@ -530,7 +530,6 @@ func (d *TC100R8) doManual(m dict) (ret dict, err error) {
 	}
 
 	ret, err = d.ModbusRtu.RWDevValue("w", dict{"value": vallist})
-
 	return ret, err
 }
 

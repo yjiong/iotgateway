@@ -1,0 +1,167 @@
+html {
+  font-family: Arial, sans-serif;
+  line-height: 1.15;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+footer,
+header,
+section {
+  display: block;
+}
+
+h3 {
+  font-size: 1.2em;
+  margin: 0.2em 0;
+}
+
+p {
+  margin: 0.2em 0;
+}
+
+a {
+  background-color: transparent;
+  -webkit-text-decoration-skip: objects;
+}
+
+a:active,
+a:hover {
+  outline-width: 0;
+}
+
+
+img {
+  border-style: none;
+}
+
+button,
+input,
+optgroup,
+select {
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+}
+
+button,
+input {
+  overflow: visible;
+}
+
+button,
+select {
+  text-transform: none;
+}
+
+button,
+html [type="button"],
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button;
+}
+
+button::-moz-focus-inner,
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+
+button:-moz-focusring,
+[type="button"]:-moz-focusring,
+[type="reset"]:-moz-focusring,
+[type="submit"]:-moz-focusring {
+  outline: 1px dotted ButtonText;
+}
+
+.header{
+  background: #1f262e;
+  padding:4px 0;
+  overflow: hidden;
+}
+
+.header img {
+  float: left;
+  width: 40px;
+  margin: 0 5px 0 15px;
+}
+
+.header span {
+  font-family: "Microsoft Yahei";
+  line-height: 40px;
+  color: #fff;
+}
+
+.main {
+  width: 960px;
+  margin: auto;
+}
+
+.main p {
+  margin: 0.6em;
+}
+
+.main p label {
+  display: inline-block;
+  width: 32%;
+  text-align: right;
+}
+
+.main > div {
+  float: left;
+  width: 44%;
+  padding: 10px 3% 30px;
+}
+
+.main div.last-child {
+  width: 100%;
+  height: auto;
+  padding: 10px 0;
+  border-bottom: none;
+  text-align: center;
+}
+
+.main input {
+  border-radius: 4px;
+  outline: none;
+}
+
+input[type="radio"]:last-child {
+  margin-left: 15px;
+}
+
+#error {
+  color: red;
+}
+
+input[type="submit"] {
+  background: #5fbc29;
+  box-shadow: 2px 2px #ccc;
+  border-radius: 5px;
+  padding: 6px 12px;
+  margin: 8px 0;
+  outline: none;
+  color: #001;
+}
+
+.footer {
+  clear: both;
+  padding: 15px 0 5px;
+  font-size: 0.8em;
+  line-height: 1.5;
+  text-align: center;
+  border-top: 1px solid #ddd;
+}
+
+
+@media screen and ( min-width: 320px ) and ( max-width: 960px ) {
+  .main { width: 100%; }
+  section div { width: 100%; }
+  .footer{ clear: both; position: relative; }
+}
