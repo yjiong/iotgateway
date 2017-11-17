@@ -47,6 +47,42 @@ var VERTICAL_HORIZONTAL = map[int]string{
 	5: "位置4",
 	6: "位置5",
 }
+var REMOTE_SET = map[int]string{
+	0: "不抑制",
+	1: "抑制",
+}
+var FILTER_STATUS = map[int]string{
+	0: "无标志",
+	1: "过滤网标志",
+}
+var NORMAL_ENEREGYSAVE = map[int]string{
+	1: "正常运行",
+	2: "节能运行",
+}
+var NORMAL_FANGDONG = map[int]string{
+	1: "正常运行",
+	2: "防冻液运行",
+}
+var NORMAL_SPACIAL = map[int]string{
+	0: "特殊状态",
+	1: "正常状态",
+}
+var CHUSHUANG = map[int]string{
+	0: "无除霜状态",
+	1: "除霜状态",
+}
+var YOUHUISHOU = map[int]string{
+	0: "无油回收状态",
+	1: "油回收状态",
+}
+var BENGGUZHANG = map[int]string{
+	0: "无泵故障状态",
+	1: "泵故障状态",
+}
+var WAIBUGUANRE = map[int]string{
+	1: "释放",
+	2: "关热",
+}
 
 type FUJITSU struct {
 	//继承于ModebusRtu
@@ -165,7 +201,7 @@ func (d *FUJITSU) CheckKey(ele dict) (bool, error) {
 /***************************************添加设备参数检验**********************************************/
 
 func (d *FUJITSU) inside_status(ret dict, iarray []int) {
-	ret["VRF地址"] = iarray[1]
+	ret["VRF地址"] = fmt.Sprintf("%d-%d", iarray[1], iarray[0])
 	ret["主副机信息"] = MASTER_SLAVE[iarray[5]]
 	ret["运行模式状态"] = RUN_STATUS[iarray[7]]
 	ret["运行开关状态"] = ON_OFF[iarray[9]]
@@ -175,7 +211,28 @@ func (d *FUJITSU) inside_status(ret dict, iarray []int) {
 	ret["故障监控"] = MALFUNCTION[iarray[17]]
 	ret["垂直空气方向位置状态"] = VERTICAL_HORIZONTAL[iarray[19]]
 	ret["水平空气方向位置状态"] = VERTICAL_HORIZONTAL[iarray[21]]
-	ret["遥控器运行禁止是遏制状态"] = iarray[1]
+	ret["遥控器运行禁止设置状态"] = map[string]string{
+		"全部运行设置":    REMOTE_SET[iarray[23]&0x01],
+		"定时器设置":     REMOTE_SET[iarray[23]&0x02/0x02],
+		"室温设置":      REMOTE_SET[iarray[23]&0x04/0x04],
+		"运行模式设置":    REMOTE_SET[iarray[23]&0x08/0x08],
+		"启动/停止运行设置": REMOTE_SET[iarray[23]&0x10/0x10],
+		"启动行设置":     REMOTE_SET[iarray[23]&0x20/0x20],
+		"过滤网重置运行":   REMOTE_SET[iarray[23]&0x40/0x40],
+	}
+	ret["过滤网标志状态"] = FILTER_STATUS[iarray[25]]
+	ret["经济模式运行状态"] = NORMAL_ENEREGYSAVE[iarray[27]]
+	ret["防冻液运行状态"] = NORMAL_FANGDONG[iarray[29]]
+	ret["温度上下限设置状态(制冷/干燥)"] = fmt.Sprintf("上限=%0.1f,下限=%0.1f", float64(iarray[31])/2, float64(iarray[30])/2)
+	ret["温度上下限设置状态(加热)"] = fmt.Sprintf("上限=%0.1f,下限=%0.1f", float64(iarray[33])/2, float64(iarray[32])/2)
+	ret["温度上下限设置状态(自动)"] = fmt.Sprintf("上限=%0.1f,下限=%0.1f", float64(iarray[35])/2, float64(iarray[34])/2)
+	ret["室内机状态"] = map[string]string{
+		"正常状态": NORMAL_SPACIAL[iarray[37]&0x01],
+		"除霜":   CHUSHUANG[iarray[37]&0x02/0x02],
+		"油回收":  YOUHUISHOU[iarray[37]&0x04/0x04],
+		"泵故障":  BENGGUZHANG[iarray[37]&0x08/0x08],
+	}
+	ret["外部关热状态"] = WAIBUGUANRE[iarray[39]]
 }
 
 /***************************************读写接口实现**************************************************/
