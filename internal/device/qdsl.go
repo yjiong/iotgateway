@@ -308,7 +308,13 @@ func (d *QDSL_SM510) RWDevValue(rw string, m dict) (ret dict, err error) {
 				ret["浊度"] = Bcd2_2f(dl[44], dl[45])
 				ret["余氯"] = Bcd2_2f(dl[46], dl[47])
 				ret["PH值"] = Bcd2_2f(dl[48], dl[49])
-				ret["时间"] = fmt.Sprintf("%x-%x-%x %x:%x:%x", dl[58], dl[59], dl[60], dl[61], dl[62], dl[63])
+				y := (dl[58]*0x100 + dl[59]) / 100
+				m := (dl[58]*0x100 + dl[59]) % 100
+				d := (dl[60]*0x100 + dl[61]) / 100
+				h := (dl[60]*0x100 + dl[61]) % 100
+				M := (dl[62]*0x100 + dl[63]) / 100
+				s := (dl[62]*0x100 + dl[63]) % 100
+				ret["时间"] = fmt.Sprintf("%x-%x-%x %x:%x:%x", y, m, d, h, M, s)
 
 			}
 		} else {
