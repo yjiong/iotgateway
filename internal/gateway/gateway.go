@@ -738,6 +738,13 @@ func (mygw *Gateway) do_help(req *simplejson.Json, ws *websocket.Conn) {
 	}
 }
 func (mygw *Gateway) EncodeAutoup(data map[string]interface{}) error {
+	if isup, ok := data["_update"]; ok {
+		if bisup, ok := isup.(bool); ok {
+			if !bisup {
+				return nil
+			}
+		}
+	}
 	var errstat error
 	uj := simplejson.New()
 	devid, _ := mygw.ConMap["_client_id"]
