@@ -16,17 +16,20 @@ var MASTER_SLAVE = map[int]string{
 	1: "副机",
 }
 var RUN_STATUS = map[int]string{
+	0: "不变",
 	1: "自动",
 	2: "制冷",
-	3: "干燥",
-	4: "加热",
-	5: "风扇",
+	3: "除湿",
+	4: "制热",
+	5: "送风",
 }
 var ON_OFF = map[int]string{
+	0: "不变",
 	1: "停止",
 	2: "运行",
 }
 var ARIFLOW_STATUS = map[int]string{
+	0: "不变",
 	1: "自动",
 	2: "安静",
 	3: "低",
@@ -40,6 +43,7 @@ var MALFUNCTION = map[int]string{
 	1: "故障",
 }
 var VERTICAL_HORIZONTAL = map[int]string{
+	0: "不变",
 	1: "摆动",
 	2: "位置1",
 	3: "位置2",
@@ -82,6 +86,39 @@ var BENGGUZHANG = map[int]string{
 var WAIBUGUANRE = map[int]string{
 	1: "释放",
 	2: "关热",
+}
+
+//out_m
+var LOW_NOISE = map[int]string{
+	0: "性能优先无效",
+	1: "性能优先有效",
+}
+var LOW_NOISE_LEVEL = map[int]string{
+	0: "释放",
+	1: "第1级",
+	2: "第2级",
+	3: "第3级",
+}
+var EDRLJSYX = map[int]string{
+	1: "释放",
+	2: "100%",
+	3: "90%",
+	4: "80%",
+	5: "70%",
+	6: "60%",
+	7: "50%",
+	8: "40%",
+}
+
+//all_m
+var ALL_ON_OFF = map[int]string{
+	0: "不变",
+	1: "所有室内机均停止",
+	2: "有些室内机正在运行",
+}
+var ALL_MALFUNCTION = map[int]string{
+	0: "所有室内机无故障",
+	1: "有些室内机处于故障状态",
 }
 
 type FUJITSU struct {
@@ -234,6 +271,42 @@ func (d *FUJITSU) inside_status(ret dict, iarray []int) {
 	}
 	ret["外部关热状态"] = WAIBUGUANRE[iarray[39]]
 }
+func (d *FUJITSU) outside_status(ret dict, iarray []int) {
+	ret["室外机低噪音运行状态监控"] = map[string]string{
+		"性能优先": LOW_NOISE[iarray[5]&0x01],
+		"级别":   LOW_NOISE_LEVEL[iarray[5]>>1],
+	}
+	ret["室外机额定容量节省运行监控"] = EDRLJSYX[iarray[7]]
+	ret["主副机信息"] = MASTER_SLAVE[iarray[3]]
+	ret["VRF地址"] = fmt.Sprintf("%d-%d", iarray[1], iarray[0])
+
+}
+
+func (d *FUJITSU) all_in_status(ret dict, iarray []int) {
+	ret["所有室内机故障监控"] = ALL_MALFUNCTION[iarray[1]]
+	ret["所有室内机开/关状态"] = ALL_ON_OFF[iarray[3]]
+}
+
+func (d *FUJITSU) encode(ret dict) (uint16, error) {
+	name, _ := ret["_varname"]
+	var results uint16
+	switch name {
+	case "运行模式状态":
+		{
+			if val, ok := ret["_varvalue"]; ok {
+				if sval, ok := val.(string); ok {
+					for k, v := range RUN_STATUS {
+						if v == sval {
+							results = uint16(k)
+							log.Debugln("set 运行模式状态 = ", results)
+						}
+					}
+				}
+			}
+		}
+	}
+	return results, nil
+}
 
 /***************************************读写接口实现**************************************************/
 func (d *FUJITSU) RWDevValue(rw string, m dict) (ret dict, err error) {
@@ -275,27 +348,77 @@ func (d *FUJITSU) RWDevValue(rw string, m dict) (ret dict, err error) {
 				}
 			}
 		} else if d.mtype == "out_m" {
+			d.Quantity = 4
+			d.Function_code = 4
+			var addr uint16
+			if dno, err := strconv.Atoi(d.sub_addr); err == nil {
+				addr = uint16(dno)
+				if 1 > addr || addr > 100 {
+					return nil, errors.New("室外机地址参数错误")
+				}
+				d.Starting_address = 15*(addr-1) + 7740
+				log.Debugln("start_address=", d.Starting_address)
+				bmdict, berr := d.ModbusRtu.RWDevValue("r", nil)
+				if berr == nil {
+					btdl := bmdict["Modbus-value"]
+					bdl, _ := btdl.([]int)
+					log.Debugf("室外机-%d receive data = %d", addr, bdl)
+					d.outside_status(ret, bdl)
 
+				} else {
+					ret["error"] = err.Error()
+					log.Debugln(ret)
+					return ret, nil
+				}
+			}
+		} else {
+			d.Quantity = 2
+			d.Function_code = 4
+			var addr uint16
+			d.Starting_address = 7730
+			log.Debugln("start_address=", d.Starting_address)
+			bmdict, berr := d.ModbusRtu.RWDevValue("r", nil)
+			if berr == nil {
+				btdl := bmdict["Modbus-value"]
+				bdl, _ := btdl.([]int)
+				log.Debugf("ALL室内机-%d receive data = %d", addr, bdl)
+				d.all_in_status(ret, bdl)
+			} else {
+				ret["error"] = err.Error()
+				log.Debugln(ret)
+				return ret, nil
+			}
 		}
+
 	} else {
 		var method func(dict) (dict, error)
 		if k, ok := m["_varname"]; ok {
 			switch k {
-			case "写单一内机":
+			case "设置内机单一状态":
 				{
 					d.Quantity = 20
-					d.Function_code = 16
+					d.Function_code = 6
 					var addr uint16
-					if dno, ok := m["_varvalue"]; ok {
-						addr = getnm(dno)
+					if dno, err := strconv.Atoi(d.sub_addr); err == nil {
+						addr = uint16(dno)
+						if 1 > addr || addr > 128 {
+							return nil, errors.New("室内机地址参数错误")
+						}
+						//if dno, ok := m["_varvalue"]; ok {
+						//addr = getnm(dno)
 						d.Starting_address = 60*(addr-1) + 2
 						log.Debugln("start_address=", d.Starting_address)
-
-						bmdict, berr := d.ModbusRtu.RWDevValue("w", nil)
+						wval, werr := d.encode(m)
+						if werr != nil {
+							ret["error"] = werr.Error()
+							log.Debugln(ret)
+							return ret, nil
+						}
+						bmdict, berr := d.ModbusRtu.RWDevValue("w", dict{"value": wval})
 						if berr == nil {
 							btdl := bmdict["Modbus-value"]
 							bdl, _ := btdl.([]int)
-							log.Debugf("写单一内机-%d receive data = %d", addr, bdl)
+							log.Debugf("设置内机单一状态-%d receive data = %d", addr, bdl)
 						} else {
 							ret["error"] = err.Error()
 							log.Debugln(ret)
