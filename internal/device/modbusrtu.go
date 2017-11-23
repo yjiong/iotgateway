@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"time"
 	//	"sync"
-	//	log "github.com/Sirupsen/logrus"
+	//log "github.com/Sirupsen/logrus"
 	"github.com/yjiong/go_tg120/modbus"
 )
 

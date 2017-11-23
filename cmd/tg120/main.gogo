@@ -59,6 +59,7 @@ func run(c *cli.Context) error {
 	gateway := mustGetGateway(c)
 	go func() {
 		http.Handle("/", http.FileServer(http.Dir(common.TEMPLATE)))
+		//http.Handle("/", http.FileServer(http.Dir(common.MESSAGE)))
 		http.Handle("/message", websocket.Handler(gateway.WsHandle))
 		if err := http.ListenAndServe(":8000", nil); err != nil {
 			log.Fatal("ListenAndServe:", err)

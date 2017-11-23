@@ -19,6 +19,7 @@ const (
 var CONFILEPATH string = "./config.ini"
 var DEVFILEPATH = "./devlist.ini"
 var TEMPLATE string = "./templates"
+var MESSAGE string = "./message"
 var Mqtt_connected bool = false
 
 func init() {
@@ -38,6 +39,7 @@ func init() {
 			CONFILEPATH = basepath + CONFILEPATH[2:]
 			DEVFILEPATH = basepath + DEVFILEPATH[2:]
 			TEMPLATE = basepath + TEMPLATE[2:]
+			MESSAGE = basepath + MESSAGE[2:]
 		}
 	}
 }

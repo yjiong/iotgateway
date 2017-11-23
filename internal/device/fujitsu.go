@@ -287,24 +287,57 @@ func (d *FUJITSU) all_in_status(ret dict, iarray []int) {
 	ret["所有室内机开/关状态"] = ALL_ON_OFF[iarray[3]]
 }
 
-func (d *FUJITSU) encode(ret dict) (uint16, error) {
+func (d *FUJITSU) encode(ret dict) (json.Number, error) {
 	name, _ := ret["_varname"]
-	var results uint16
+	var results json.Number
 	switch name {
-	case "运行模式状态":
+	case "运行模式设置":
 		{
 			if val, ok := ret["_varvalue"]; ok {
 				if sval, ok := val.(string); ok {
 					for k, v := range RUN_STATUS {
 						if v == sval {
-							results = uint16(k)
-							log.Debugln("set 运行模式状态 = ", results)
+							results = json.Number(k)
+							d.Starting_address += 0
+							log.Debugln("set 运行模式状态 = ", k)
 						}
 					}
 				}
 			}
 		}
+	case "运行开关设置":
+		{
+			if val, ok := ret["_varvalue"]; ok {
+				if sval, ok := val.(string); ok {
+					for k, v := range ON_OFF {
+						if v == sval {
+							results = json.Number(k)
+							d.Starting_address += 1
+							log.Debugln("set 运行模式状态 = ", k)
+						}
+					}
+				}
+			}
+		}
+	case "设置温度设定值":
+		{
+			if val, ok := ret["_varvalue"]; ok {
+				if sval, ok := val.(string); ok {
+					if isvalm, err := strconv.Atoi(sval); err == nil {
+						si := isvalm*4*0x10 + 1
+						results = json.Number(si)
+						d.Starting_address += 2
+						log.Debugln("set 运行模式状态 = ", si)
+					}
+				}
+			}
+		}
+	default:
+		{
+			return json.Number("0"), errors.New("错误的_varname")
+		}
 	}
+
 	return results, nil
 }
 
@@ -313,7 +346,7 @@ func (d *FUJITSU) RWDevValue(rw string, m dict) (ret dict, err error) {
 	ret = make(dict)
 	defer func() {
 		if drive_err := recover(); drive_err != nil {
-			log.Errorf("drive programer  error : %s", drive_err)
+			log.Errorf("drive programer  error : (%s)", drive_err)
 			errstr := fmt.Sprintf("drive programer  error : %s", drive_err)
 			err = errors.New(errstr)
 		}
@@ -379,7 +412,8 @@ func (d *FUJITSU) RWDevValue(rw string, m dict) (ret dict, err error) {
 			log.Debugln("start_address=", d.Starting_address)
 			bmdict, berr := d.ModbusRtu.RWDevValue("r", nil)
 			if berr == nil {
-				btdl := bmdict["Modbus-value"]
+				log.Debugln(bmdict)
+				btdl := bmdict["Modbus-write"]
 				bdl, _ := btdl.([]int)
 				log.Debugf("ALL室内机-%d receive data = %d", addr, bdl)
 				d.all_in_status(ret, bdl)
@@ -391,52 +425,37 @@ func (d *FUJITSU) RWDevValue(rw string, m dict) (ret dict, err error) {
 		}
 
 	} else {
-		var method func(dict) (dict, error)
-		if k, ok := m["_varname"]; ok {
-			switch k {
-			case "设置内机单一状态":
-				{
-					d.Quantity = 20
-					d.Function_code = 6
-					var addr uint16
-					if dno, err := strconv.Atoi(d.sub_addr); err == nil {
-						addr = uint16(dno)
-						if 1 > addr || addr > 128 {
-							return nil, errors.New("室内机地址参数错误")
-						}
-						//if dno, ok := m["_varvalue"]; ok {
-						//addr = getnm(dno)
-						d.Starting_address = 60*(addr-1) + 2
-						log.Debugln("start_address=", d.Starting_address)
-						wval, werr := d.encode(m)
-						if werr != nil {
-							ret["error"] = werr.Error()
-							log.Debugln(ret)
-							return ret, nil
-						}
-						bmdict, berr := d.ModbusRtu.RWDevValue("w", dict{"value": wval})
-						if berr == nil {
-							btdl := bmdict["Modbus-value"]
-							bdl, _ := btdl.([]int)
-							log.Debugf("设置内机单一状态-%d receive data = %d", addr, bdl)
-						} else {
-							ret["error"] = err.Error()
-							log.Debugln(ret)
-							return ret, nil
-						}
-					} else {
-						return nil, errors.New("地址参数错误")
-					}
+		if _, ok := m["_varname"]; ok {
+			d.Quantity = 1
+			d.Function_code = 6
+			var addr uint16
+			if dno, err := strconv.Atoi(d.sub_addr); err == nil {
+				addr = uint16(dno)
+				if 1 > addr || addr > 128 {
+					return nil, errors.New("室内机地址参数错误")
 				}
-			default:
-				return nil, errors.New("错误的_varname")
+				//if dno, ok := m["_varvalue"]; ok {
+				//addr = getnm(dno)
+				d.Starting_address = 60*(addr-1) + 2
+				log.Debugln("start_address=", d.Starting_address)
+				wval, werr := d.encode(m)
+				if werr != nil {
+					ret["error"] = werr.Error()
+					return ret, nil
+				}
+				bmdict, berr := d.ModbusRtu.RWDevValue("w", dict{"value": wval})
+				if berr == nil {
+					log.Infof("设置-%s-%d receive data = %v", m["_varname"], addr, bmdict)
+				} else {
+					ret["error"] = berr.Error()
+					log.Debugln(ret)
+					return ret, nil
+				}
+			} else {
+				return nil, errors.New("地址参数错误")
 			}
-		}
-		var wval dict
-		wval, err = method(m)
-		if err == nil {
-			log.Debugln("send modbus data =", wval)
-			ret, err = d.ModbusRtu.RWDevValue("w", wval)
+		} else {
+			return nil, errors.New("缺少_varname")
 		}
 	}
 	jsret, _ := json.Marshal(ret)

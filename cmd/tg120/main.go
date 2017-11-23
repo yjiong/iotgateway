@@ -10,10 +10,11 @@ import (
 
 func main() {
 	log.SetLevel(log.DebugLevel)
+	r := device.HEELIGHT{}
 	//r := device.QDSL_SM510{}
 	//r := device.TEST_GO{}
 	//r := device.RSBAS{}
-	r := device.FUJITSU{}
+	//r := device.FUJITSU{}
 	//r := device.DTSD422{}
 	tval, _ := r.NewDev("fujit", map[string]string{
 		//"devaddr": "3300027014",
@@ -26,7 +27,8 @@ func main() {
 		//"StopBits": "1",
 	})
 	elem := map[string]interface{}{
-		"_varvalue": "1",
+		"_varname":  "运行模式设置",
+		"_varvalue": "送风",
 	}
 	//tval.RWDevValue("w", nil)
 	for {
@@ -36,7 +38,7 @@ func main() {
 		} else {
 			log.Debugf("ok!!!")
 		}
-		time.Sleep(2 * time.Second)
+		time.Sleep(0 * time.Second)
 		//break
 	}
 }

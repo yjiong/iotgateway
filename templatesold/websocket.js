@@ -45,7 +45,14 @@
             if (type) {
                 var $p = $('<div>').appendTo($win.find('#div_msg'));
                 var $type = $('<span>').text('[' + tiemstr + ']' + type + '：').appendTo($p);
-                var $msg = $('<span>').addClass('thumbnail').css({ 'margin-bottom': '5px' }).text(msg).appendTo($p);
+		try {
+		    msg_obj = JSON.parse(msg);
+		    fmt_msg = JSON.stringify(msg_obj, null, 2);
+		}
+		catch(e) {
+		    fmt_msg = msg;
+		}
+                var $msg = $('<pre>').addClass('thumbnail').css({ 'margin-bottom': '5px' }).text(fmt_msg).appendTo($p);
             } else {
                 var $center = $('<center>').text(msg + '(' + tiemstr + ')').css({ 'font-size': '12px' }).appendTo($win.find('#div_msg'));
             }
