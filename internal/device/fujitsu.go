@@ -60,6 +60,7 @@ var FILTER_STATUS = map[int]string{
 	1: "过滤网标志",
 }
 var NORMAL_ENEREGYSAVE = map[int]string{
+	0: "无变化",
 	1: "正常运行",
 	2: "节能运行",
 }
@@ -84,8 +85,15 @@ var BENGGUZHANG = map[int]string{
 	1: "泵故障状态",
 }
 var WAIBUGUANRE = map[int]string{
+	0: "无变化",
 	1: "释放",
 	2: "关热",
+}
+
+var SET_FANGDONG = map[int]string{
+	0: "无变化",
+	1: "释放",
+	2: "防冻液运行",
 }
 
 //out_m
@@ -297,9 +305,10 @@ func (d *FUJITSU) encode(ret dict) (json.Number, error) {
 				if sval, ok := val.(string); ok {
 					for k, v := range RUN_STATUS {
 						if v == sval {
-							results = json.Number(k)
+							sk := strconv.Itoa(k)
+							results = json.Number(sk)
 							d.Starting_address += 0
-							log.Debugln("set 运行模式状态 = ", k)
+							log.Debugln("set 运行模式状态 = ", results)
 						}
 					}
 				}
@@ -311,9 +320,9 @@ func (d *FUJITSU) encode(ret dict) (json.Number, error) {
 				if sval, ok := val.(string); ok {
 					for k, v := range ON_OFF {
 						if v == sval {
-							results = json.Number(k)
+							results = json.Number(strconv.Itoa(k))
 							d.Starting_address += 1
-							log.Debugln("set 运行模式状态 = ", k)
+							log.Debugln("set 运行开关设置 = ", results)
 						}
 					}
 				}
@@ -324,10 +333,113 @@ func (d *FUJITSU) encode(ret dict) (json.Number, error) {
 			if val, ok := ret["_varvalue"]; ok {
 				if sval, ok := val.(string); ok {
 					if isvalm, err := strconv.Atoi(sval); err == nil {
-						si := isvalm*4*0x10 + 1
-						results = json.Number(si)
+						si := isvalm*8 + 1
+						results = json.Number(strconv.Itoa(si))
 						d.Starting_address += 2
-						log.Debugln("set 运行模式状态 = ", si)
+						log.Debugln("set 设置温度设定值 = ", results)
+					}
+				}
+			}
+		}
+	case "气流设置":
+		{
+			if val, ok := ret["_varvalue"]; ok {
+				if sval, ok := val.(string); ok {
+					for k, v := range ARIFLOW_STATUS {
+						if v == sval {
+							sk := strconv.Itoa(k)
+							results = json.Number(sk)
+							d.Starting_address += 3
+							log.Debugln("set 气流设置 = ", results)
+						}
+					}
+				}
+			}
+		}
+	case "垂直空气方向位置状态":
+		{
+			if val, ok := ret["_varvalue"]; ok {
+				if sval, ok := val.(string); ok {
+					for k, v := range VERTICAL_HORIZONTAL {
+						if v == sval {
+							sk := strconv.Itoa(k)
+							results = json.Number(sk)
+							d.Starting_address += 4
+							log.Debugln("set 垂直空气方向位置状态 = ", results)
+						}
+					}
+				}
+			}
+		}
+	case "水平空气方向位置状态":
+		{
+			if val, ok := ret["_varvalue"]; ok {
+				if sval, ok := val.(string); ok {
+					for k, v := range VERTICAL_HORIZONTAL {
+						if v == sval {
+							sk := strconv.Itoa(k)
+							results = json.Number(sk)
+							d.Starting_address += 5
+							log.Debugln("set 水平空气方向位置状态 = ", results)
+						}
+					}
+				}
+			}
+		}
+	case "遥控器运行禁止设置":
+		{
+			if val, ok := ret["_varvalue"]; ok {
+				if sval, ok := val.(string); ok {
+					if sval == "允许" {
+						results = json.Number("255")
+					} else {
+						results = json.Number("0")
+					}
+					d.Starting_address += 6
+					log.Debugln("set 遥控器运行禁止设置 = ", results)
+				}
+			}
+		}
+	case "过滤网标志重置":
+		{
+			if val, ok := ret["_varvalue"]; ok {
+				if sval, ok := val.(string); ok {
+					if sval == "重置" {
+						results = json.Number("1")
+					} else {
+						results = json.Number("0")
+					}
+					d.Starting_address += 7
+					log.Debugln("set 过滤网标志重置 = ", results)
+				}
+			}
+		}
+	case "经济运行模式设置":
+		{
+			if val, ok := ret["_varvalue"]; ok {
+				if sval, ok := val.(string); ok {
+					for k, v := range NORMAL_ENEREGYSAVE {
+						if v == sval {
+							sk := strconv.Itoa(k)
+							results = json.Number(sk)
+							d.Starting_address += 8
+							log.Debugln("set 经济运行模式设置 = ", results)
+						}
+					}
+				}
+			}
+		}
+	case "防冻液运行设置":
+		{
+			if val, ok := ret["_varvalue"]; ok {
+				if sval, ok := val.(string); ok {
+					for k, v := range SET_FANGDONG {
+						if v == sval {
+							sk := strconv.Itoa(k)
+							results = json.Number(sk)
+							d.Starting_address += 9
+							log.Debugln("set 防冻液运行设置 = ", results)
+						}
 					}
 				}
 			}
@@ -437,12 +549,13 @@ func (d *FUJITSU) RWDevValue(rw string, m dict) (ret dict, err error) {
 				//if dno, ok := m["_varvalue"]; ok {
 				//addr = getnm(dno)
 				d.Starting_address = 60*(addr-1) + 2
-				log.Debugln("start_address=", d.Starting_address)
 				wval, werr := d.encode(m)
 				if werr != nil {
 					ret["error"] = werr.Error()
 					return ret, nil
 				}
+				log.Debugln("wval", wval)
+				log.Debugln("start_address=", d.Starting_address)
 				bmdict, berr := d.ModbusRtu.RWDevValue("w", dict{"value": wval})
 				if berr == nil {
 					log.Infof("设置-%s-%d receive data = %v", m["_varname"], addr, bmdict)

@@ -254,7 +254,7 @@ func (d *QDSL_SM510) RWDevValue(rw string, m dict) (ret dict, err error) {
 				ret["1#泵故障指示"] = (mdata[1] & 0x0800) / 0x0800
 
 				ret["4#泵手动/自动"] = (mdata[2] & 0x0001) / 0x0001
-				ret["4变频指示"] = (mdata[2] & 0x0002) / 0x0002
+				ret["4#泵变频指示"] = (mdata[2] & 0x0002) / 0x0002
 				ret["4#泵工频指示"] = (mdata[2] & 0x0004) / 0x0004
 				ret["4#泵故障指示"] = (mdata[2] & 0x0008) / 0x0008
 				ret["3#泵手动/自动"] = (mdata[2] & 0x0100) / 0x0100
