@@ -41,14 +41,14 @@ func (d *QDSL_SM510) NewDev(id string, ele map[string]string) (DeviceRWer, error
 
 func (d *QDSL_SM510) GetElement() (dict, error) {
 	conn := dict{
-	/***********************设备的特有的参数*****************************/
-	//"devaddr":  d.devaddr,
-	//"commif":   d.commif,
-	//"BaudRate": 19200,
-	//"DataBits": 8,
-	//"StopBits": 1,
-	//"Parity":   "N",
-	/***********************设备的特有的参数*****************************/
+		/***********************设备的特有的参数*****************************/
+		"devaddr": d.devaddr,
+		"commif":  d.commif,
+		//"BaudRate": 19200,
+		//"DataBits": 8,
+		//"StopBits": 1,
+		//"Parity":   "N",
+		/***********************设备的特有的参数*****************************/
 	}
 	data := dict{
 		"_devid": d.devid,

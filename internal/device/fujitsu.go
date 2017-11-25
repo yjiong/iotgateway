@@ -128,6 +128,11 @@ var ALL_MALFUNCTION = map[int]string{
 	0: "所有室内机无故障",
 	1: "有些室内机处于故障状态",
 }
+var JINGJITINGZHI = map[int]string{
+	0: "不变",
+	1: "释放请求",
+	2: "紧急停止请求",
+}
 
 type FUJITSU struct {
 	//继承于ModebusRtu
@@ -295,13 +300,13 @@ func (d *FUJITSU) all_in_status(ret dict, iarray []int) {
 	ret["所有室内机开/关状态"] = ALL_ON_OFF[iarray[3]]
 }
 
-func (d *FUJITSU) encode(ret dict) (json.Number, error) {
-	name, _ := ret["_varname"]
+func (d *FUJITSU) encode(m dict) (json.Number, error) {
+	name, _ := m["_varname"]
 	var results json.Number
 	switch name {
 	case "运行模式设置":
 		{
-			if val, ok := ret["_varvalue"]; ok {
+			if val, ok := m["_varvalue"]; ok {
 				if sval, ok := val.(string); ok {
 					for k, v := range RUN_STATUS {
 						if v == sval {
@@ -316,7 +321,7 @@ func (d *FUJITSU) encode(ret dict) (json.Number, error) {
 		}
 	case "运行开关设置":
 		{
-			if val, ok := ret["_varvalue"]; ok {
+			if val, ok := m["_varvalue"]; ok {
 				if sval, ok := val.(string); ok {
 					for k, v := range ON_OFF {
 						if v == sval {
@@ -330,7 +335,7 @@ func (d *FUJITSU) encode(ret dict) (json.Number, error) {
 		}
 	case "设置温度设定值":
 		{
-			if val, ok := ret["_varvalue"]; ok {
+			if val, ok := m["_varvalue"]; ok {
 				if sval, ok := val.(string); ok {
 					if isvalm, err := strconv.Atoi(sval); err == nil {
 						si := isvalm*8 + 1
@@ -343,7 +348,7 @@ func (d *FUJITSU) encode(ret dict) (json.Number, error) {
 		}
 	case "气流设置":
 		{
-			if val, ok := ret["_varvalue"]; ok {
+			if val, ok := m["_varvalue"]; ok {
 				if sval, ok := val.(string); ok {
 					for k, v := range ARIFLOW_STATUS {
 						if v == sval {
@@ -358,7 +363,7 @@ func (d *FUJITSU) encode(ret dict) (json.Number, error) {
 		}
 	case "垂直空气方向位置状态":
 		{
-			if val, ok := ret["_varvalue"]; ok {
+			if val, ok := m["_varvalue"]; ok && d.mtype == "in_m" {
 				if sval, ok := val.(string); ok {
 					for k, v := range VERTICAL_HORIZONTAL {
 						if v == sval {
@@ -369,11 +374,13 @@ func (d *FUJITSU) encode(ret dict) (json.Number, error) {
 						}
 					}
 				}
+			} else {
+				return results, errors.New("设置参数错误")
 			}
 		}
 	case "水平空气方向位置状态":
 		{
-			if val, ok := ret["_varvalue"]; ok {
+			if val, ok := m["_varvalue"]; ok && d.mtype == "in_m" {
 				if sval, ok := val.(string); ok {
 					for k, v := range VERTICAL_HORIZONTAL {
 						if v == sval {
@@ -384,11 +391,13 @@ func (d *FUJITSU) encode(ret dict) (json.Number, error) {
 						}
 					}
 				}
+			} else {
+				return results, errors.New("设置参数错误")
 			}
 		}
 	case "遥控器运行禁止设置":
 		{
-			if val, ok := ret["_varvalue"]; ok {
+			if val, ok := m["_varvalue"]; ok {
 				if sval, ok := val.(string); ok {
 					if sval == "允许" {
 						results = json.Number("255")
@@ -396,13 +405,16 @@ func (d *FUJITSU) encode(ret dict) (json.Number, error) {
 						results = json.Number("0")
 					}
 					d.Starting_address += 6
+					if d.mtype == "all_m" {
+						d.Starting_address -= 2
+					}
 					log.Debugln("set 遥控器运行禁止设置 = ", results)
 				}
 			}
 		}
 	case "过滤网标志重置":
 		{
-			if val, ok := ret["_varvalue"]; ok {
+			if val, ok := m["_varvalue"]; ok && d.mtype == "in_m" {
 				if sval, ok := val.(string); ok {
 					if sval == "重置" {
 						results = json.Number("1")
@@ -412,11 +424,13 @@ func (d *FUJITSU) encode(ret dict) (json.Number, error) {
 					d.Starting_address += 7
 					log.Debugln("set 过滤网标志重置 = ", results)
 				}
+			} else {
+				return results, errors.New("设置参数错误")
 			}
 		}
 	case "经济运行模式设置":
 		{
-			if val, ok := ret["_varvalue"]; ok {
+			if val, ok := m["_varvalue"]; ok && d.mtype == "in_m" {
 				if sval, ok := val.(string); ok {
 					for k, v := range NORMAL_ENEREGYSAVE {
 						if v == sval {
@@ -427,11 +441,13 @@ func (d *FUJITSU) encode(ret dict) (json.Number, error) {
 						}
 					}
 				}
+			} else {
+				return results, errors.New("设置参数错误")
 			}
 		}
 	case "防冻液运行设置":
 		{
-			if val, ok := ret["_varvalue"]; ok {
+			if val, ok := m["_varvalue"]; ok && d.mtype == "in_m" {
 				if sval, ok := val.(string); ok {
 					for k, v := range SET_FANGDONG {
 						if v == sval {
@@ -442,6 +458,139 @@ func (d *FUJITSU) encode(ret dict) (json.Number, error) {
 						}
 					}
 				}
+			} else {
+				return results, errors.New("设置参数错误")
+			}
+		}
+	case "制冷/干燥温度上限设置":
+		{
+			if val, ok := m["_varvalue"]; ok {
+				if sval, ok := val.(string); ok {
+					if isvalm, err := strconv.Atoi(sval); err == nil {
+						si := isvalm*8 + 1
+						results = json.Number(strconv.Itoa(si))
+						d.Starting_address += 10
+						if d.mtype == "all_m" {
+							d.Starting_address -= 5
+						}
+						log.Debugln("set 制冷/干燥温度上限设置 = ", results)
+					}
+				}
+			}
+		}
+	case "制冷/干燥温度下限设置":
+		{
+			if val, ok := m["_varvalue"]; ok {
+				if sval, ok := val.(string); ok {
+					if isvalm, err := strconv.Atoi(sval); err == nil {
+						si := isvalm*8 + 1
+						results = json.Number(strconv.Itoa(si))
+						d.Starting_address += 11
+						if d.mtype == "all_m" {
+							d.Starting_address -= 5
+						}
+						log.Debugln("set 制冷/干燥温度下限设置 = ", results)
+					}
+				}
+			}
+		}
+	case "加热温度上限设置":
+		{
+			if val, ok := m["_varvalue"]; ok {
+				if sval, ok := val.(string); ok {
+					if isvalm, err := strconv.Atoi(sval); err == nil {
+						si := isvalm*8 + 1
+						results = json.Number(strconv.Itoa(si))
+						d.Starting_address += 12
+						if d.mtype == "all_m" {
+							d.Starting_address -= 5
+						}
+						log.Debugln("set 加热温度上限设置 = ", results)
+					}
+				}
+			}
+		}
+	case "加热温度下限设置":
+		{
+			if val, ok := m["_varvalue"]; ok {
+				if sval, ok := val.(string); ok {
+					if isvalm, err := strconv.Atoi(sval); err == nil {
+						si := isvalm*8 + 1
+						results = json.Number(strconv.Itoa(si))
+						d.Starting_address += 13
+						if d.mtype == "all_m" {
+							d.Starting_address -= 5
+						}
+						log.Debugln("set 加热温度下限设置 = ", results)
+					}
+				}
+			}
+		}
+	case "自动温度上限设置":
+		{
+			if val, ok := m["_varvalue"]; ok {
+				if sval, ok := val.(string); ok {
+					if isvalm, err := strconv.Atoi(sval); err == nil {
+						si := isvalm*8 + 1
+						results = json.Number(strconv.Itoa(si))
+						d.Starting_address += 14
+						if d.mtype == "all_m" {
+							d.Starting_address -= 5
+						}
+						log.Debugln("set 自动温度上限设置 = ", results)
+					}
+				}
+			}
+		}
+	case "自动温度下限设置":
+		{
+			if val, ok := m["_varvalue"]; ok {
+				if sval, ok := val.(string); ok {
+					if isvalm, err := strconv.Atoi(sval); err == nil {
+						si := isvalm*8 + 1
+						results = json.Number(strconv.Itoa(si))
+						d.Starting_address += 15
+						if d.mtype == "all_m" {
+							d.Starting_address -= 5
+						}
+						log.Debugln("set 自动温度下限设置 = ", results)
+					}
+				}
+			}
+		}
+	case "外部关热设置":
+		{
+			if val, ok := m["_varvalue"]; ok {
+				if sval, ok := val.(string); ok {
+					for k, v := range WAIBUGUANRE {
+						if v == sval {
+							sk := strconv.Itoa(k)
+							results = json.Number(sk)
+							d.Starting_address += 16
+							if d.mtype == "all_m" {
+								d.Starting_address -= 5
+							}
+							log.Debugln("set 外部关热设置 = ", results)
+						}
+					}
+				}
+			}
+		}
+	case "紧急停止":
+		{
+			if val, ok := m["_varvalue"]; ok && d.mtype == "all_m" {
+				if sval, ok := val.(string); ok {
+					for k, v := range JINGJITINGZHI {
+						if v == sval {
+							sk := strconv.Itoa(k)
+							results = json.Number(sk)
+							d.Starting_address += 12
+							log.Debugln("set 紧急停止说明 = ", results)
+						}
+					}
+				}
+			} else {
+				return results, errors.New("设置参数错误")
 			}
 		}
 	default:
@@ -480,6 +629,9 @@ func (d *FUJITSU) RWDevValue(rw string, m dict) (ret dict, err error) {
 				d.Starting_address = 60*(addr-1) + 50
 				log.Debugln("start_address=", d.Starting_address)
 				bmdict, berr := d.ModbusRtu.RWDevValue("r", nil)
+				if berr != nil {
+					bmdict, berr = d.ModbusRtu.RWDevValue("r", nil)
+				}
 				if berr == nil {
 					btdl := bmdict["Modbus-value"]
 					bdl, _ := btdl.([]int)
@@ -516,7 +668,7 @@ func (d *FUJITSU) RWDevValue(rw string, m dict) (ret dict, err error) {
 					return ret, nil
 				}
 			}
-		} else {
+		} else if d.mtype == "all_m" {
 			d.Quantity = 2
 			d.Function_code = 4
 			var addr uint16
@@ -525,7 +677,7 @@ func (d *FUJITSU) RWDevValue(rw string, m dict) (ret dict, err error) {
 			bmdict, berr := d.ModbusRtu.RWDevValue("r", nil)
 			if berr == nil {
 				log.Debugln(bmdict)
-				btdl := bmdict["Modbus-write"]
+				btdl := bmdict["Modbus-value"]
 				bdl, _ := btdl.([]int)
 				log.Debugf("ALL室内机-%d receive data = %d", addr, bdl)
 				d.all_in_status(ret, bdl)
@@ -537,39 +689,62 @@ func (d *FUJITSU) RWDevValue(rw string, m dict) (ret dict, err error) {
 		}
 
 	} else {
-		if _, ok := m["_varname"]; ok {
-			d.Quantity = 1
-			d.Function_code = 6
-			var addr uint16
-			if dno, err := strconv.Atoi(d.sub_addr); err == nil {
-				addr = uint16(dno)
-				if 1 > addr || addr > 128 {
-					return nil, errors.New("室内机地址参数错误")
-				}
-				//if dno, ok := m["_varvalue"]; ok {
-				//addr = getnm(dno)
-				d.Starting_address = 60*(addr-1) + 2
-				wval, werr := d.encode(m)
-				if werr != nil {
-					ret["error"] = werr.Error()
-					return ret, nil
-				}
-				log.Debugln("wval", wval)
-				log.Debugln("start_address=", d.Starting_address)
-				bmdict, berr := d.ModbusRtu.RWDevValue("w", dict{"value": wval})
-				if berr == nil {
-					log.Infof("设置-%s-%d receive data = %v", m["_varname"], addr, bmdict)
+		if d.mtype == "in_m" {
+			if _, ok := m["_varname"]; ok {
+				d.Function_code = 6
+				var addr uint16
+				if dno, err := strconv.Atoi(d.sub_addr); err == nil {
+					addr = uint16(dno)
+					if 1 > addr || addr > 128 {
+						return nil, errors.New("室内机地址参数错误")
+					}
+					//if dno, ok := m["_varvalue"]; ok {
+					//addr = getnm(dno)
+					d.Starting_address = 60*(addr-1) + 1
+					wval, werr := d.encode(m)
+					if werr != nil {
+						ret["error"] = werr.Error()
+						return ret, nil
+					}
+					log.Debugln("wval", wval)
+					log.Debugln("start_address=", d.Starting_address)
+					bmdict, berr := d.ModbusRtu.RWDevValue("w", dict{"value": wval})
+					if berr == nil {
+						log.Infof("设置-%s-%d receive data = %v", m["_varname"], addr, bmdict)
+					} else {
+						ret["error"] = berr.Error()
+						log.Debugln(ret)
+						return ret, nil
+					}
 				} else {
-					ret["error"] = berr.Error()
-					log.Debugln(ret)
-					return ret, nil
+					return nil, errors.New("地址参数错误")
 				}
 			} else {
-				return nil, errors.New("地址参数错误")
+				return nil, errors.New("缺少_varname")
+			}
+		} else if d.mtype == "all_m" {
+			d.Function_code = 6
+			d.Starting_address = 7680
+			wval, werr := d.encode(m)
+			if werr != nil {
+				ret["error"] = werr.Error()
+				log.Debugf("设置all室内机-(%s)-%v", m["_varname"], werr)
+				return ret, nil
+			}
+			log.Debugln("wval", wval)
+			log.Debugln("start_address=", d.Starting_address)
+			bmdict, berr := d.ModbusRtu.RWDevValue("w", dict{"value": wval})
+			if berr == nil {
+				log.Infof("设置all室内机-%s receive data = %v", m["_varname"], bmdict)
+			} else {
+				ret["error"] = berr.Error()
+				log.Debugln(ret)
+				return ret, nil
 			}
 		} else {
-			return nil, errors.New("缺少_varname")
+			return nil, errors.New("地址参数错误")
 		}
+
 	}
 	jsret, _ := json.Marshal(ret)
 	inforet, _ := simplejson.NewJson(jsret)
