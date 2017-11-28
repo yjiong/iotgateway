@@ -1,3 +1,5 @@
+//go:generate go-bindata -prefix ../../message/ -pkg message -o ../../internal/message/message_gen.go ../../message/
+//go:generate go-bindata -prefix ../../templates/ -pkg templates -o ../../internal/templates/templates_gen.go ../../templates/
 package main
 
 import (
@@ -16,11 +18,14 @@ import (
 	//	"net"
 	//	"net/http"
 	log "github.com/Sirupsen/logrus"
+	assetfs "github.com/elazarl/go-bindata-assetfs"
 	"github.com/urfave/cli"
 	"github.com/yjiong/go_tg120/internal/common"
 	"github.com/yjiong/go_tg120/internal/device"
 	gw "github.com/yjiong/go_tg120/internal/gateway"
 	"github.com/yjiong/go_tg120/internal/handler"
+	"github.com/yjiong/go_tg120/internal/message"
+	"github.com/yjiong/go_tg120/internal/templates"
 	"golang.org/x/net/websocket"
 	"google.golang.org/grpc/grpclog"
 )
@@ -58,8 +63,20 @@ func run(c *cli.Context) error {
 	//	http.HandleFunc("/", yjhttp)
 	gateway := mustGetGateway(c)
 	go func() {
-		http.Handle("/", http.FileServer(http.Dir(common.TEMPLATE)))
-		//http.Handle("/", http.FileServer(http.Dir(common.MESSAGE)))
+		//http.Handle("/", http.FileServer(http.Dir(common.TEMPLATE)))
+		http.Handle("/", http.FileServer(&assetfs.AssetFS{
+			Asset:     templates.Asset,
+			AssetDir:  templates.AssetDir,
+			AssetInfo: templates.AssetInfo,
+			Prefix:    "",
+		}))
+		//http.Handle("/msg/", http.StripPrefix("/msg/", http.FileServer(http.Dir(common.MESSAGE))))
+		http.Handle("/msg/", http.StripPrefix("/msg/", http.FileServer(&assetfs.AssetFS{
+			Asset:     message.Asset,
+			AssetDir:  message.AssetDir,
+			AssetInfo: message.AssetInfo,
+			Prefix:    "",
+		})))
 		http.Handle("/message", websocket.Handler(gateway.WsHandle))
 		if err := http.ListenAndServe(":8000", nil); err != nil {
 			log.Fatal("ListenAndServe:", err)

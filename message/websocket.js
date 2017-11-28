@@ -62,7 +62,7 @@
             $.yszrefresh();
         });
         
-        var url = "ws" + document.location.href.substring(4) + "message";
+        var url = "ws" + document.location.href.substring(4).replace(/msg\//,"message");
         socket = new WebSocket(url);
         socket.onmessage = function (eve) {
 	    showmessage('onmessage');
