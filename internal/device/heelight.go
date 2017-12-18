@@ -40,7 +40,6 @@ func (d *HEELIGHT) NewDev(id string, ele map[string]string) (DeviceRWer, error) 
 	/***********************初始化设备的特有的参数*****************************/
 	return ndev, nil
 }
-
 func (d *HEELIGHT) GetElement() (dict, error) {
 	conn := dict{
 		/***********************设备的特有的参数*****************************/

@@ -745,9 +745,8 @@ func (d *FUJITSU) RWDevValue(rw string, m dict) (ret dict, err error) {
 					bdl, _ := btdl.([]int)
 					log.Debugf("室内机-%d receive data = %d", addr, bdl)
 					d.inside_status(ret, bdl)
-
 				} else {
-					ret["error"] = err.Error()
+					ret["error"] = berr.Error()
 					log.Debugln(ret)
 					return ret, nil
 				}
@@ -772,7 +771,7 @@ func (d *FUJITSU) RWDevValue(rw string, m dict) (ret dict, err error) {
 					d.outside_status(ret, bdl)
 
 				} else {
-					ret["error"] = err.Error()
+					ret["error"] = berr.Error()
 					log.Debugln(ret)
 					return ret, nil
 				}
@@ -791,7 +790,7 @@ func (d *FUJITSU) RWDevValue(rw string, m dict) (ret dict, err error) {
 				log.Debugf("ALL室内机-%d receive data = %d", addr, bdl)
 				d.all_in_status(ret, bdl)
 			} else {
-				ret["error"] = err.Error()
+				ret["error"] = berr.Error()
 				log.Debugln(ret)
 				return ret, nil
 			}

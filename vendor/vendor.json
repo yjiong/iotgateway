@@ -24,6 +24,11 @@
 			"revision": ""
 		},
 		{
+			"checksumSHA1": "7DxViusFRJ7UPH0jZqYatwDrOkY=",
+			"path": "github.com/elazarl/go-bindata-assetfs",
+			"revision": ""
+		},
+		{
 			"checksumSHA1": "K/CP3EBR0TUpw8DPpjRExGEYNkY=",
 			"path": "github.com/urfave/cli",
 			"revision": ""

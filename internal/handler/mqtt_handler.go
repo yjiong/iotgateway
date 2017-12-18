@@ -34,30 +34,36 @@ type MQTTHandler struct {
 }
 
 // NewMQTTHandler creates a new MQTTHandler.
-func NewMQTTHandler(server, username, password, cafile, client_id, server_id, kl, willmsg, onlinemsg string) (Handler, error) {
+func NewMQTTHandler(conm map[string]string, willmsg, onlinemsg string) (Handler, error) {
 	h := MQTTHandler{
 		dataDownChan: make(chan DataDownPayload),
 	}
 
 	opts := mqtt.NewClientOptions()
-	opts.AddBroker(server)
-	opts.SetUsername(username)
-	opts.SetPassword(password)
+	//opts.AddBroker(server)
+	server := conm["_server_ip"] + ":" + conm["_server_port"]
+	opts.SetUsername(conm["_username"])
+	opts.SetPassword(conm["_password"])
 	opts.SetOnConnectHandler(h.onConnected)
 	opts.SetConnectionLostHandler(h.onConnectionLost)
-	kplv, _ := strconv.Atoi(kl)
+	kplv, _ := strconv.Atoi(conm["_keepalive"])
 	opts.SetKeepAlive(time.Duration(kplv) * time.Second)
-	h.Client_id = client_id
-	h.Server_id = server_id
+	h.Client_id = conm["_client_id"]
+	h.Server_id = conm["_server_name"]
 	h.onlinemsg = onlinemsg
 	opts.SetWill(h.Server_id+"/"+h.Client_id, willmsg, 1, true)
-	if cafile != "" {
-		tlsconfig, err := newTLSConfig(cafile)
+	if conm["cafile"] != "" {
+		tlsconfig, err := newTLSConfig(conm["cafile"])
 		if err != nil {
 			log.Fatalf("Error with the mqtt CA certificate: %s", err)
 		} else {
 			opts.SetTLSConfig(tlsconfig)
+			server = "ssl://" + server
+			opts.AddBroker(server)
 		}
+	} else {
+		server = "tcp://" + server
+		opts.AddBroker(server)
 	}
 
 	log.WithField("server", server).Info("handler/mqtt: connecting to mqtt broker")

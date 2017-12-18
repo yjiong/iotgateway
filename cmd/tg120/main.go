@@ -203,31 +203,26 @@ func mqttconnect(c *cli.Context, gateway *gw.Gateway) {
 	var h handler.Handler
 	willmsg := gateway.On_offline_msg(0)
 	onlinemsg := gateway.On_offline_msg(1)
+	cm := map[string]string{
+		"_server_ip":   c.String("mqtt-server"),
+		"_server_port": "",
+		"_username":    c.String("mqtt-username"),
+		"_password":    c.String("mqtt-password"),
+		"cafile":       c.String("mqtt-ca-cert"),
+		"_client_id":   c.String("client_id"),
+		"_server_name": c.String("server_id"),
+		"_keepalive":   "60",
+	}
 	if conm == nil {
-		h, err = handler.NewMQTTHandler(c.String("mqtt-server"),
-			c.String("mqtt-username"),
-			c.String("mqtt-password"),
-			c.String("mqtt-ca-cert"),
-			c.String("client_id"),
-			c.String("server_id"),
-			"60",
+		h, err = handler.NewMQTTHandler(cm,
 			willmsg,
 			onlinemsg)
 		if err != nil {
 			log.Fatalf("setup mqtt handler error: %s", err)
 		}
 	} else {
-		server, _ := conm["_server_ip"]
-		port, _ := conm["_server_port"]
-		user, _ := conm["_username"]
-		passwd, _ := conm["_password"]
-		cert, _ := conm["ca_cert"]
-		ctopic, _ := conm["_client_id"]
-		stopic, _ := conm["_server_name"]
-		keeplive, _ := conm["_keepalive"]
-		h, err = handler.NewMQTTHandler("tcp://"+server+":"+port, user, passwd, cert, ctopic, stopic, keeplive, willmsg, onlinemsg)
+		h, err = handler.NewMQTTHandler(conm, willmsg, onlinemsg)
 		if err != nil {
-
 			log.Fatalf("setup mqtt handler error: %s", err)
 		}
 	}

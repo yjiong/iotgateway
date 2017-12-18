@@ -63,6 +63,7 @@
         });
         
         var url = "ws" + document.location.href.substring(4).replace(/msg\//,"message");
+        //var url = "ws" + document.location.href.substring(4) + "message";
         socket = new WebSocket(url);
         socket.onmessage = function (eve) {
 	    showmessage('onmessage');
