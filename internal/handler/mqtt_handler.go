@@ -53,7 +53,7 @@ func NewMQTTHandler(conm map[string]string, willmsg, onlinemsg string) (Handler,
 	h.onlinemsg = onlinemsg
 	opts.SetWill(h.Server_id+"/"+h.Client_id, willmsg, 1, true)
 	if conm["cafile"] != "" {
-		tlsconfig, err := newTLSConfig(conm["cafile"])
+		tlsconfig, err := newTLSConfig(conm)
 		if err != nil {
 			log.Fatalf("Error with the mqtt CA certificate: %s", err)
 		} else {
@@ -80,9 +80,9 @@ func NewMQTTHandler(conm map[string]string, willmsg, onlinemsg string) (Handler,
 	return &h, nil
 }
 
-func newTLSConfig(cafile string) (*tls.Config, error) {
+func newTLSConfig(cm map[string]string) (*tls.Config, error) {
 	// Import trusted certificates from CAfile.pem.
-
+	cafile := cm["cafile"]
 	cert, err := ioutil.ReadFile(cafile)
 	if err != nil {
 		log.Errorf("backend: couldn't load cafile: %s", err)
@@ -93,10 +93,21 @@ func newTLSConfig(cafile string) (*tls.Config, error) {
 	certpool.AppendCertsFromPEM(cert)
 
 	// Create tls.Config with desired tls properties
-	return &tls.Config{
-		// RootCAs = certs used to verify server cert.
-		RootCAs: certpool,
-	}, nil
+	if cm["certfile"] != "" && cm["keyfile"] != "" {
+		certpair, err := tls.LoadX509KeyPair(cm["certfile"], cm["keyfile"])
+		if err != nil {
+			log.Fatalf("get cert error :%s", err)
+		}
+		return &tls.Config{
+			RootCAs:      certpool,
+			Certificates: []tls.Certificate{certpair},
+		}, nil
+	} else {
+		return &tls.Config{
+			// RootCAs = certs used to verify server cert.
+			RootCAs: certpool,
+		}, nil
+	}
 }
 
 // Close stops the handler.
