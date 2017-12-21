@@ -12,6 +12,7 @@ import (
 	"github.com/yjiong/go_tg120/modbus"
 )
 
+// ModbusTcp ..
 type ModbusTcp struct {
 	//继承于Device
 	Device
@@ -26,6 +27,7 @@ func init() {
 	RegDevice["ModbusTcp"] = &ModbusTcp{}
 }
 
+// NewDev ..
 func (d *ModbusTcp) NewDev(id string, ele map[string]string) (Devicerwer, error) {
 	ndev := new(ModbusTcp)
 	ndev.Device = d.Device.NewDev(id, ele)
@@ -39,6 +41,7 @@ func (d *ModbusTcp) NewDev(id string, ele map[string]string) (Devicerwer, error)
 	return ndev, nil
 }
 
+// GetElement ..
 func (d *ModbusTcp) GetElement() (dict, error) {
 	conn := dict{
 		/***********************设备的特有的参数*****************************/
@@ -58,6 +61,8 @@ func (d *ModbusTcp) GetElement() (dict, error) {
 }
 
 /***********************设备的参数说明帮助***********************************/
+
+// HelpDoc ..
 func (d *ModbusTcp) HelpDoc() interface{} {
 	conn := dict{
 		"devaddr": "设备地址",
@@ -120,20 +125,22 @@ func (d *ModbusTcp) HelpDoc() interface{} {
 /***********************设备的参数说明帮助***********************************/
 
 /***************************************添加设备参数检验**********************************************/
+
+// CheckKey ..
 func (d *ModbusTcp) CheckKey(ele dict) (bool, error) {
 
 	fc, fcOk := ele["FunctionCode"].(json.Number)
 	if !fcOk {
-		return false, errors.New(fmt.Sprintf("ModbusTcp device must have int type element 功能码 :FunctionCode"))
+		return false, fmt.Errorf("ModbusTcp device must have int type element 功能码 :FunctionCode")
 	}
 	if fci64, err := fc.Int64(); err != nil || fci64 < 1 || fci64 > 21 {
-		return false, errors.New(fmt.Sprintf("FunctionCode :0 < value < 22 "))
+		return false, fmt.Errorf("FunctionCode :0 < value < 22 ")
 	}
 	if _, ok := ele["StartingAddress"].(json.Number); !ok {
-		return false, errors.New(fmt.Sprintf("ModbusTcp device must have int type element 起始地址 :StartingAddress"))
+		return false, fmt.Errorf("ModbusTcp device must have int type element 起始地址 :StartingAddress")
 	}
 	if _, ok := ele["Quantity"].(json.Number); !ok {
-		return false, errors.New(fmt.Sprintf("ModbusTcp device must have int type element 数量 :Quantity"))
+		return false, fmt.Errorf("ModbusTcp device must have int type element 数量 :Quantity")
 	}
 	return true, nil
 }
@@ -141,6 +148,8 @@ func (d *ModbusTcp) CheckKey(ele dict) (bool, error) {
 /***************************************添加设备参数检验**********************************************/
 
 /***************************************读写接口实现**************************************************/
+
+// RWDevValue ..
 func (d *ModbusTcp) RWDevValue(rw string, m dict) (ret dict, err error) {
 	handler := modbus.NewTCPClientHandler(d.commif)
 	slaveid, _ := strconv.Atoi(d.devaddr)
@@ -182,7 +191,7 @@ func (d *ModbusTcp) RWDevValue(rw string, m dict) (ret dict, err error) {
 			//		client.ReadWriteMultipleRegisters
 			//		client.ReadFIFOQueue
 		default:
-			return nil, errors.New(fmt.Sprintf("尚未支持的读操作  FunctionCode : %d", functionCode))
+			return nil, fmt.Errorf("尚未支持的读操作  FunctionCode : %d", functionCode)
 		}
 		var results []byte
 		results, err = myRfunc(startAddr, quantity)
@@ -197,15 +206,13 @@ func (d *ModbusTcp) RWDevValue(rw string, m dict) (ret dict, err error) {
 		var results []byte
 		var value uint16
 		var valuelist []byte
-		if v, ok := m["value"].(json.Number); !ok && (functionCode == 5 || functionCode == 6) {
-			return nil, errors.New("write modbus singlecoil or registers need value : uint16")
-		} else {
+		if v, ok := m["value"].(json.Number); ok && (functionCode == 5 || functionCode == 6) {
 			v64, _ := v.Int64()
 			value = uint16(v64)
-		}
-		if vif, ok := m["value"].([]interface{}); !ok && (functionCode == 15 || functionCode == 16) {
-			return nil, errors.New("write modbus singlecoil or registers need value : [uint8...]")
 		} else {
+			return nil, errors.New("write modbus singlecoil or registers need value : uint16")
+		}
+		if vif, ok := m["value"].([]interface{}); ok && (functionCode == 15 || functionCode == 16) {
 			for _, v := range vif {
 				if vi, ok := v.(json.Number); ok {
 					vi64, _ := vi.Int64()
@@ -214,6 +221,8 @@ func (d *ModbusTcp) RWDevValue(rw string, m dict) (ret dict, err error) {
 					return nil, errors.New("write modbus singlecoil or registers need value : [uint8...]")
 				}
 			}
+		} else {
+			return nil, errors.New("write modbus singlecoil or registers need value : [uint8...]")
 		}
 		switch functionCode {
 		case 5:
@@ -261,7 +270,7 @@ func (d *ModbusTcp) RWDevValue(rw string, m dict) (ret dict, err error) {
 				}
 			}
 		default:
-			return nil, errors.New(fmt.Sprintf("尚未支持的写操作  FunctionCode : %d", functionCode))
+			return nil, fmt.Errorf("尚未支持的写操作  FunctionCode : %d", functionCode)
 
 		}
 	}
