@@ -10,15 +10,21 @@ import (
 	"strings"
 )
 
+// versin
 const (
 	VERSION    = "1.0"
 	MODEL      = "TG150"
 	INTERFACES = "/etc/network/interfaces"
 )
 
-var CONFILEPATH string = "./config.ini"
+// CONFILEPATH ..
+var CONFILEPATH = "./config.ini"
+
+// DEVFILEPATH ..
 var DEVFILEPATH = "./devlist.ini"
-var Mqtt_connected bool = false
+
+// Mqttconnected ..
+var Mqttconnected = false
 
 func init() {
 	var pathfs string
@@ -40,6 +46,7 @@ func init() {
 	}
 }
 
+// NewConMap ..
 func NewConMap(confile string) (map[string]string, error) {
 	_, err := os.Stat(confile)
 	if os.IsNotExist(err) {
@@ -64,6 +71,7 @@ func NewConMap(confile string) (map[string]string, error) {
 	return retm, nil
 }
 
+// Mergemap ..
 func Mergemap(lm ...map[string]string) map[string]string {
 	retmap := make(map[string]string)
 	for _, m := range lm {

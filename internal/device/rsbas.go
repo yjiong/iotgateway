@@ -30,7 +30,7 @@ func init() {
 	RegDevice["RSBAS"] = &RSBAS{}
 }
 
-func (d *RSBAS) NewDev(id string, ele map[string]string) (DeviceRWer, error) {
+func (d *RSBAS) NewDev(id string, ele map[string]string) (Devicerwer, error) {
 	ndev := new(RSBAS)
 	ndev.Device = d.Device.NewDev(id, ele)
 	/***********************初始化设备的特有的参数*****************************/

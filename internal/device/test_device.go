@@ -32,7 +32,7 @@ func init() {
 	RegDevice["TEST_GO"] = &TEST_GO{}
 }
 
-func (d *TEST_GO) NewDev(id string, ele map[string]string) (DeviceRWer, error) {
+func (d *TEST_GO) NewDev(id string, ele map[string]string) (Devicerwer, error) {
 	ndev := new(TEST_GO)
 	ndev.Device = d.Device.NewDev(id, ele)
 	/***********************初始化设备的特有的参数*****************************/

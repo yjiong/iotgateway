@@ -11,7 +11,7 @@ import (
 )
 
 //var mutex sync.Mutex
-type QDSL_SM510 struct {
+type QDSLSM510 struct {
 	//继承于ModebusRtu
 	ModbusRtu /**************按不同设备自定义*************************/
 
@@ -19,27 +19,27 @@ type QDSL_SM510 struct {
 }
 
 func init() {
-	RegDevice["QDSL_SM510"] = &QDSL_SM510{}
+	RegDevice["QDSLSM510"] = &QDSLSM510{}
 }
 
-func (d *QDSL_SM510) NewDev(id string, ele map[string]string) (DeviceRWer, error) {
-	ndev := new(QDSL_SM510)
+func (d *QDSLSM510) NewDev(id string, ele map[string]string) (Devicerwer, error) {
+	ndev := new(QDSLSM510)
 	ndev.Device = d.Device.NewDev(id, ele)
 	/***********************初始化设备的特有的参数*****************************/
 	ndev.BaudRate = 19200 //, _ = strconv.Atoi(ele["BaudRate"])
 	ndev.DataBits = 8     //, _ = strconv.Atoi(ele["DataBits "])
 	ndev.StopBits = 1     //, _ = strconv.Atoi(ele["StopBits"])
 	ndev.Parity = "N"     //, _ = ele["Parity"]
-	//ndev.Function_code = 3
-	//	saint, _ := strconv.Atoi(ele["Starting_address"])
-	//ndev.Starting_address = 0
+	//ndev.FunctionCode = 3
+	//	saint, _ := strconv.Atoi(ele["StartingAddress"])
+	//ndev.StartingAddress = 0
 	//	qint, _ := strconv.Atoi(ele["Quantity"])
 	//ndev.Quantity = 12
 	/***********************初始化设备的特有的参数*****************************/
 	return ndev, nil
 }
 
-func (d *QDSL_SM510) GetElement() (dict, error) {
+func (d *QDSLSM510) GetElement() (dict, error) {
 	conn := dict{
 		/***********************设备的特有的参数*****************************/
 		"devaddr": d.devaddr,
@@ -59,10 +59,10 @@ func (d *QDSL_SM510) GetElement() (dict, error) {
 }
 
 /***********************设备的参数说明帮助***********************************/
-func (d *QDSL_SM510) HelpDoc() interface{} {
+func (d *QDSLSM510) HelpDoc() interface{} {
 	conn := dict{
 		"devaddr": "设备地址",
-		/***********QDSL_SM510设备的参数*****************************/
+		/***********QDSLSM510设备的参数*****************************/
 		"备注":       "由于寄存器不连续,请一条命令设置一个字段",
 		"定时交换分钟数":  "单位分钟,大于0小于9999,int类型",
 		"无水停机压力":   "单位MP,大于0小于9999,int类型",
@@ -77,24 +77,24 @@ func (d *QDSL_SM510) HelpDoc() interface{} {
 		//"DataBits": "数据位,比如(8)",
 		//"Parity":   "校验,(N,E,O)",
 		//"StopBits": "停止位,比如(1)",
-		/***********QDSL_SM510设备的参数*****************************/
+		/***********QDSLSM510设备的参数*****************************/
 	}
-	r_parameter := dict{
+	rParameter := dict{
 		"_devid": "被读取设备对象的id",
 		/***********读取设备的参数*****************************/
 		/***********读取设备的参数*****************************/
 	}
-	w_parameter := dict{
+	wParameter := dict{
 		"_devid": "被操作设备对象的id",
 		/***********操作设备的参数*****************************/
 		/***********操作设备的参数*****************************/
 	}
 	data := dict{
 		"_devid": "添加设备对象的id",
-		"_type":  "QDSL_SM510", //设备类型
+		"_type":  "QDSLSM510", //设备类型
 		"_conn":  conn,
 	}
-	dev_update := dict{
+	devUpdate := dict{
 		"request": dict{
 			"cmd":  "manager/dev/update.do",
 			"data": data,
@@ -103,17 +103,17 @@ func (d *QDSL_SM510) HelpDoc() interface{} {
 	readdev := dict{
 		"request": dict{
 			"cmd":  "do/getvar",
-			"data": r_parameter,
+			"data": rParameter,
 		},
 	}
 	writedev := dict{
 		"request": dict{
 			"cmd":  "do/setvar",
-			"data": w_parameter,
+			"data": wParameter,
 		},
 	}
 	helpdoc := dict{
-		"1.添加设备": dev_update,
+		"1.添加设备": devUpdate,
 		"2.读取设备": readdev,
 		"3.操作设备": writedev,
 	}
@@ -123,25 +123,25 @@ func (d *QDSL_SM510) HelpDoc() interface{} {
 /***********************设备的参数说明帮助***********************************/
 
 /***************************************添加设备参数检验**********************************************/
-func (d *QDSL_SM510) CheckKey(ele dict) (bool, error) {
+func (d *QDSLSM510) CheckKey(ele dict) (bool, error) {
 
 	//if _, ok := ele["BaudRate"].(json.Number); !ok {
-	//return false, errors.New(fmt.Sprintf("QDSL_SM510 device must have int type element 波特率 :BaudRate"))
+	//return false, errors.New(fmt.Sprintf("QDSLSM510 device must have int type element 波特率 :BaudRate"))
 	//}
 	//if _, ok := ele["DataBits"].(json.Number); !ok {
-	//return false, errors.New(fmt.Sprintf("QDSL_SM510 device must have int type element 数据位 :DataBits"))
+	//return false, errors.New(fmt.Sprintf("QDSLSM510 device must have int type element 数据位 :DataBits"))
 	//}
 	//if _, ok := ele["StopBits"].(json.Number); !ok {
-	//return false, errors.New(fmt.Sprintf("QDSL_SM510 device must have int type element 停止位 :StopBits"))
+	//return false, errors.New(fmt.Sprintf("QDSLSM510 device must have int type element 停止位 :StopBits"))
 	//}
 	//if _, ok := ele["Parity"].(string); !ok {
-	//return false, errors.New(fmt.Sprintf("QDSL_SM510 device must have string type element 校验 :Parity"))
+	//return false, errors.New(fmt.Sprintf("QDSLSM510 device must have string type element 校验 :Parity"))
 	//}
 	return true, nil
 }
 
 /***************************************添加设备参数检验**********************************************/
-func (d *QDSL_SM510) getfloat(m dict) (dict, error) {
+func (d *QDSLSM510) getfloat(m dict) (dict, error) {
 	var wval json.Number
 	if k, ok := m["_varvalue"]; ok {
 		log.Debugln("varvalue=", k)
@@ -165,7 +165,7 @@ func (d *QDSL_SM510) getfloat(m dict) (dict, error) {
 	return dict{"value": wval}, nil
 }
 
-func (d *QDSL_SM510) getint(m dict) (dict, error) {
+func (d *QDSLSM510) getint(m dict) (dict, error) {
 	var wval json.Number
 	if k, ok := m["_varvalue"]; ok {
 		log.Debugln("varvalue=", k)
@@ -190,13 +190,13 @@ func (d *QDSL_SM510) getint(m dict) (dict, error) {
 }
 
 /***************************************读写接口实现**************************************************/
-func (d *QDSL_SM510) RWDevValue(rw string, m dict) (ret dict, err error) {
+func (d *QDSLSM510) RWDevValue(rw string, m dict) (ret dict, err error) {
 	ret = make(dict)
 	var mdict dict
 	defer func() {
-		if drive_err := recover(); drive_err != nil {
-			log.Errorf("drive programer  error : (%s)", drive_err)
-			errstr := fmt.Sprintf("drive programer  error : (%s)", drive_err)
+		if driveErr := recover(); driveErr != nil {
+			log.Errorf("drive programer  error : (%s)", driveErr)
+			errstr := fmt.Sprintf("drive programer  error : (%s)", driveErr)
 			err = errors.New(errstr)
 		}
 	}()
@@ -206,9 +206,9 @@ func (d *QDSL_SM510) RWDevValue(rw string, m dict) (ret dict, err error) {
 	ret["_devid"] = d.devid
 	mdata := make([]int, 32)
 	if rw == "r" {
-		d.Starting_address = 2
+		d.StartingAddress = 2
 		d.Quantity = 22
-		d.Function_code = 3
+		d.FunctionCode = 3
 		mdict, err = d.ModbusRtu.RWDevValue("r", nil)
 		if err == nil {
 			tdl := mdict["Modbus-value"]
@@ -230,9 +230,9 @@ func (d *QDSL_SM510) RWDevValue(rw string, m dict) (ret dict, err error) {
 			ret["_status"] = "offline"
 			return ret, nil
 		}
-		d.Starting_address = 339
+		d.StartingAddress = 339
 		d.Quantity = 32
-		d.Function_code = 3
+		d.FunctionCode = 3
 		mdict, err = d.ModbusRtu.RWDevValue("r", nil)
 		if err == nil {
 			tdl := mdict["Modbus-value"]
@@ -323,36 +323,36 @@ func (d *QDSL_SM510) RWDevValue(rw string, m dict) (ret dict, err error) {
 			return ret, nil
 		}
 	} else {
-		d.Function_code = 6
+		d.FunctionCode = 6
 		var method func(dict) (dict, error)
 		if k, ok := m["_varname"]; ok {
 			switch k {
 			case "设定压力":
-				d.Starting_address = 2
+				d.StartingAddress = 2
 				method = d.getfloat
 			case "有水开机压力":
-				d.Starting_address = 3
+				d.StartingAddress = 3
 				method = d.getfloat
 			case "无水停机压力":
-				d.Starting_address = 4
+				d.StartingAddress = 4
 				method = d.getfloat
 			case "有水开机延时":
-				d.Starting_address = 5
+				d.StartingAddress = 5
 				method = d.getint
 			case "无水停机延时":
-				d.Starting_address = 6
+				d.StartingAddress = 6
 				method = d.getint
 			case "设备通讯地址":
-				d.Starting_address = 11
+				d.StartingAddress = 11
 				method = d.getint
 			case "定时交换分钟数":
-				d.Starting_address = 13
+				d.StartingAddress = 13
 				method = d.getint
 			case "软件超压保护偏差":
-				d.Starting_address = 24
+				d.StartingAddress = 24
 				method = d.getfloat
 			case "远程启动停止":
-				d.Starting_address = 313
+				d.StartingAddress = 313
 				method = d.getint
 			default:
 				return nil, errors.New("错误的_varname")

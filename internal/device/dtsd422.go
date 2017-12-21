@@ -13,7 +13,7 @@ import (
 	"github.com/yjiong/go_tg120/serial"
 )
 
-//var mutex sync.Mutex
+//DTSD422 ..
 type DTSD422 struct {
 	//继承于Device
 	Device
@@ -30,7 +30,8 @@ func init() {
 	RegDevice["DTSD422"] = &DTSD422{}
 }
 
-func (d *DTSD422) NewDev(id string, ele map[string]string) (DeviceRWer, error) {
+// NewDev ..
+func (d *DTSD422) NewDev(id string, ele map[string]string) (Devicerwer, error) {
 	ndev := new(DTSD422)
 	ndev.Device = d.Device.NewDev(id, ele)
 	/***********************初始化设备的特有的参数*****************************/
@@ -42,6 +43,7 @@ func (d *DTSD422) NewDev(id string, ele map[string]string) (DeviceRWer, error) {
 	return ndev, nil
 }
 
+// GetElement ..
 func (d *DTSD422) GetElement() (dict, error) {
 	conn := dict{
 		/***********************设备的特有的参数*****************************/
@@ -62,13 +64,15 @@ func (d *DTSD422) GetElement() (dict, error) {
 }
 
 /***********************设备的参数说明帮助***********************************/
+
+// HelpDoc ..
 func (d *DTSD422) HelpDoc() interface{} {
 	conn := dict{
 		"devaddr": "设备地址",
 		/***********DTSD422设备的参数*****************************/
 		/***********读取设备的参数*****************************/
 	}
-	r_parameter := dict{
+	rParameter := dict{
 		"_devid": "被读取设备对象的id",
 		/***********读取设备的参数*****************************/
 		/***********读取设备的参数*****************************/
@@ -78,7 +82,7 @@ func (d *DTSD422) HelpDoc() interface{} {
 		"_type":  "DTSD422", //设备类型
 		"_conn":  conn,
 	}
-	dev_update := dict{
+	devUpdate := dict{
 		"request": dict{
 			"cmd":  "manager/dev/update.do",
 			"data": data,
@@ -87,11 +91,11 @@ func (d *DTSD422) HelpDoc() interface{} {
 	readdev := dict{
 		"request": dict{
 			"cmd":  "do/getvar",
-			"data": r_parameter,
+			"data": rParameter,
 		},
 	}
 	helpdoc := dict{
-		"1.添加设备": dev_update,
+		"1.添加设备": devUpdate,
 		"2.读取设备": readdev,
 	}
 	return helpdoc
@@ -100,6 +104,8 @@ func (d *DTSD422) HelpDoc() interface{} {
 /***********************设备的参数说明帮助***********************************/
 
 /***************************************添加设备参数检验**********************************************/
+
+// CheckKey ..
 func (d *DTSD422) CheckKey(ele dict) (bool, error) {
 	return true, nil
 }
@@ -107,7 +113,7 @@ func (d *DTSD422) CheckKey(ele dict) (bool, error) {
 /***************************************添加设备参数检验**********************************************/
 func (d *DTSD422) plus33(data []byte) []byte {
 	rd := make([]byte, len(data))
-	for i, _ := range data {
+	for i := range data {
 		rd[len(data)-i-1] = (data[i] + 0x33) % 0xff
 	}
 	return rd
@@ -115,14 +121,15 @@ func (d *DTSD422) plus33(data []byte) []byte {
 
 func (d *DTSD422) sub33(data []byte) []byte {
 	rd := make([]byte, len(data))
-	for i, _ := range data {
+	for i := range data {
 		rd[len(data)-i-1] = (data[i] - 0x33) % 0xff
 	}
 	return rd
 }
 
 /***************************************读写接口实现**************************************************/
-func (d *DTSD422) read_cmd(taddr string, di []byte) []byte {
+
+func (d *DTSD422) readCmd(taddr string, di []byte) []byte {
 	saddr := fmt.Sprintf("%012s", taddr)
 	cmd := []byte{0x68}
 	for i := 12; i >= 2; i -= 2 {
@@ -132,23 +139,25 @@ func (d *DTSD422) read_cmd(taddr string, di []byte) []byte {
 	cmd = append(cmd, []byte{0x68, 0x11, 0x04}...)
 	cdi := d.plus33(di)
 	cmd = append(cmd, cdi...)
-	sum := d.r_data_sum(cmd)
+	sum := d.rDateSum(cmd)
 	cmd = append(cmd, sum)
 	cmd = append(cmd, 0x16)
 	rcmd := append([]byte{0xFE, 0xFE, 0xFE, 0xFE}, cmd...)
 	return rcmd
 }
 
-func (d *DTSD422) r_data_sum(data []byte) byte {
+func (d *DTSD422) rDateSum(data []byte) byte {
 	sum := 0
 	for i := 0; i < len(data); i++ {
 		sum += int(data[i])
 	}
 	return IntToBytes(sum & 0xff)[3]
 }
+
+// RWDevValue ..
 func (d *DTSD422) RWDevValue(rw string, m dict) (ret dict, err error) {
 	//log.SetLevel(log.DebugLevel)
-	di_Forward_active_power := []byte{0x00, 0x01, 0x00, 0x00} //正向有功电能数据(ff块)
+	diForwardActivePower := []byte{0x00, 0x01, 0x00, 0x00} //正向有功电能数据(ff块)
 	//di_Voltages := []byte{0x02, 0x01, 0xFF, 0x00}             //电压数据块
 	//di_Currents := []byte{0x02, 0x02, 0xFF, 0x00}             //电流数据块
 	//di_PEs := []byte{0x02, 0x06, 0xFF, 0x00}                  //功率因素数据块
@@ -177,8 +186,8 @@ func (d *DTSD422) RWDevValue(rw string, m dict) (ret dict, err error) {
 	if rw == "r" {
 		results := make([]byte, 40)
 		for i := 0; i < 2; i++ {
-			log.Debugf("send cmd = %x", d.read_cmd(taddr, di_Forward_active_power))
-			if _, ok := rsport.Write(d.read_cmd(taddr, di_Forward_active_power)); ok != nil {
+			log.Debugf("send cmd = %x", d.readCmd(taddr, diForwardActivePower))
+			if _, ok := rsport.Write(d.readCmd(taddr, diForwardActivePower)); ok != nil {
 				log.Errorf("send cmd error  %s", ok.Error())
 				return nil, ok
 			}
@@ -193,8 +202,8 @@ func (d *DTSD422) RWDevValue(rw string, m dict) (ret dict, err error) {
 						break
 					}
 				}
-				log.Debugf("receive data = %x len = %d sum = %x ", results, len, d.r_data_sum(results[startbyte:len-2]))
-				if d.r_data_sum(results[startbyte:len-2]) == results[len-2] {
+				log.Debugf("receive data = %x len = %d sum = %x ", results, len, d.rDateSum(results[startbyte:len-2]))
+				if d.rDateSum(results[startbyte:len-2]) == results[len-2] {
 					log.Debugf("校验正确")
 					valb := d.sub33(results[startbyte+14 : len-2])
 					log.Debugf("%x", valb)

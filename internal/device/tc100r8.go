@@ -25,7 +25,7 @@ func init() {
 	RegDevice["TC100R8"] = &TC100R8{}
 }
 
-func (d *TC100R8) NewDev(id string, ele map[string]string) (DeviceRWer, error) {
+func (d *TC100R8) NewDev(id string, ele map[string]string) (Devicerwer, error) {
 	ndev := new(TC100R8)
 	ndev.Device = d.Device.NewDev(id, ele)
 	/***********************初始化设备的特有的参数*****************************/
@@ -33,8 +33,8 @@ func (d *TC100R8) NewDev(id string, ele map[string]string) (DeviceRWer, error) {
 	ndev.DataBits = 8
 	ndev.StopBits = 1
 	ndev.Parity = "N"
-	//	saint, _ := strconv.Atoi(ele["Starting_address"])
-	ndev.Starting_address = 0
+	//	saint, _ := strconv.Atoi(ele["StartingAddress"])
+	ndev.StartingAddress = 0
 	//	qint, _ := strconv.Atoi(ele["Quantity"])
 	ndev.Quantity = 12
 	/***********************初始化设备的特有的参数*****************************/
@@ -64,7 +64,7 @@ func (d *TC100R8) HelpDoc() interface{} {
 		"commif": "通信接口,比如(rs485-1)",
 		/***********TC100R8设备的参数*****************************/
 	}
-	r_parameter := dict{
+	rParameter := dict{
 		"_devid": "被读取设备对象的id",
 		/***********读取设备的参数*****************************/
 		"_varname.1": "设备编号",
@@ -96,7 +96,7 @@ func (d *TC100R8) HelpDoc() interface{} {
 		"解释": "必须8路都写",
 	}
 	va2_2 := []dict{va2_d2, va2_d1}
-	w_parameter := dict{
+	wParameter := dict{
 		"_devid": "被操作设备对象的id",
 		/***********操作设备的参数*****************************/
 		"_varname.1":  "自动策略",
@@ -114,7 +114,7 @@ func (d *TC100R8) HelpDoc() interface{} {
 		"_type":  "TC100R8", //设备类型
 		"_conn":  conn,
 	}
-	dev_update := dict{
+	devUpdate := dict{
 		"request": dict{
 			"cmd":  "manager/dev/update.do",
 			"data": data,
@@ -123,17 +123,17 @@ func (d *TC100R8) HelpDoc() interface{} {
 	readdev := dict{
 		"request": dict{
 			"cmd":  "do/getvar",
-			"data": r_parameter,
+			"data": rParameter,
 		},
 	}
 	writedev := dict{
 		"request": dict{
 			"cmd":  "do/setvar",
-			"data": w_parameter,
+			"data": wParameter,
 		},
 	}
 	helpdoc := dict{
-		"1.添加设备": dev_update,
+		"1.添加设备": devUpdate,
 		"2.读取设备": readdev,
 		"3.操作设备": writedev,
 	}
@@ -166,16 +166,16 @@ func (d *TC100R8) autostrate(m dict) (dict, error) {
 					if 1 > nmi64 || nmi64 > 8 {
 						return nil, errors.New("自动策略回路参数错误")
 					}
-					d.Starting_address = 13 * (uint16(nmi64) - 1)
-					log.Debugln("start_address=", d.Starting_address)
+					d.StartingAddress = 13 * (uint16(nmi64) - 1)
+					log.Debugln("startAddress=", d.StartingAddress)
 				} else {
 					if nm, ok := ks1.(string); ok {
 						snm, _ := strconv.Atoi(nm)
 						if 1 > snm || snm > 8 {
 							return nil, errors.New("自动策略回路参数错误")
 						}
-						d.Starting_address = 13 * (uint16(snm) - 1)
-						log.Debugln("start_address=", d.Starting_address)
+						d.StartingAddress = 13 * (uint16(snm) - 1)
+						log.Debugln("startAddress=", d.StartingAddress)
 					}
 				}
 			}
@@ -219,7 +219,7 @@ func (d *TC100R8) autostrate(m dict) (dict, error) {
 func (d *TC100R8) settime(m dict) (dict, error) {
 	var wbyte []string
 	d.Quantity = 3
-	d.Starting_address = 123
+	d.StartingAddress = 123
 	var vallist []interface{}
 	if k, ok := m["_varvalue"]; ok {
 		log.Debugln("varvalue=", k)
@@ -246,9 +246,9 @@ func (d *TC100R8) settime(m dict) (dict, error) {
 func (d *TC100R8) handlerstrte(m dict) (dict, error) {
 	wbyte := make([]string, 32)
 	d.Quantity = 16
-	d.Starting_address = 104
+	d.StartingAddress = 104
 	status := map[string]string{"自动": "1", "手动": "2", "不操作": "0"}
-	on_off := map[string]string{"on": "1", "off": "0"}
+	onOff := map[string]string{"on": "1", "off": "0"}
 	var vallist []interface{}
 	var test int = 0
 	if kif, ok := m["_varvalue"]; ok {
@@ -263,12 +263,12 @@ func (d *TC100R8) handlerstrte(m dict) (dict, error) {
 						lineint, _ := strconv.Atoi(line)
 						log.Debugln("line=", lineint)
 						log.Debugln("status=", status[stat])
-						log.Debugln("on_off", on_off[onoff])
+						log.Debugln("onOff", onOff[onoff])
 						tdelay, _ := strconv.Atoi(delay)
 						log.Debugln("delay=", tdelay)
 						lineint -= 1
 						wbyte[lineint*4] = status[stat]
-						wbyte[lineint*4+1] = on_off[onoff]
+						wbyte[lineint*4+1] = onOff[onoff]
 						wbyte[lineint*4+2] = strconv.Itoa(tdelay / 0xff)
 						wbyte[lineint*4+3] = strconv.Itoa(tdelay & 0xff)
 						test += 1
@@ -319,7 +319,7 @@ func (d *TC100R8) allstrate(m dict) (dict, error) {
 	}
 	log.Debugln("所有策略=", vallist)
 	d.Quantity = 104
-	d.Starting_address = 0
+	d.StartingAddress = 0
 	return dict{"value": vallist}, nil
 }
 
@@ -328,9 +328,9 @@ func (d *TC100R8) allstrate(m dict) (dict, error) {
 // 读 厂家编号
 func (d *TC100R8) doReadFactoryNo(m dict) (ret dict, err error) {
 
-	d.Starting_address = 126
+	d.StartingAddress = 126
 	d.Quantity = 4
-	d.Function_code = 3
+	d.FunctionCode = 3
 
 	rstDict, rstErr := d.ModbusRtu.RWDevValue("r", nil)
 	if rstErr != nil {
@@ -349,9 +349,9 @@ func (d *TC100R8) doReadFactoryNo(m dict) (ret dict, err error) {
 // 读 策略
 func (d *TC100R8) doReadStrategy(m dict) (ret dict, err error) {
 
-	d.Starting_address = 0
+	d.StartingAddress = 0
 	d.Quantity = 123
-	d.Function_code = 3
+	d.FunctionCode = 3
 
 	rstDict, rstErr := d.ModbusRtu.RWDevValue("r", nil)
 	if rstErr != nil {
@@ -385,9 +385,9 @@ func (d *TC100R8) doReadStrategy(m dict) (ret dict, err error) {
 // 读 主动上报
 func (d *TC100R8) doReadRealData(m dict) (ret dict, err error) {
 
-	d.Starting_address = 120
+	d.StartingAddress = 120
 	d.Quantity = 42
-	d.Function_code = 3
+	d.FunctionCode = 3
 
 	rstDict, rstErr := d.ModbusRtu.RWDevValue("r", nil)
 	if rstErr != nil {
@@ -450,9 +450,9 @@ func (d *TC100R8) doGetVar(m dict) (ret dict, err error) {
 // 写 校时
 func (d *TC100R8) doTiming(m dict) (ret dict, err error) {
 
-	d.Starting_address = 123
+	d.StartingAddress = 123
 	d.Quantity = 3
-	d.Function_code = 16
+	d.FunctionCode = 16
 
 	var wbyte []string
 	var vallist []interface{}
@@ -480,12 +480,12 @@ func (d *TC100R8) doTiming(m dict) (ret dict, err error) {
 // 写 手动
 func (d *TC100R8) doManual(m dict) (ret dict, err error) {
 
-	d.Starting_address = 104
+	d.StartingAddress = 104
 	d.Quantity = 16
-	d.Function_code = 16
+	d.FunctionCode = 16
 
 	status := map[string]string{"A": "1", "M": "2"}
-	on_off := map[string]string{"on": "1", "off": "0"}
+	onOff := map[string]string{"on": "1", "off": "0"}
 
 	wbyte := make([]string, 32)
 	var vallist []interface{}
@@ -511,12 +511,12 @@ func (d *TC100R8) doManual(m dict) (ret dict, err error) {
 					lineint, _ := strconv.Atoi(line)
 					log.Debugln("line=", lineint)
 					log.Debugln("status=", status[stat])
-					log.Debugln("on_off", on_off[onoff])
+					log.Debugln("onOff", onOff[onoff])
 					tdelay, _ := strconv.Atoi(delay)
 					log.Debugln("delay=", tdelay)
 					lineint -= 1
 					wbyte[lineint*4] = status[stat]
-					wbyte[lineint*4+1] = on_off[onoff]
+					wbyte[lineint*4+1] = onOff[onoff]
 					wbyte[lineint*4+2] = strconv.Itoa(tdelay / 0xff)
 					wbyte[lineint*4+3] = strconv.Itoa(tdelay & 0xff)
 				}
@@ -536,7 +536,7 @@ func (d *TC100R8) doManual(m dict) (ret dict, err error) {
 // 写 一个策略
 func (d *TC100R8) doIssueOneStrategy(m dict) (ret dict, err error) {
 
-	d.Function_code = 16
+	d.FunctionCode = 16
 
 	var wval dict
 	wval, err = d.autostrate(m)
@@ -550,12 +550,12 @@ func (d *TC100R8) doIssueOneStrategy(m dict) (ret dict, err error) {
 // 写 所有策略
 func (d *TC100R8) doIssueAllStrategy(m dict) (ret dict, err error) {
 
-	d.Function_code = 16
+	d.FunctionCode = 16
 
 	var wval dict
 	wval, err = d.allstrate(m)
 	if err == nil {
-		d.Starting_address = 0
+		d.StartingAddress = 0
 		d.Quantity = 104
 		ret, err = d.ModbusRtu.RWDevValue("w", wval)
 	}
@@ -609,9 +609,9 @@ func (d *TC100R8) doSetVar(m dict) (ret dict, err error) {
 // 读写参数入口
 func (d *TC100R8) RWDevValue(rw string, m dict) (ret dict, err error) {
 	defer func() {
-		if drive_err := recover(); drive_err != nil {
-			log.Errorf("drive programer  error : %s", drive_err)
-			errstr := fmt.Sprintf("drive programer  error : %s", drive_err)
+		if driveErr := recover(); driveErr != nil {
+			log.Errorf("drive programer  error : %s", driveErr)
+			errstr := fmt.Sprintf("drive programer  error : %s", driveErr)
 			err = errors.New(errstr)
 		}
 	}()

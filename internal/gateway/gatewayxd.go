@@ -46,12 +46,12 @@ func init() {
 	}()
 	go func() {
 		for {
-			led_link(common.Mqtt_connected, Link)
+			ledLink(common.Mqttconnected, Link)
 		}
 	}()
 	go func() {
 		for {
-			led_run(Run, 500)
+			ledRun(Run, 500)
 		}
 	}()
 }
@@ -103,7 +103,7 @@ func resetdefip(gp gpio.Pin) {
 	}
 }
 
-func led_run(gp gpio.Pin, delay int64) {
+func ledRun(gp gpio.Pin, delay int64) {
 	time.Sleep(time.Duration(delay) * time.Millisecond)
 	if gp.Get() {
 		gp.Clear()
@@ -112,7 +112,7 @@ func led_run(gp gpio.Pin, delay int64) {
 	}
 }
 
-func led_link(ml bool, gp gpio.Pin) {
+func ledLink(ml bool, gp gpio.Pin) {
 	var delay int64
 	if ml {
 		delay = 1000
@@ -127,6 +127,7 @@ func led_link(ml bool, gp gpio.Pin) {
 	}
 }
 
+// Cmdfp struct
 type Cmdfp struct {
 	Cmdfunc func(*simplejson.Json) error
 	Param   *simplejson.Json
@@ -134,18 +135,20 @@ type Cmdfp struct {
 
 type dict map[string]interface{}
 
+// Gateway struct
 type Gateway struct {
-	DevIfMap  map[string]device.DeviceRWer //设备接口
+	DevIfMap  map[string]device.Devicerwer //设备接口
 	ConMap    map[string]string            //配置参数
 	Handler   handler.Handler              //消息处理
 	WsMap     map[int]*websocket.Conn
-	Cmdlist   *list.List       //命令队列
-	Cmdchan   chan interface{} //命令chan
+	Cmdlist   *list.List //命令队列
+	Cmdchan   chan Cmdfp //命令chan
 	WsNochanr chan map[int]string
 	Devpath   string
 	Conpath   string
 }
 
+// Update ..
 func (mygw *Gateway) Update() error {
 	var err error
 	mygw.DevIfMap, err = device.NewDevHandler(mygw.Devpath)
@@ -153,6 +156,7 @@ func (mygw *Gateway) Update() error {
 	return err
 }
 
+//WsHandle ..
 func (mygw *Gateway) WsHandle(ws *websocket.Conn) {
 	var err error
 	no := len(mygw.WsMap) + 1
@@ -178,6 +182,7 @@ func (mygw *Gateway) WsHandle(ws *websocket.Conn) {
 	}
 }
 
+// Mqttcmdhandler ..
 func (mygw *Gateway) Mqttcmdhandler(dpc chan handler.DataDownPayload) {
 	for dpj := range dpc {
 		go func(dpj handler.DataDownPayload) {
@@ -187,6 +192,7 @@ func (mygw *Gateway) Mqttcmdhandler(dpc chan handler.DataDownPayload) {
 	}
 }
 
+// Wscmdhandler ..
 func (mygw *Gateway) Wscmdhandler(req string, ws *websocket.Conn) {
 	if reqjs, err := simplejson.NewJson([]byte(req)); err == nil {
 		request := reqjs.Get("request")
@@ -207,47 +213,47 @@ func (mygw *Gateway) msghandler(request *simplejson.Json, ws *websocket.Conn) {
 		mygw.initget(request, ws)
 
 	case cmdstring == "manager/get_suppot_devlist":
-		mygw.manager_dev_suppotlist(request, ws)
+		mygw.managerDevSuppotlist(request, ws)
 
 	case cmdstring == "manager/dev/update.do":
-		mygw.manager_dev_update(request, ws)
+		mygw.managerDevUpdate(request, ws)
 
 	case cmdstring == "manager/update_commif.do":
-		mygw.manager_updatecommif(request, ws)
+		mygw.managerUpdatecommif(request, ws)
 
 	case cmdstring == "manager/list_commif.do":
-		mygw.manager_listcommif(request, ws)
+		mygw.managerListcommif(request, ws)
 
 	case cmdstring == "manager/dev/list.do":
-		mygw.manager_dev_list(request, ws)
+		mygw.managerDevList(request, ws)
 
 	case cmdstring == "manager/dev/delete.do":
-		mygw.manager_dev_delete(request, ws)
+		mygw.managerDevDelete(request, ws)
 
 	case cmdstring == "manager/set_system_time":
-		mygw.manager_set_system_time(request, ws)
+		mygw.managerSetSystemTIme(request, ws)
 
 	case cmdstring == "manager/set_interval.do":
-		mygw.manager_set_interval(request, ws)
+		mygw.managerSetInterval(request, ws)
 
 	case cmdstring == "manager/update_drive":
-		mygw.manager_update_drive(request, ws)
+		mygw.managerUpdateDrive(request, ws)
 
 	case cmdstring == "do/getvar":
-		mygw.do_getvar(request, ws)
+		mygw.doGetvar(request, ws)
 
 	case cmdstring == "do/setvar":
-		mygw.do_setvar(request, ws)
+		mygw.doSetvar(request, ws)
 
 	case cmdstring == "help":
-		mygw.do_help(request, ws)
+		mygw.doHelp(request, ws)
 
 	default:
 		log.Errorf("cmd error %s", err)
 	}
 }
 
-func (mygw *Gateway) update_rstat() {
+func (mygw *Gateway) updateRstat() {
 	conf, _ := config.LoadConfigFile(mygw.Conpath)
 	rs, _ := conf.GetValue("other", "runstate")
 	rsi, _ := strconv.Atoi(rs)
@@ -273,12 +279,12 @@ func (mygw *Gateway) initset(req *simplejson.Json, ws *websocket.Conn) error {
 	patternport := regexp.MustCompile(`^[1-9]\d{0,4}$`)
 	//修改config文件
 	var ack []string
-	if server_ip, ok := data.Get("_server_ip").String(); ok == nil {
-		if patternip.MatchString(server_ip) {
-			conf.SetValue("mqtt", "_server_ip", server_ip)
+	if serverIP, ok := data.Get("_server_ip").String(); ok == nil {
+		if patternip.MatchString(serverIP) {
+			conf.SetValue("mqtt", "_server_ip", serverIP)
 			ack = append(ack, "_server_ip")
 		} else {
-			mygw.encoderesponseup(req, fmt.Sprintf("_server_ip 格式错误: %s", server_ip), 1, ws)
+			mygw.encoderesponseup(req, fmt.Sprintf("_server_ip 格式错误: %s", serverIP), 1, ws)
 			return errors.New("wrong mqttserver ip format")
 		}
 	}
@@ -428,7 +434,7 @@ func (mygw *Gateway) initget(req *simplejson.Json, ws *websocket.Conn) {
 		upm = map[string]string{
 			"_client_ip": ipstr,
 		}
-		if common.Mqtt_connected {
+		if common.Mqttconnected {
 			cm["net_status"] = "online"
 		} else {
 			cm["net_status"] = "offline"
@@ -440,7 +446,7 @@ func (mygw *Gateway) initget(req *simplejson.Json, ws *websocket.Conn) {
 	mygw.encoderesponseup(req, upm, 0, ws)
 }
 
-func (mygw *Gateway) manager_updatecommif(req *simplejson.Json, ws *websocket.Conn) {
+func (mygw *Gateway) managerUpdatecommif(req *simplejson.Json, ws *websocket.Conn) {
 	var ack []string
 	conf, _ := config.LoadConfigFile(mygw.Conpath)
 	data := req.Get("data")
@@ -452,14 +458,14 @@ func (mygw *Gateway) manager_updatecommif(req *simplejson.Json, ws *websocket.Co
 			ack = append(ack, k)
 		}
 		config.SaveConfigFile(conf, mygw.Conpath)
-		mygw.update_rstat()
+		mygw.updateRstat()
 	} else {
 		mygw.encoderesponseup(req, fmt.Sprintf("設置通信接口失败"), 1, ws)
 	}
 	mygw.encoderesponseup(req, fmt.Sprintf("通訊接口%s设置成功", ack), 0, ws)
 }
 
-func (mygw *Gateway) manager_listcommif(req *simplejson.Json, ws *websocket.Conn) {
+func (mygw *Gateway) managerListcommif(req *simplejson.Json, ws *websocket.Conn) {
 	conf, _ := config.LoadConfigFile(mygw.Conpath)
 	if cm, err := conf.GetSection("commif"); err == nil {
 		mygw.encoderesponseup(req, cm, 0, ws)
@@ -468,7 +474,7 @@ func (mygw *Gateway) manager_listcommif(req *simplejson.Json, ws *websocket.Conn
 	}
 }
 
-func (mygw *Gateway) manager_dev_suppotlist(req *simplejson.Json, ws *websocket.Conn) {
+func (mygw *Gateway) managerDevSuppotlist(req *simplejson.Json, ws *websocket.Conn) {
 	var keys []string
 	for k := range device.RegDevice {
 		keys = append(keys, k)
@@ -476,7 +482,7 @@ func (mygw *Gateway) manager_dev_suppotlist(req *simplejson.Json, ws *websocket.
 	mygw.encoderesponseup(req, keys, 0, ws)
 }
 
-func (mygw *Gateway) manager_dev_list(req *simplejson.Json, ws *websocket.Conn) {
+func (mygw *Gateway) managerDevList(req *simplejson.Json, ws *websocket.Conn) {
 	var keys []map[string]interface{}
 	for _, v := range mygw.DevIfMap {
 		velement, _ := v.GetElement()
@@ -485,7 +491,7 @@ func (mygw *Gateway) manager_dev_list(req *simplejson.Json, ws *websocket.Conn) 
 	mygw.encoderesponseup(req, keys, 0, ws)
 }
 
-func (mygw *Gateway) manager_dev_update(req *simplejson.Json, ws *websocket.Conn) {
+func (mygw *Gateway) managerDevUpdate(req *simplejson.Json, ws *websocket.Conn) {
 	conf, _ := config.LoadConfigFile(mygw.Devpath)
 	datalist := []interface{}{}
 	data := req.Get("data").Interface()
@@ -499,49 +505,49 @@ func (mygw *Gateway) manager_dev_update(req *simplejson.Json, ws *websocket.Conn
 			var ackerr string
 			//		dm, err := data.Map()
 			dm, _ := data.(map[string]interface{})
-			dtype, ok_dtype := dm["_type"].(string)
-			if !ok_dtype {
+			dtype, okDType := dm["_type"].(string)
+			if !okDType {
 				ackerr = "必须要有_type参数"
 			}
-			_, ex_dtype := device.RegDevice[dtype]
-			if ok_dtype && !ex_dtype {
+			_, exDType := device.RegDevice[dtype]
+			if okDType && !exDType {
 				ackerr = fmt.Sprintf("不支持的设备类型 :%s", dtype)
 			}
-			devid, ok_devid := dm["_devid"].(string)
-			if ok_dtype && ex_dtype && !ok_devid {
+			devid, okDEvid := dm["_devid"].(string)
+			if okDType && exDType && !okDEvid {
 				ackerr = "必须要有_devid参数"
 			}
-			conn, ok_conn := dm["_conn"].(map[string]interface{})
-			if ok_dtype && ex_dtype && ok_devid && !ok_conn {
+			conn, okCOnn := dm["_conn"].(map[string]interface{})
+			if okDType && exDType && okDEvid && !okCOnn {
 				ackerr = "必须要有_conn参数"
 			}
-			commif, ok_commif := conn["commif"].(string)
-			if ok_dtype && ex_dtype && ok_devid && ok_conn && !ok_commif {
+			commif, okCOmmif := conn["commif"].(string)
+			if okDType && exDType && okDEvid && okCOnn && !okCOmmif {
 				ackerr = "必须要有commif参数"
 			}
-			_, ex_commif := mygw.ConMap[commif]
-			if ok_dtype && ex_dtype && ok_devid && ok_conn && ok_commif && !ex_commif {
+			_, exCOmmif := mygw.ConMap[commif]
+			if okDType && exDType && okDEvid && okCOnn && okCOmmif && !exCOmmif {
 				//ackerr = fmt.Sprintf("不存在或未配置的通信接口 :%s", commif)
-				ex_commif = true
+				exCOmmif = true
 			}
-			_, ok_devaddr := conn["devaddr"]
-			if ok_devaddr {
+			_, okDEvaddr := conn["devaddr"]
+			if okDEvaddr {
 				addrtype := reflect.TypeOf(conn["devaddr"])
-				ok_devaddr = addrtype.Name() == "Number" || addrtype.Name() == "string"
+				okDEvaddr = addrtype.Name() == "Number" || addrtype.Name() == "string"
 			}
-			if ok_dtype && ex_dtype && ok_devid && ok_conn && ok_commif && ex_commif && !ok_devaddr {
+			if okDType && exDType && okDEvid && okCOnn && okCOmmif && exCOmmif && !okDEvaddr {
 				ackerr = "必须要有devaddr参数"
 			}
 			check := false
 			var err error
-			if ok_dtype && ex_dtype && ok_devid && ok_conn && ok_commif && ex_commif && ok_devaddr {
+			if okDType && exDType && okDEvid && okCOnn && okCOmmif && exCOmmif && okDEvaddr {
 				check, err = device.RegDevice[dtype].CheckKey(conn)
-				if ok_dtype && ex_dtype && ok_devid && ok_conn && ok_commif && ex_commif && ok_devaddr && !check {
+				if okDType && exDType && okDEvid && okCOnn && okCOmmif && exCOmmif && okDEvaddr && !check {
 					ackerr = err.Error()
 				}
 			}
 
-			if ok_dtype && ex_dtype && ok_devid && ok_conn && ok_commif && ex_commif && ok_devaddr && check {
+			if okDType && exDType && okDEvid && okCOnn && okCOmmif && exCOmmif && okDEvaddr && check {
 				conf.SetValue(devid, "_type", dtype)
 				//				conf.SetValue(devid, "commif", commif)
 				//				conf.SetValue(devid, "devaddr", devaddr)
@@ -553,7 +559,7 @@ func (mygw *Gateway) manager_dev_update(req *simplejson.Json, ws *websocket.Conn
 					}
 				}
 				config.SaveConfigFile(conf, mygw.Devpath)
-				mygw.update_rstat()
+				mygw.updateRstat()
 				log.Infof("设备 : %s更新成功", devid)
 				mygw.encoderesponseup(req, fmt.Sprintf("设备 : %s更新成功", devid), 0, ws)
 			} else {
@@ -564,7 +570,7 @@ func (mygw *Gateway) manager_dev_update(req *simplejson.Json, ws *websocket.Conn
 	}
 }
 
-func (mygw *Gateway) manager_dev_delete(req *simplejson.Json, ws *websocket.Conn) {
+func (mygw *Gateway) managerDevDelete(req *simplejson.Json, ws *websocket.Conn) {
 	conf, _ := config.LoadConfigFile(mygw.Devpath)
 	datalist := []interface{}{}
 	data := req.Get("data").Interface()
@@ -577,17 +583,17 @@ func (mygw *Gateway) manager_dev_delete(req *simplejson.Json, ws *websocket.Conn
 		func(data interface{}) {
 			var ackerr string
 			dm, _ := data.(map[string]interface{})
-			devid, ok_devid := dm["_devid"].(string)
-			if !ok_devid {
+			devid, okDEvid := dm["_devid"].(string)
+			if !okDEvid {
 				ackerr = "必须要有_devid参数"
 			}
-			ok_del := conf.DeleteSection(devid)
-			if ok_devid && !ok_del {
+			okDEl := conf.DeleteSection(devid)
+			if okDEvid && !okDEl {
 				ackerr = fmt.Sprintf("设备 : %s删除失败或该设备不存在", devid)
 			}
-			if ok_del && ok_devid {
+			if okDEl && okDEvid {
 				config.SaveConfigFile(conf, mygw.Devpath)
-				mygw.update_rstat()
+				mygw.updateRstat()
 				log.Infof("设备 : %s删除成功", devid)
 				mygw.encoderesponseup(req, fmt.Sprintf("设备 : %s删除成功", devid), 0, ws)
 			} else {
@@ -597,14 +603,14 @@ func (mygw *Gateway) manager_dev_delete(req *simplejson.Json, ws *websocket.Conn
 	}
 }
 
-func (mygw *Gateway) manager_set_system_time(req *simplejson.Json, ws *websocket.Conn) {
+func (mygw *Gateway) managerSetSystemTIme(req *simplejson.Json, ws *websocket.Conn) {
 	data := req.Get("data")
 	patterndate := regexp.MustCompile(`^\d{2}-\d{2}-\d{4}|\d{2}/\d{2}/\d{4}$`)
 	patterntime := regexp.MustCompile(`^\d{2}:\d{2}:\d{2}$`)
 
-	da, ok_date := data.Get("date").String()
-	ti, ok_time := data.Get("time").String()
-	if ok_date == nil && ok_time == nil && patterndate.MatchString(da) && patterntime.MatchString(ti) {
+	da, okDAte := data.Get("date").String()
+	ti, okTIme := data.Get("time").String()
+	if okDAte == nil && okTIme == nil && patterndate.MatchString(da) && patterntime.MatchString(ti) {
 		dt := fmt.Sprintf("%s %s", da, ti)
 		//		fmt.Println(time.Unix(1512144000, 0).Format("01/02/2006 15:04:05.999999999"))
 		cmd := exec.Command("date", "-s", dt)
@@ -622,7 +628,7 @@ func (mygw *Gateway) manager_set_system_time(req *simplejson.Json, ws *websocket
 	}
 }
 
-func (mygw *Gateway) manager_set_interval(req *simplejson.Json, ws *websocket.Conn) {
+func (mygw *Gateway) managerSetInterval(req *simplejson.Json, ws *websocket.Conn) {
 	data := req.Get("data")
 	if interval, ok := data.Get("_interval").Int(); ok == nil {
 		conf, _ := config.LoadConfigFile(mygw.Conpath)
@@ -635,7 +641,7 @@ func (mygw *Gateway) manager_set_interval(req *simplejson.Json, ws *websocket.Co
 	}
 }
 
-func (mygw *Gateway) manager_update_drive(req *simplejson.Json, ws *websocket.Conn) {
+func (mygw *Gateway) managerUpdateDrive(req *simplejson.Json, ws *websocket.Conn) {
 	//	cmder := Cmdfp{
 	//		Cmdfunc: func(request *simplejson.Json) error {
 	//			pjs, _ := request.EncodePretty()
@@ -648,7 +654,7 @@ func (mygw *Gateway) manager_update_drive(req *simplejson.Json, ws *websocket.Co
 	//	mygw.Cmdchan <- cmder
 }
 
-func (mygw *Gateway) get_set_base(req *simplejson.Json, rw string, ws *websocket.Conn) {
+func (mygw *Gateway) getSetBase(req *simplejson.Json, rw string, ws *websocket.Conn) {
 	cmder := Cmdfp{
 		Cmdfunc: func(request *simplejson.Json) error {
 			data := request.Get("data")
@@ -701,15 +707,15 @@ func (mygw *Gateway) get_set_base(req *simplejson.Json, rw string, ws *websocket
 		cmder.Cmdfunc(cmder.Param)
 	}
 }
-func (mygw *Gateway) do_getvar(req *simplejson.Json, ws *websocket.Conn) {
-	mygw.get_set_base(req, "r", ws)
+func (mygw *Gateway) doGetvar(req *simplejson.Json, ws *websocket.Conn) {
+	mygw.getSetBase(req, "r", ws)
 }
 
-func (mygw *Gateway) do_setvar(req *simplejson.Json, ws *websocket.Conn) {
-	mygw.get_set_base(req, "w", ws)
+func (mygw *Gateway) doSetvar(req *simplejson.Json, ws *websocket.Conn) {
+	mygw.getSetBase(req, "w", ws)
 }
 
-func (mygw *Gateway) do_help(req *simplejson.Json, ws *websocket.Conn) {
+func (mygw *Gateway) doHelp(req *simplejson.Json, ws *websocket.Conn) {
 	data, err := req.Get("data").String()
 	if err == nil {
 		var helpdoc interface{}
@@ -727,16 +733,17 @@ func (mygw *Gateway) do_help(req *simplejson.Json, ws *websocket.Conn) {
 			}
 		}
 		return
+	}
+	if ws == nil {
+		mygw.Handler.SendDataUp(gatewayHelp())
 	} else {
-		if ws == nil {
-			mygw.Handler.SendDataUp(gateway_help())
-		} else {
-			if msg, err := json.Marshal(gateway_help()); err == nil {
-				ws.Write(msg)
-			}
+		if msg, err := json.Marshal(gatewayHelp()); err == nil {
+			ws.Write(msg)
 		}
 	}
 }
+
+// EncodeAutoup ..
 func (mygw *Gateway) EncodeAutoup(data map[string]interface{}) error {
 	if isup, ok := data["_update"]; ok {
 		if bisup, ok := isup.(bool); ok {
@@ -771,7 +778,7 @@ func (mygw *Gateway) EncodeAutoup(data map[string]interface{}) error {
 	}
 	uj.Set("header", header)
 	uj.Set("request", request)
-	if common.Mqtt_connected {
+	if common.Mqttconnected {
 		errstat = mygw.Handler.SendDataUp(uj)
 	}
 	//	if wsuj, ok := uj.MarshalJSON(); ok == nil {
@@ -784,7 +791,8 @@ func (mygw *Gateway) EncodeAutoup(data map[string]interface{}) error {
 	return errstat
 }
 
-func (mygw *Gateway) On_offline_msg(da uint) string {
+// OnOfflineMsg ..
+func (mygw *Gateway) OnOfflineMsg(da uint) string {
 	uj := simplejson.New()
 	devid, _ := mygw.ConMap["_client_id"]
 	runstate, _ := mygw.ConMap["runstate"]
@@ -809,9 +817,8 @@ func (mygw *Gateway) On_offline_msg(da uint) string {
 	retuj, err := json.Marshal(uj)
 	if err == nil {
 		return string(retuj)
-	} else {
-		return err.Error()
 	}
+	return err.Error()
 }
 
 func (mygw *Gateway) encoderesponseup(req *simplejson.Json, data interface{}, status int, ws *websocket.Conn) error {
@@ -858,7 +865,7 @@ func (mygw *Gateway) encoderesponseup(req *simplejson.Json, data interface{}, st
 	return errstat
 }
 
-func gateway_help() interface{} {
+func gatewayHelp() interface{} {
 	data := dict{
 		"parameter-1": "參數1",
 		"parameter-2": "參數2",
@@ -885,7 +892,7 @@ func gateway_help() interface{} {
 		"do/setvar":                  "控制操作设备,需要data字段,详见设备的帮助信息",
 		"help":                       "获取帮助信息,无data字段为网关帮助信息,data字段值为设备名,则为设备的帮助信息",
 	}
-	for_initset := dict{
+	forInitset := dict{
 		"_client_ip":      "ip地址",
 		"_client_gateway": "网络的网关地址",
 		"_client_netmask": "网络掩码",
@@ -896,44 +903,44 @@ func gateway_help() interface{} {
 		"_username":       "mqtt登录用户名",
 		"_password":       "mqtt登录密码",
 	}
-	for_dev_update := dict{
+	forDevUpdate := dict{
 		"_devid": "设备id",
 		"_conn":  "设备的参数,各种设备不同,详见设备的帮助信息",
 		"_type":  "设备类型",
 	}
-	for_dev_delete := dict{
+	forDevDelete := dict{
 		"_devid": "设备id",
 	}
-	for_update_commif := dict{
+	forUpdateCommif := dict{
 		"rs485-xxx":     "通信端口值,比如:/dev/ttyS0",
 		"rs232-xxx":     "通信端口值,比如:/dev/ttyS2",
 		"interface-xxx": "网络通信接口,比如:enp5s0,wlp4s0",
 	}
-	for_set_time := dict{
+	forSetTime := dict{
 		"date": "格式为:月/日/年,比如 09/02/2017",
 		"time": "格式为:时:分:秒,比如 15:08:03",
 	}
-	for_set_interval := dict{
+	forSetInterval := dict{
 		"_interval": "值为uint类型数字",
 	}
-	for_getvar := dict{
+	forGetvar := dict{
 		"_devid":   "设备id",
 		"value...": "读取设备的参数,各种设备不同,详见设备的帮助信息",
 	}
 
-	for_setvar := dict{
+	forSetvar := dict{
 		"_devid":   "设备id",
 		"value...": "控制操作设备的参数,各种设备不同,详见设备的帮助信息",
 	}
 	dataexplan := dict{
-		"1.data for (init/set.do)":              for_initset,
-		"2.data for (manager/dev/update.do)":    for_dev_update,
-		"3.data for (manager/dev/delete.do)":    for_dev_delete,
-		"4.data for (manager/update_commif.do)": for_update_commif,
-		"5.data for (manager/set_system_time)":  for_set_time,
-		"6.data for (manager/set_interval.do)":  for_set_interval,
-		"7,data for (do/getvar)":                for_getvar,
-		"8,data for (do/setvar)":                for_setvar,
+		"1.data for (init/set.do)":              forInitset,
+		"2.data for (manager/dev/update.do)":    forDevUpdate,
+		"3.data for (manager/dev/delete.do)":    forDevDelete,
+		"4.data for (manager/update_commif.do)": forUpdateCommif,
+		"5.data for (manager/set_system_time)":  forSetTime,
+		"6.data for (manager/set_interval.do)":  forSetInterval,
+		"7,data for (do/getvar)":                forGetvar,
+		"8,data for (do/setvar)":                forSetvar,
 	}
 	hj := simplejson.New()
 	hj.Set("1.格式", reqformat)

@@ -12,8 +12,13 @@ import (
 	//	"strings"
 )
 
+// RegDevice ..
 var RegDevice = make(Devlist)
+
+// Commif ..
 var Commif = make(map[string]string)
+
+// Mutex ..
 var Mutex = make(map[string]*sync.Mutex)
 
 type dict map[string]interface{}
@@ -30,14 +35,15 @@ func init() {
 		return
 	}
 	Commif = comm
-	for ifname, _ := range comm {
+	for ifname := range comm {
 		Mutex[ifname] = new(sync.Mutex)
 		//log.Info(ifname)
 	}
 }
 
-type DeviceRWer interface {
-	NewDev(id string, ele map[string]string) (DeviceRWer, error)
+// Devicerwer ..
+type Devicerwer interface {
+	NewDev(id string, ele map[string]string) (Devicerwer, error)
 	RWDevValue(rw string, m dict) (dict, error)
 	CheckKey(e dict) (bool, error)
 	GetElement() (dict, error)
@@ -45,6 +51,7 @@ type DeviceRWer interface {
 	//	Devid() string
 }
 
+// Device ..
 type Device struct {
 	devid   string
 	devtype string
@@ -53,15 +60,17 @@ type Device struct {
 	mutex   *sync.Mutex
 }
 
-type Devlist map[string]DeviceRWer
+// Devlist ..
+type Devlist map[string]Devicerwer
 
-func NewDevHandler(devlistfile string) (map[string]DeviceRWer, error) {
+// NewDevHandler ..
+func NewDevHandler(devlistfile string) (map[string]Devicerwer, error) {
 	con, err := config.LoadConfigFile(devlistfile)
 	if err != nil {
 		log.Errorf("load config file failed: %s", err)
 		return nil, err
 	}
-	devlist := map[string]DeviceRWer{}
+	devlist := map[string]Devicerwer{}
 	seclist := con.GetSectionList()
 	for _, devid := range seclist {
 		ele, err := con.GetSection(devid)
@@ -69,8 +78,8 @@ func NewDevHandler(devlistfile string) (map[string]DeviceRWer, error) {
 			log.Errorf("get %s element error : %s", devid, err)
 			continue
 		}
-		dtype, ok_type := ele["_type"]
-		if !ok_type {
+		dtype, okType := ele["_type"]
+		if !okType {
 			log.Errorf("get %s element type error : %s", devid, err)
 			continue
 		}
@@ -89,6 +98,7 @@ func NewDevHandler(devlistfile string) (map[string]DeviceRWer, error) {
 	return devlist, nil
 }
 
+// NewDev ..
 func (d *Device) NewDev(id string, ele map[string]string) Device {
 	dmutex := new(sync.Mutex)
 	return Device{
@@ -100,6 +110,7 @@ func (d *Device) NewDev(id string, ele map[string]string) Device {
 	}
 }
 
+// IntToBytes ..
 func IntToBytes(n int) []byte {
 	tmp := int32(n)
 	bytesBuffer := bytes.NewBuffer([]byte{})
@@ -107,6 +118,7 @@ func IntToBytes(n int) []byte {
 	return bytesBuffer.Bytes()
 }
 
+// BytesToInt ..
 func BytesToInt(b []byte) int {
 	bytesBuffer := bytes.NewBuffer(b)
 	var tmp int32
@@ -114,13 +126,17 @@ func BytesToInt(b []byte) int {
 	return int(tmp)
 }
 
+// Hex2Bcd ..
 func Hex2Bcd(n byte) byte {
 	return IntToBytes(int(n)>>4*10 + int(n)&0x0f)[3]
 }
 
+// Bcd2Hex ..
 func Bcd2Hex(n byte) byte {
 	return IntToBytes((int(n)/10)<<4 + int(n)%10)[3]
 }
+
+// Bcd2_2f ..
 func Bcd2_2f(a, b int) float64 {
 	return float64((a>>4*10+a&0x0f)*100 + (b>>4*10 + b&0x0f))
 }

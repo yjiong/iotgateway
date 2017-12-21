@@ -29,7 +29,7 @@ func init() {
 	RegDevice["HEELIGHT"] = &HEELIGHT{}
 }
 
-func (d *HEELIGHT) NewDev(id string, ele map[string]string) (DeviceRWer, error) {
+func (d *HEELIGHT) NewDev(id string, ele map[string]string) (Devicerwer, error) {
 	ndev := new(HEELIGHT)
 	ndev.Device = d.Device.NewDev(id, ele)
 	/***********************初始化设备的特有的参数*****************************/

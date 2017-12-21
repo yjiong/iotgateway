@@ -94,11 +94,7 @@ func run(c *cli.Context) error {
 	go func() {
 		/////////////////////////用chan方式实现命令处理///////////////////////////////
 		for cmd := range gateway.Cmdchan {
-			go func() {
-				if cmdv, ok := cmd.(gw.Cmdfp); ok {
-					cmdv.Cmdfunc(cmdv.Param)
-				}
-			}()
+			go cmd.Cmdfunc(cmd.Param)
 		}
 		//////////////////////////用队列的方式实现命令处理//////////////////////////////
 		//		for{
@@ -119,13 +115,13 @@ func run(c *cli.Context) error {
 	//按interval设置的时间间隔读取设备(单位秒),如果设置值为0,则不自动读取.
 	go func() {
 		for {
-			pub_interval, err := strconv.Atoi(gateway.ConMap["_interval"])
+			pubInterval, err := strconv.Atoi(gateway.ConMap["_interval"])
 			if err != nil {
-				pub_interval = c.Int("interval")
+				pubInterval = c.Int("interval")
 			}
-			time.Sleep(time.Second * time.Duration(pub_interval))
+			time.Sleep(time.Second * time.Duration(pubInterval))
 			//starttime := time.Now().Unix()
-			if pub_interval != 0 {
+			if pubInterval != 0 {
 				for id, dev := range gateway.DevIfMap {
 					let, err := dev.RWDevValue("r", nil)
 					if err != nil {
@@ -191,7 +187,7 @@ func mustGetGateway(c *cli.Context) gw.Gateway {
 		Cmdlist:   list.New(),
 		Devpath:   common.DEVFILEPATH,
 		Conpath:   common.CONFILEPATH,
-		Cmdchan:   make(chan interface{}),
+		Cmdchan:   make(chan gw.Cmdfp),
 		WsNochanr: make(chan map[int]string),
 	}
 }
@@ -201,8 +197,8 @@ func mqttconnect(c *cli.Context, gateway *gw.Gateway) {
 	// 初始化配置文件
 	conm, err := common.NewConMap(common.CONFILEPATH)
 	var h handler.Handler
-	willmsg := gateway.On_offline_msg(0)
-	onlinemsg := gateway.On_offline_msg(1)
+	willmsg := gateway.OnOfflineMsg(0)
+	onlinemsg := gateway.OnOfflineMsg(1)
 	cm := map[string]string{
 		"_server_ip":   c.String("mqtt-server"),
 		"_server_port": "",
