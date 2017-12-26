@@ -244,7 +244,9 @@ func (d *ModbusRtu) RWDevValue(rw string, m dict) (ret dict, err error) {
 			v64, _ := v.Int64()
 			value = uint16(v64)
 		} else {
-			return nil, errors.New("write modbus singlecoil or registers need value : uint16")
+			if functionCode == 5 || functionCode == 6 {
+				return nil, errors.New("write modbus singlecoil or registers need value : uint16")
+			}
 		}
 		if vif, ok := m["value"].([]interface{}); ok && (functionCode == 15 || functionCode == 16) {
 			for _, v := range vif {
@@ -252,11 +254,15 @@ func (d *ModbusRtu) RWDevValue(rw string, m dict) (ret dict, err error) {
 					vi64, _ := vi.Int64()
 					valuelist = append(valuelist, IntToBytes(int(vi64))[3])
 				} else {
-					return nil, errors.New("write modbus singlecoil or registers need value: [uint8...]")
+					if functionCode == 15 || functionCode == 16 {
+						return nil, errors.New("write modbus singlecoil or registers need value: [uint8...]")
+					}
 				}
 			}
 		} else {
-			return nil, errors.New("write modbus singlecoil or registers need values : [uint8...]")
+			if functionCode == 15 || functionCode == 16 {
+				return nil, errors.New("write modbus singlecoil or registers need values : [uint8...]")
+			}
 		}
 		switch functionCode {
 		case 5:
