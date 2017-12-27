@@ -178,6 +178,9 @@ func (d *ModbusRtu) CheckKey(ele dict) (bool, error) {
 
 // RWDevValue ..
 func (d *ModbusRtu) RWDevValue(rw string, m dict) (ret dict, err error) {
+	if Mutex[d.commif] == nil {
+		return nil, fmt.Errorf("错误的设备接口:%s", d.commif)
+	}
 	sermutex := Mutex[d.commif]
 	sermutex.Lock()
 	defer sermutex.Unlock()
