@@ -39,6 +39,7 @@ func init() {
 		Mutex[ifname] = new(sync.Mutex)
 		//log.Info(ifname)
 	}
+	Mutex["usb0"] = new(sync.Mutex)
 }
 
 // Devicerwer ..

@@ -3,6 +3,7 @@ package gateway
 import (
 	"bytes"
 	"container/list"
+	"encoding/base64"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -187,7 +188,11 @@ func (mygw *Gateway) Mqttcmdhandler(dpc chan handler.DataDownPayload) {
 	for dpj := range dpc {
 		go func(dpj handler.DataDownPayload) {
 			request := dpj.Pj.Get("request")
-			mygw.msghandler(request, nil)
+			if _, remok := request.Map(); remok == nil {
+				mygw.msghandler(request, nil)
+			} else {
+				mygw.msghandler(dpj.Pj, nil)
+			}
 		}(dpj)
 	}
 }
@@ -248,6 +253,8 @@ func (mygw *Gateway) msghandler(request *simplejson.Json, ws *websocket.Conn) {
 	case cmdstring == "help":
 		mygw.doHelp(request, ws)
 
+	case cmdstring == "remoteSerial":
+		mygw.remoteSerial(request)
 	default:
 		log.Errorf("cmd error %s", err)
 	}
@@ -863,6 +870,51 @@ func (mygw *Gateway) encoderesponseup(req *simplejson.Json, data interface{}, st
 		}
 	}
 	return errstat
+}
+
+func (mygw *Gateway) remoteSerial(req *simplejson.Json) (err error) {
+	var loop bool
+	defer func() {
+		if driveErr := recover(); driveErr != nil {
+			log.Errorf("drive programer  error : (%s)", driveErr)
+			errstr := fmt.Sprintf("drive programer  error : %s", driveErr)
+			err = errors.New(errstr)
+		}
+	}()
+	parsej := req.Get("parse")
+	parse, _ := parsej.String()
+	data := req.Get("data")
+	switch parse {
+	case "openser":
+		if ok := device.Openser(data); ok == nil {
+			mygw.Handler.SendSerDataUp([]byte("open serial successful"))
+			loop = true
+			for {
+				if loop == false {
+					break
+				}
+				if res, err := device.Rser(); res != nil && err == nil {
+					mygw.Handler.SendSerDataUp(res)
+				}
+			}
+		} else {
+			mygw.Handler.SendSerDataUp([]byte("open serial failed"))
+		}
+	case "closeser":
+		device.Closeser()
+		loop = false
+	case "wser":
+		if da, ok := data.Interface().(string); ok {
+			if deb64, err := base64.StdEncoding.DecodeString(da); err == nil {
+				log.Info(deb64)
+				err = device.Wser(deb64)
+			}
+
+		}
+	default:
+		err = errors.New("available parser")
+	}
+	return err
 }
 
 func gatewayHelp() interface{} {

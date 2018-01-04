@@ -139,6 +139,17 @@ func (h *MQTTHandler) SendDataUp(payload interface{}) error {
 	return nil
 }
 
+// SendSerDataUp sends a DataUpPayload.
+func (h *MQTTHandler) SendSerDataUp(b []byte) error {
+
+	topic := "serial" + "/" + h.ClientID
+	if token := h.conn.Publish(topic, 0, false, b); token.Wait() && token.Error() != nil {
+		return fmt.Errorf("handler/mqtt: publish data-up error: %s", token.Error())
+	}
+	log.WithFields(log.Fields{"topic": topic}).Info(b)
+	return nil
+}
+
 // DataDownChan returns the channel containing the received DataDownPayload.
 func (h *MQTTHandler) DataDownChan() chan DataDownPayload {
 	return h.dataDownChan
