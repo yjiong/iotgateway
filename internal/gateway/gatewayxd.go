@@ -873,7 +873,6 @@ func (mygw *Gateway) encoderesponseup(req *simplejson.Json, data interface{}, st
 }
 
 func (mygw *Gateway) remoteSerial(req *simplejson.Json) (err error) {
-	var loop bool
 	defer func() {
 		if driveErr := recover(); driveErr != nil {
 			log.Errorf("drive programer  error : (%s)", driveErr)
@@ -888,28 +887,22 @@ func (mygw *Gateway) remoteSerial(req *simplejson.Json) (err error) {
 	case "openser":
 		if ok := device.Openser(data); ok == nil {
 			mygw.Handler.SendSerDataUp([]byte("open serial successful"))
-			loop = true
-			for {
-				if loop == false {
-					break
-				}
-				if res, err := device.Rser(); res != nil && err == nil {
-					mygw.Handler.SendSerDataUp(res)
-				}
-			}
 		} else {
 			mygw.Handler.SendSerDataUp([]byte("open serial failed"))
 		}
 	case "closeser":
 		device.Closeser()
-		loop = false
 	case "wser":
 		if da, ok := data.Interface().(string); ok {
 			if deb64, err := base64.StdEncoding.DecodeString(da); err == nil {
 				log.Info(deb64)
 				err = device.Wser(deb64)
 			}
-
+			if err == nil {
+				if res, err := device.Rser(); res != nil && err == nil {
+					mygw.Handler.SendSerDataUp(res)
+				}
+			}
 		}
 	default:
 		err = errors.New("available parser")

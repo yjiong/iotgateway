@@ -1,0 +1,19 @@
+#!/usr/bin/expect
+#########################################################################
+# File Name: autoscp.sh
+# Author: yjiong
+# mail: 4418229@qq.com
+# Created Time: 2017-11-14 10:21:52
+#########################################################################
+
+set timeout 2 
+set ip [lindex $argv 0]
+set user [lindex $argv 1]
+set password [lindex $argv 2]
+set cpfile [lindex $argv 3]
+spawn scp $cpfile root@$ip:/home/fa/tg150/
+expect "Password:"
+send "$password\r";
+interact
+sleep 1
+exit 0
