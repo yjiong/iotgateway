@@ -138,15 +138,17 @@ type dict map[string]interface{}
 
 // Gateway struct
 type Gateway struct {
-	DevIfMap  map[string]device.Devicerwer //设备接口
-	ConMap    map[string]string            //配置参数
-	Handler   handler.Handler              //消息处理
-	WsMap     map[int]*websocket.Conn
-	Cmdlist   *list.List //命令队列
-	Cmdchan   chan Cmdfp //命令chan
-	WsNochanr chan map[int]string
-	Devpath   string
-	Conpath   string
+	DevIfMap   map[string]device.Devicerwer //设备接口
+	ConMap     map[string]string            //配置参数
+	Handler    handler.Handler              //消息处理
+	WsMap      map[int]*websocket.Conn
+	Cmdlist    *list.List //命令队列
+	Cmdchan    chan Cmdfp //命令chan
+	WsNochanr  chan map[int]string
+	Devpath    string
+	Conpath    string
+	loop       bool
+	serincount int
 }
 
 // Update ..
@@ -885,13 +887,23 @@ func (mygw *Gateway) remoteSerial(req *simplejson.Json) (err error) {
 	data := req.Get("data")
 	switch parse {
 	case "openser":
+		mygw.serincount++
+		if mygw.loop == true {
+			mygw.Handler.SendSerDataUp([]byte("serial aleady in useing"))
+			return nil
+		}
 		if ok := device.Openser(data); ok == nil {
 			mygw.Handler.SendSerDataUp([]byte("open serial successful"))
+			mygw.loop = true
 		} else {
 			mygw.Handler.SendSerDataUp([]byte("open serial failed"))
 		}
 	case "closeser":
-		device.Closeser()
+		mygw.serincount--
+		if mygw.serincount == 0 {
+			device.Closeser()
+			mygw.loop = false
+		}
 	case "wser":
 		if da, ok := data.Interface().(string); ok {
 			if deb64, err := base64.StdEncoding.DecodeString(da); err == nil {

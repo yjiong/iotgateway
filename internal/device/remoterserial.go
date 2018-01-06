@@ -46,10 +46,14 @@ func Openser(param *simplejson.Json) (err error) {
 	resConfig.Parity, _ = par["parity"].(string)   //d.Parity
 	stopbits, _ := par["stopbits"].(string)
 	resConfig.StopBits, _ = strconv.Atoi(stopbits) // d.StopBits
-	readint, _ := par["readInterval"].(string)
-	readInterval, _ = strconv.Atoi(readint) // d.StopBits
-	resConfig.Timeout = time.Second * 3
-
+	if readstrval, ok := par["readInterval"]; ok {
+		if readstr, ok := readstrval.(string); ok {
+			readInterval, _ = strconv.Atoi(readstr) // d.StopBits
+		}
+	} else {
+		readInterval = 2560000 / resConfig.BaudRate
+	}
+	resConfig.Timeout = time.Second * 2
 	for i := 0; i < 5; i++ {
 		RemotePort, err = serial.Open(&resConfig)
 		if err == nil {
@@ -90,7 +94,7 @@ func Wser(data []byte) error {
 // Rser ...
 func Rser() (results []byte, err error) {
 	var len int
-	results = make([]byte, 255)
+	results = make([]byte, 256)
 	time.Sleep(time.Duration(readInterval) * time.Millisecond)
 	len, err = RemotePort.Read(results)
 	if len != 0 {
