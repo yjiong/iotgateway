@@ -149,6 +149,7 @@ type Gateway struct {
 	Conpath    string
 	loop       bool
 	serincount int
+	delay      int
 }
 
 // Update ..
@@ -898,13 +899,33 @@ func (mygw *Gateway) remoteSerial(req *simplejson.Json) (err error) {
 		} else {
 			mygw.Handler.SendSerDataUp([]byte("open serial failed"))
 		}
+		if mygw.loop == true && mygw.serincount == 1 {
+			for {
+				if mygw.loop == true {
+					time.Sleep(time.Second)
+					mygw.delay++
+					if mygw.delay > 300 {
+						device.Closeser()
+						mygw.loop = false
+						mygw.serincount = 0
+					}
+				} else {
+					break
+				}
+			}
+		}
 	case "closeser":
-		mygw.serincount--
-		if mygw.serincount == 0 {
+		if mygw.serincount > 0 {
+			mygw.serincount--
+		}
+		if mygw.serincount == 0 && mygw.loop == true {
 			device.Closeser()
 			mygw.loop = false
 		}
+		log.Info("serincount=", mygw.serincount)
+		log.Info("mygw.loop=", mygw.loop)
 	case "wser":
+		mygw.delay = 0
 		if da, ok := data.Interface().(string); ok {
 			if deb64, err := base64.StdEncoding.DecodeString(da); err == nil {
 				log.Info(deb64)
