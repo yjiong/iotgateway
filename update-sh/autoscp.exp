@@ -11,9 +11,26 @@ set ip [lindex $argv 0]
 set user [lindex $argv 1]
 set password [lindex $argv 2]
 set cpfile [lindex $argv 3]
-spawn scp $cpfile root@$ip:/home/fa/tg150/
+spawn scp $cpfile root@$ip:/home/fa/${cpfile}/
 expect "Password:"
-send "$password\r";
+send "$password\r"
+expect  {
+            -nocase "*100%*"
+            {
+                puts "copy file successful"
+            }
+            -nocase "scp:*"
+            {
+                puts "copy file failed"
+                exit 1
+            }
+            -nocase "$cpfile:*"
+            {
+                puts "$cpfile: No such file or directoty"
+                exit 2
+            }
+        }
+sleep 1
 interact
 sleep 1
 exit 0
