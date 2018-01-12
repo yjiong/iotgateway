@@ -6,6 +6,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/yjiong/go_tg120/config"
 	"github.com/yjiong/go_tg120/internal/common"
+	"math"
 	"sync"
 	//	"strconv"
 	//	"fmt"
@@ -140,4 +141,36 @@ func Bcd2Hex(n byte) byte {
 // Bcd2_2f ..
 func Bcd2_2f(a, b int) float64 {
 	return float64((a>>4*10+a&0x0f)*100 + (b>>4*10 + b&0x0f))
+}
+
+// Float32ToByte ..
+func Float32ToByte(float float32) []byte {
+	bits := math.Float32bits(float)
+	bytes := make([]byte, 4)
+	binary.LittleEndian.PutUint32(bytes, bits)
+
+	return bytes
+}
+
+//ByteToFloat32 ..
+func ByteToFloat32(bytes []byte) float32 {
+	bits := binary.LittleEndian.Uint32(bytes)
+
+	return math.Float32frombits(bits)
+}
+
+// Float64ToByte ..
+func Float64ToByte(float float64) []byte {
+	bits := math.Float64bits(float)
+	bytes := make([]byte, 8)
+	binary.LittleEndian.PutUint64(bytes, bits)
+
+	return bytes
+}
+
+// ByteToFloat64 ..
+func ByteToFloat64(bytes []byte) float64 {
+	bits := binary.LittleEndian.Uint64(bytes)
+
+	return math.Float64frombits(bits)
 }
