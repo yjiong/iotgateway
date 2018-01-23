@@ -5,13 +5,25 @@ import (
 	"errors"
 	"fmt"
 	log "github.com/Sirupsen/logrus"
+	"math"
 	//simplejson "github.com/bitly/go-simplejson"
-	//"strconv"
+	"strconv"
 	//"strings"
 	//"sync"
 )
 
-type roomtemp struct {
+var onoff = map[int]string{
+	0: "OFF",
+	1: "ON",
+}
+
+var alarm = map[int]string{
+	0: "abnormal",
+	1: "normal",
+}
+
+// ValToshiba ...
+type ValToshiba struct {
 	RoomTemperature float32 `json:"RoomTemperature,string"`
 }
 
@@ -20,6 +32,7 @@ type TOSHIBA struct {
 	//继承于ModebusRtu
 	ModbusRtu
 	/**************按不同设备自定义*************************/
+	IndoorNum string
 	/**************按不同设备自定义*************************/
 }
 
@@ -36,10 +49,7 @@ func (d *TOSHIBA) NewDev(id string, ele map[string]string) (Devicerwer, error) {
 	ndev.DataBits = 8
 	ndev.StopBits = 1
 	ndev.Parity = "N"
-	//	saint, _ := strconv.Atoi(ele["StartingAddress"])
-	//ndev.StartingAddress = 2
-	//	qint, _ := strconv.Atoi(ele["Quantity"])
-	//ndev.Quantity = 22
+	ndev.IndoorNum = ele["IndoorNum"]
 	/***********************初始化设备的特有的参数*****************************/
 	return ndev, nil
 }
@@ -152,7 +162,7 @@ func (d *TOSHIBA) encode(m dict) (json.Number, error) {
 	return results, nil
 }
 
-func (d *TOSHIBA) hex2float32(hex2 []byte) (vf float32, err error) {
+func (d *TOSHIBA) hex2float(hex2 []byte) (vf float64, err error) {
 	if len(hex2) != 2 {
 		return 0, errors.New("wrong len hex data")
 	}
@@ -164,7 +174,7 @@ func (d *TOSHIBA) hex2float32(hex2 []byte) (vf float32, err error) {
 			m = m - 0x800
 		}
 		log.Debugf("e=%d,m=%d", e, m)
-		vf = float32(int32(m)<<e) * 0.01
+		vf = float64(int32(m)<<e) * 0.01
 		log.Debugf("vf=%f", vf)
 	} // else {
 	//vf = float32(m)
@@ -173,6 +183,30 @@ func (d *TOSHIBA) hex2float32(hex2 []byte) (vf float32, err error) {
 	//}
 	//}
 	return vf, err
+}
+
+func (d *TOSHIBA) float2hex2(vf float64) (hex2 []byte, err error) {
+	hex2 = make([]byte, 2)
+	if vf < -671088.63 || vf > 670760.95 {
+		return hex2, errors.New("wrong date")
+	}
+	var powerE uint16
+	var m uint16
+	var h2 uint16
+	if vf >= 0 {
+		powerE = uint16(math.Ceil(vf*100) / 0x800)
+		m = uint16(int(math.Ceil(vf*100)) % 0x800)
+		h2 = uint16(powerE<<11 + m)
+	} else {
+		powerE = uint16(math.Ceil(0-vf*100) / 0x800)
+		m = uint16(int(math.Ceil(0-vf*100)) % 0x800)
+		h2 = uint16(0x8000 + powerE<<11 + m)
+	}
+	log.Debugln(powerE, m, h2)
+	log.Debugf("h2=%x", h2)
+	hex2[0] = byte(h2 >> 8)
+	hex2[1] = byte(h2 & 0xff)
+	return hex2, nil
 }
 
 /***************************************读写接口实现**************************************************/
@@ -192,10 +226,39 @@ func (d *TOSHIBA) RWDevValue(rw string, m dict) (ret dict, err error) {
 	//log.SetLevel(log.DebugLevel)
 	ret["_devid"] = d.devid
 	if rw == "r" {
-
-		test := []byte{0x0b, 0xb4}
-		temperature, _ := d.hex2float32(test)
-		log.Debugf("temperature=%f", temperature)
+		d.Quantity = 8
+		d.FunctionCode = 2
+		IndoorNum, _ := strconv.Atoi(d.IndoorNum)
+		d.StartingAddress = uint16(152*IndoorNum - 152)
+		log.Debugf("IndoorNum=%d", IndoorNum)
+		var inputStatus dict
+		inputStatus, err = d.ModbusRtu.RWDevValue("r", nil)
+		inputStatusInt, _ := inputStatus["Modbus-value"].([]int)
+		ret["ON/OFF setting status"] = onoff[0x01&inputStatusInt[0]]
+		ret["Filter sign status"] = alarm[0x01&(inputStatusInt[0]>>1)]
+		ret["Alarm status"] = alarm[0x01&(inputStatusInt[0]>>2)]
+		d.StartingAddress = uint16(152*IndoorNum - 96)
+		inputStatus, err = d.ModbusRtu.RWDevValue("r", nil)
+		inputStatusInt, _ = inputStatus["Modbus-value"].([]int)
+		ret["ON/OFF input for TCB-IFCG1TLE"] = 1 & inputStatusInt[0]
+		ret["Alarm input for TCB-IFCG1TLE"] = 1 & (inputStatusInt[0] >> 1)
+		ret["Din2 input for TCB-IFCG1TLE"] = 1 & (inputStatusInt[0] >> 2)
+		ret["Din3 input for TCB-IFCG1TLE"] = 1 & (inputStatusInt[0] >> 3)
+		ret["Din4 input for TCB-IFCG1TLE"] = 1 & (inputStatusInt[0] >> 4)
+		ret["Din1 input for TCB-IFCG1TLE"] = 1 & (inputStatusInt[0] >> 5)
+		d.Quantity = 35
+		d.FunctionCode = 4
+		d.StartingAddress = uint16(156*IndoorNum - 156)
+		var inputRegister dict
+		inputRegister, err = d.ModbusRtu.RWDevValue("r", nil)
+		inputRegisterInt, _ := inputRegister["Modbus-value"].([]int)
+		var inputRegisterByte []byte
+		for _, vi := range inputRegisterInt {
+			inputRegisterByte = append(inputRegisterByte, byte(vi))
+		}
+		ret["Room Temperature"], err = d.hex2float(inputRegisterByte[0:2])
+		ret["Setting Temperature status"], err = d.hex2float(inputRegisterByte[2:4])
+		ret["Alarm code"] = inputRegisterByte[4:12]
 		/****************************************write device**********************************************/
 	} else {
 	}
