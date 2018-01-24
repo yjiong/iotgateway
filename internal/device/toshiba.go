@@ -17,9 +17,46 @@ var onoff = map[int]string{
 	1: "ON",
 }
 
+var permit = map[int]string{
+	0: "permit",
+	1: "prohibit",
+}
 var alarm = map[int]string{
-	0: "abnormal",
-	1: "normal",
+	0: "normal",
+	1: "abnormal",
+}
+
+var operationMode = map[int]string{
+	0: "invalid",
+	1: "heat",
+	2: "cool",
+	3: "dry",
+	4: "fan",
+	5: "auto heat",
+	6: "auto cool",
+	7: "unfix",
+}
+
+var fanSpeed = map[int]string{
+	0: "invalid",
+	1: "Fan Stop",
+	2: "Auto",
+	3: "High",
+	4: "Medium",
+	5: "Low",
+	6: "Ultra Low",
+	7: "unfix",
+}
+
+var louver = map[int]string{
+	0: "invalid",
+	1: "swing",
+	2: "f1",
+	3: "f2",
+	4: "f3",
+	5: "f4",
+	6: "f5",
+	7: "stop",
 }
 
 // ValToshiba ...
@@ -48,7 +85,7 @@ func (d *TOSHIBA) NewDev(id string, ele map[string]string) (Devicerwer, error) {
 	ndev.BaudRate = 9600
 	ndev.DataBits = 8
 	ndev.StopBits = 1
-	ndev.Parity = "N"
+	ndev.Parity = "E"
 	ndev.IndoorNum = ele["IndoorNum"]
 	/***********************初始化设备的特有的参数*****************************/
 	return ndev, nil
@@ -168,13 +205,14 @@ func (d *TOSHIBA) hex2float(hex2 []byte) (vf float64, err error) {
 	}
 	var m int16
 	e := (hex2[0] >> 3) & 0xf
-	m = int16(hex2[0]<<5)<<3 + int16(hex2[1])
+	m = ((int16(hex2[0]))<<8)&0x700 + int16(hex2[1])
 	if e >= 0 {
 		if hex2[0]&0x80 == 0x80 {
 			m = m - 0x800
 		}
 		log.Debugf("e=%d,m=%d", e, m)
-		vf = float64(int32(m)<<e) * 0.01
+		//vf = float64(int32(m)<<e) * 0.01
+		vf = float64(int32(m)) * 0.1
 		log.Debugf("vf=%f", vf)
 	} // else {
 	//vf = float32(m)
@@ -194,13 +232,19 @@ func (d *TOSHIBA) float2hex2(vf float64) (hex2 []byte, err error) {
 	var m uint16
 	var h2 uint16
 	if vf >= 0 {
-		powerE = uint16(math.Ceil(vf*100) / 0x800)
-		m = uint16(int(math.Ceil(vf*100)) % 0x800)
+		//powerE = uint16(math.Ceil(vf*100) / 0x800)
+		//m = uint16(int(math.Ceil(vf*100)) % 0x800)
+		//h2 = uint16(powerE<<11 + m)
+		powerE = uint16(math.Ceil(vf*10) / 0x800)
+		m = uint16(int(math.Ceil(vf*10)) % 0x800)
 		h2 = uint16(powerE<<11 + m)
 	} else {
-		powerE = uint16(math.Ceil(0-vf*100) / 0x800)
-		m = uint16(int(math.Ceil(0-vf*100)) % 0x800)
-		h2 = uint16(0x8000 + powerE<<11 + m)
+		//powerE = uint16(math.Ceil(0-vf*100) / 0x800)
+		//m = uint16(int(math.Ceil(0-vf*100)) % 0x800)
+		//h2 = uint16(0x8000 + powerE<<11 + m)
+		powerE = uint16(math.Ceil(vf*10) / 0x800)
+		m = uint16(int(math.Ceil(vf*10)) % 0x800)
+		h2 = uint16(powerE<<11 + m)
 	}
 	log.Debugln(powerE, m, h2)
 	log.Debugf("h2=%x", h2)
@@ -246,7 +290,7 @@ func (d *TOSHIBA) RWDevValue(rw string, m dict) (ret dict, err error) {
 		ret["Din3 input for TCB-IFCG1TLE"] = 1 & (inputStatusInt[0] >> 3)
 		ret["Din4 input for TCB-IFCG1TLE"] = 1 & (inputStatusInt[0] >> 4)
 		ret["Din1 input for TCB-IFCG1TLE"] = 1 & (inputStatusInt[0] >> 5)
-		d.Quantity = 35
+		d.Quantity = 39
 		d.FunctionCode = 4
 		d.StartingAddress = uint16(156*IndoorNum - 156)
 		var inputRegister dict
@@ -256,9 +300,33 @@ func (d *TOSHIBA) RWDevValue(rw string, m dict) (ret dict, err error) {
 		for _, vi := range inputRegisterInt {
 			inputRegisterByte = append(inputRegisterByte, byte(vi))
 		}
+		log.Debugln(inputRegisterByte[0:4])
 		ret["Room Temperature"], err = d.hex2float(inputRegisterByte[0:2])
 		ret["Setting Temperature status"], err = d.hex2float(inputRegisterByte[2:4])
-		ret["Alarm code"] = inputRegisterByte[4:12]
+		ret["Alarm code"] = fmt.Sprintf("%d", inputRegisterByte[4:12])
+		ret["Model name"] = string(inputRegisterByte[12:28])
+		ret["Serial number"] = string(inputRegisterByte[28:44])
+		ret["Indoor unit capacity"], err = d.hex2float(inputRegisterByte[44:46])
+		ret["Indoo unit type"] = fmt.Sprintf("%x", inputRegisterByte[46:48])
+		ret["Analot input for TCB-IFCG1TLE"] = fmt.Sprintf("%x,%x,%x,%x",
+			inputRegisterByte[48:50],
+			inputRegisterByte[50:52],
+			inputRegisterByte[52:54],
+			inputRegisterByte[54:56])
+		ret["Operation mode/Fan range"] = fmt.Sprintf("%x", inputRegisterByte[60:62])
+		ret["Cooling temperature range"] = fmt.Sprintf("%x", inputRegisterByte[62:64])
+		ret["Heating temperature range"] = fmt.Sprintf("%x", inputRegisterByte[64:66])
+		ret["Dry temperature range"] = fmt.Sprintf("%x", inputRegisterByte[66:68])
+		ret["Auto temperature range"] = fmt.Sprintf("%x", inputRegisterByte[68:70])
+		ret["Operatin mode"] = operationMode[int(inputRegisterByte[71])]
+		ret["Fan speed"] = fanSpeed[int(inputRegisterByte[73])]
+		ret["Louver"] = louver[int(inputRegisterByte[75])]
+		ppbit := int(inputRegisterByte[75])
+		ret["Remote controller on/off prohibit setting"] = permit[(ppbit)&0x01]
+		ret["Remote controller mode porhibit setting"] = permit[(ppbit>>1)&0x01]
+		ret["Remote controller setpoint prohibit setting"] = permit[(ppbit>>2)&0x01]
+		ret["Remote controller louver prohibit setting"] = permit[(ppbit>>3)&0x01]
+		ret["Remote controller fan speed prohibit setting"] = permit[(ppbit>>4)&0x01]
 		/****************************************write device**********************************************/
 	} else {
 	}

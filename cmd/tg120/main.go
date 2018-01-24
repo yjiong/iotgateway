@@ -3,7 +3,9 @@ package main
 import (
 	//"fmt"
 	//"math"
+	"encoding/json"
 	log "github.com/Sirupsen/logrus"
+	simplejson "github.com/bitly/go-simplejson"
 	"github.com/yjiong/go_tg120/internal/device"
 	"time"
 )
@@ -19,8 +21,9 @@ func main() {
 	//r := device.DTSD422{}
 	tval, _ := r.NewDev("toshiba", map[string]string{
 		//"devaddr": "3300027014",
-		"devaddr": "1",
-		"commif":  "rs485-1",
+		"devaddr":   "2",
+		"commif":    "rs485-1",
+		"IndoorNum": "8",
 		//"mtype":    "VRF",
 		//"sub_addr": "1",
 		//"BaudRate": "19200",
@@ -75,7 +78,11 @@ func main() {
 		if ret, err := tval.RWDevValue("r", elem); err != nil {
 			log.Debugf("error=%s", err)
 		} else {
+			jret, _ := json.Marshal(ret)
+			jsret, _ := simplejson.NewJson(jret)
+			prettyret, _ := jsret.EncodePretty()
 			log.Debugln(ret)
+			log.Debugln(string(prettyret))
 		}
 		time.Sleep(0 * time.Second)
 		break
