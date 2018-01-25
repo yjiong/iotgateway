@@ -823,10 +823,6 @@ func (d *FUJITSU) RWDevValue(rw string, m dict) (ret dict, err error) {
 					ret["error"] = werr.Error()
 					return ret, nil
 				}
-				if wval == "0" {
-					ret["error"] = "_varvalue 有误,未执行写操作"
-					return ret, nil
-				}
 				log.Debugln("wval", wval)
 				log.Debugln("startAddress=", d.StartingAddress)
 				bmdict, berr := d.ModbusRtu.RWDevValue("w", dict{"value": wval})
@@ -848,10 +844,6 @@ func (d *FUJITSU) RWDevValue(rw string, m dict) (ret dict, err error) {
 			if werr != nil {
 				ret["error"] = werr.Error()
 				log.Debugf("设置%s-(%s)-%v", d.mtype, m["_varname"], werr)
-				return ret, nil
-			}
-			if wval == "0" {
-				ret["error"] = "_varvalue 有误,未执行写操作"
 				return ret, nil
 			}
 			log.Debugln("wval", wval)
@@ -877,10 +869,6 @@ func (d *FUJITSU) RWDevValue(rw string, m dict) (ret dict, err error) {
 				wval, werr := d.encode(m)
 				if werr != nil {
 					ret["error"] = werr.Error()
-					return ret, nil
-				}
-				if wval == "0" {
-					ret["error"] = "_varvalue 有误,未执行写操作"
 					return ret, nil
 				}
 				log.Debugln("wval", wval)

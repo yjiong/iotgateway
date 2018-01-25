@@ -13,14 +13,30 @@ import (
 )
 
 var onoff = map[int]string{
-	0: "OFF",
-	1: "ON",
+	0: "off",
+	1: "on",
+}
+
+var setonoff = map[int]string{
+	0:      "off",
+	0XFF00: "on",
+}
+
+var filtersign = map[int]string{
+	0:      "noaction",
+	0xff00: "reset",
 }
 
 var permit = map[int]string{
 	0: "permit",
 	1: "prohibit",
 }
+
+var setpermit = map[int]string{
+	0:      "permit",
+	0xff00: "prohibit",
+}
+
 var alarm = map[int]string{
 	0: "normal",
 	1: "abnormal",
@@ -35,6 +51,15 @@ var operationMode = map[int]string{
 	5: "auto heat",
 	6: "auto cool",
 	7: "unfix",
+}
+
+var setOperationMode = map[int]string{
+	0: "Invalid",
+	1: "heat",
+	2: "cool",
+	3: "dry",
+	4: "fan",
+	5: "auto",
 }
 
 var fanSpeed = map[int]string{
@@ -114,7 +139,8 @@ func (d *TOSHIBA) HelpDoc() interface{} {
 	conn := dict{
 		"devaddr": "设备地址",
 		/***********TOSHIBA设备的参数*****************************/
-		"commif": "通信接口,比如(rs485-1)",
+		"commif":    "通信接口,比如(rs485-1)",
+		"IndoorNum": "内机编号",
 		/***********TOSHIBA设备的参数*****************************/
 	}
 	rParameter := dict{
@@ -126,7 +152,38 @@ func (d *TOSHIBA) HelpDoc() interface{} {
 	wParameter := dict{
 		"_devid": "被操作设备对象的id",
 		/***********操作设备的参数*****************************/
-		"_varname.1": "运行模式设置",
+		"_varname.1":   "ON/OFF setting",
+		"_varvalue.1":  "(on|off)",
+		"_varname.2":   "Filter sign reset setting",
+		"_varvalue.2":  "(noaction|reset)",
+		"_varname.3":   "Relay 1ch output for TCB-IFCG1TLE",
+		"_varvalue.3":  "(on|off)",
+		"_varname.4":   "Relay 2ch output for TCB-IFCG1TLE",
+		"_varvalue.4":  "(on|off)",
+		"_varname.5":   "Relay 3ch output for TCB-IFCG3TLE",
+		"_varvalue.5":  "(on|off)",
+		"_varname.6":   "Relay 4ch output for TCB-IFCG1TLE",
+		"_varvalue.6":  "(on|off)",
+		"_varname.7":   "Local operation prohibit for TCB-IFCG1TLE",
+		"_varvalue.7":  "(permit|prohibit)",
+		"_varname.8":   "Setting Temperature",
+		"_varvalue.8":  "(float)",
+		"_varname.9":   "Accumulated operation time",
+		"_varvalue.9":  "(uint16)",
+		"_varname.10":  "Operation mode",
+		"_varvalue.10": "(Invalid|heat|cool|dry|fan|auto)",
+		"_varname.11":  "Fan speed",
+		"_varvalue.11": "(Invalid|Auto|High|Medium|Low|unfix)",
+		"_varname.12":  "Louver",
+		"_varvalue.12": "(invalid|swing|f1|f2|f3|f4|f5|stop)",
+		"_varname.13":  "Remote controller permit/Prohibit",
+		"_varvalue.13": `(Remote controller on/off prohibit setting(bit0)
+Remote controller mode prohibit setting(bit1)
+Remote controller setpoint prohibit setting(bit2)
+Remote controller louver prohibit setting(bit3)
+Remote controller fan speed prohibit setting(bit4)
+1=prohibit 0=permit)`,
+		"解释": "one cmd set one value",
 	}
 	data := dict{
 		"_devid": "添加设备对象的id",
@@ -164,39 +221,174 @@ func (d *TOSHIBA) HelpDoc() interface{} {
 // CheckKey ..
 /***************************************添加设备参数检验**********************************************/
 func (d *TOSHIBA) CheckKey(ele dict) (bool, error) {
-	_, sbOk := ele["subAddr"].(json.Number)
+	_, sbOk := ele["IndoorNum"].(json.Number)
 	if !sbOk {
-		return false, errors.New("TOSHIBA device must have int type element 室内外机编号: subAddr")
-	}
-	_, mtOk := ele["mtype"].(string)
-	if !mtOk {
-		return false, errors.New("TOSHIBA device must have  element 室内还是室外机{inM|outM}): mtype")
+		return false, errors.New("TOSHIBA device must have int type element : IndoorNum")
 	}
 	return true, nil
 }
 
 /***************************************添加设备参数检验**********************************************/
 
-func (d *TOSHIBA) encode(m dict) (json.Number, error) {
-	name, _ := m["_varname"]
-	var results json.Number = "0"
-	switch name {
-	case "xxxxx":
-		{
-			if val, ok := m["_varvalue"]; ok {
-				if sval, ok := val.(string); ok {
-					results = json.Number(sval)
-					log.Debugln("xxxx = ", results)
+func (d *TOSHIBA) caseinternal(f int, setrange map[int]string, m dict) (res json.Number, err error) {
+	if val, ok := m["_varvalue"]; ok {
+		if sval, ok := val.(string); ok {
+			for k, v := range setrange {
+				if v == sval {
+					sk := strconv.Itoa(k)
+					res = json.Number(sk)
+					break
 				}
 			}
+		} else {
+			return res, errors.New("varvalue is not string")
+		}
+	} else {
+		return res, errors.New("varvalue invalid")
+	}
+	d.FunctionCode = f
+	return res, err
+}
+
+func (d *TOSHIBA) encode(m dict) (json.Number, error) {
+	name, _ := m["_varname"]
+	var err error
+	IndoorNum, _ := strconv.Atoi(d.IndoorNum)
+	switch name {
+	case "ON/OFF setting":
+		{
+			d.StartingAddress = uint16(152*IndoorNum - 152)
+			return d.caseinternal(5, setonoff, m)
+		}
+	case "Filter sign reset setting":
+		{
+			d.StartingAddress = uint16(152*IndoorNum - 151)
+			return d.caseinternal(5, filtersign, m)
+		}
+	case "Relay 1ch output for TCB-IFCG1TLE":
+		{
+			d.StartingAddress = uint16(152*IndoorNum - 112)
+			return d.caseinternal(5, setonoff, m)
+		}
+	case "Relay 2ch output for TCB-IFCG1TLE":
+		{
+			d.StartingAddress = uint16(152*IndoorNum - 111)
+			return d.caseinternal(5, setonoff, m)
+		}
+	case "Relay 3ch output for TCB-IFCG1TLE":
+		{
+			d.StartingAddress = uint16(152*IndoorNum - 110)
+			return d.caseinternal(5, setonoff, m)
+		}
+	case "Relay 4ch output for TCB-IFCG1TLE":
+		{
+			d.StartingAddress = uint16(152*IndoorNum - 109)
+			return d.caseinternal(5, setonoff, m)
+		}
+	case "Local operation prohibit for TCB-IFCG1TLE":
+		{
+			d.StartingAddress = uint16(152*IndoorNum - 108)
+			return d.caseinternal(5, setpermit, m)
+		}
+	case "Setting Temperature":
+		{
+			d.StartingAddress = uint16(156*IndoorNum - 156)
+			var res json.Number
+			if val, ok := m["_varvalue"]; ok {
+				if jnval, ok := val.(json.Number); ok {
+					fval, _ := jnval.Float64()
+					rbyte, _ := d.float2hex2(fval)
+					itemp := int(rbyte[0])*0x100 + int(rbyte[1])
+					res = json.Number(strconv.Itoa(itemp))
+				} else {
+					err = errors.New("varvalue is not string or float")
+				}
+				if sval, ok := val.(string); ok {
+					jnval := json.Number(sval)
+					fval, _ := jnval.Float64()
+					rbyte, _ := d.float2hex2(fval)
+					itemp := int(rbyte[0])*0x100 + int(rbyte[1])
+					res = json.Number(strconv.Itoa(itemp))
+					err = nil
+				} else {
+					err = errors.New("varvalue is not string or float")
+				}
+			} else {
+				err = errors.New("varvalue invalid")
+			}
+			d.FunctionCode = 6
+			return res, err
+		}
+	case "Accumulated operation time":
+		{
+			d.StartingAddress = uint16(156*IndoorNum - 155)
+			var res json.Number
+			if val, ok := m["_varvalue"]; ok {
+				if jnval, ok := val.(json.Number); ok {
+					ival, _ := jnval.Int64()
+					res = json.Number(strconv.Itoa(int(ival)))
+				} else {
+					err = errors.New("varvalue is not string or int")
+				}
+				if sval, ok := val.(string); ok {
+					jnval := json.Number(sval)
+					ival, _ := jnval.Int64()
+					res = json.Number(strconv.Itoa(int(ival)))
+					err = nil
+				} else {
+					err = errors.New("varvalue is not string or int")
+				}
+			} else {
+				err = errors.New("varvalue invalid")
+			}
+			d.FunctionCode = 6
+			return res, err
+		}
+	case "Operation mode":
+		{
+			d.StartingAddress = uint16(156*IndoorNum - 150)
+			return d.caseinternal(6, setOperationMode, m)
+		}
+	case "Fan speed":
+		{
+			d.StartingAddress = uint16(156*IndoorNum - 149)
+			return d.caseinternal(6, fanSpeed, m)
+		}
+	case "Louver":
+		{
+			d.StartingAddress = uint16(156*IndoorNum - 148)
+			return d.caseinternal(6, louver, m)
+		}
+	case "Remote controller permit/Prohibit":
+		{
+			d.StartingAddress = uint16(156*IndoorNum - 147)
+			var res json.Number
+			if val, ok := m["_varvalue"]; ok {
+				if jnval, ok := val.(json.Number); ok {
+					ival, _ := jnval.Int64()
+					res = json.Number(strconv.Itoa(int(ival)))
+				} else {
+					err = errors.New("varvalue is not string or int")
+				}
+				if sval, ok := val.(string); ok {
+					jnval := json.Number(sval)
+					ival, _ := jnval.Int64()
+					res = json.Number(strconv.Itoa(int(ival)))
+					err = nil
+				} else {
+					err = errors.New("varvalue is not string or int")
+				}
+			} else {
+				err = errors.New("varvalue invalid")
+			}
+			d.FunctionCode = 6
+			return res, err
 		}
 	default:
 		{
 			return json.Number("0"), errors.New("错误的_varname")
 		}
 	}
-
-	return results, nil
 }
 
 func (d *TOSHIBA) hex2float(hex2 []byte) (vf float64, err error) {
@@ -329,6 +521,22 @@ func (d *TOSHIBA) RWDevValue(rw string, m dict) (ret dict, err error) {
 		ret["Remote controller fan speed prohibit setting"] = permit[(ppbit>>4)&0x01]
 		/****************************************write device**********************************************/
 	} else {
+		wval, werr := d.encode(m)
+		if werr != nil {
+			ret["error"] = werr.Error()
+			return ret, nil
+		}
+		log.Debugln("wval", wval)
+		log.Debugln("functioncode=", d.FunctionCode, "startAddress=", d.StartingAddress)
+		bmdict, berr := d.ModbusRtu.RWDevValue("w", dict{"value": wval})
+		if berr == nil {
+			log.Infof("设置-%s receive data = %v", m["_varname"], bmdict)
+			ret["cmdStatus"] = "successful"
+		} else {
+			ret["error"] = berr.Error()
+			log.Debugln(ret)
+			return ret, nil
+		}
 	}
 	return
 }
