@@ -11,7 +11,9 @@ set ip [lindex $argv 0]
 set user [lindex $argv 1]
 set password [lindex $argv 2]
 set cpfile [lindex $argv 3]
-spawn scp $cpfile root@$ip:/home/fa/${cpfile}/
+set dir [lindex $argv 4]
+
+spawn scp -r $cpfile root@$ip:${dir}
 expect "Password:"
 send "$password\r"
 expect  {

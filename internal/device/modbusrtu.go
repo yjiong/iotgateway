@@ -8,7 +8,7 @@ import (
 	"time"
 	//	"sync"
 	//log "github.com/Sirupsen/logrus"
-	"github.com/yjiong/go_tg120/modbus"
+	"github.com/yjiong/iotgateway/modbus"
 )
 
 // ModbusRtu struct

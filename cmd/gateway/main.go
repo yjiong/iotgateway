@@ -20,12 +20,12 @@ import (
 	log "github.com/Sirupsen/logrus"
 	assetfs "github.com/elazarl/go-bindata-assetfs"
 	"github.com/urfave/cli"
-	"github.com/yjiong/go_tg120/internal/common"
-	"github.com/yjiong/go_tg120/internal/device"
-	gw "github.com/yjiong/go_tg120/internal/gateway"
-	"github.com/yjiong/go_tg120/internal/handler"
-	"github.com/yjiong/go_tg120/internal/message"
-	"github.com/yjiong/go_tg120/internal/templates"
+	"github.com/yjiong/iotgateway/internal/common"
+	"github.com/yjiong/iotgateway/internal/device"
+	gw "github.com/yjiong/iotgateway/internal/gateway"
+	"github.com/yjiong/iotgateway/internal/handler"
+	"github.com/yjiong/iotgateway/internal/message"
+	"github.com/yjiong/iotgateway/internal/templates"
 	"golang.org/x/net/websocket"
 	"google.golang.org/grpc/grpclog"
 )
@@ -56,8 +56,8 @@ func run(c *cli.Context) error {
 	defer cancel()
 	log.WithFields(log.Fields{
 		"version": common.VERSION,
-		"docs":    "https://github.com/yjiong/go_tg120",
-	}).Info("starting TG120 programer")
+		"docs":    "https://github.com/yjiong/iotgateway",
+	}).Info("starting iot gateway programer")
 	// 初始化
 	//	http.Handle("/js", http.FileServer(http.Dir("templates")))
 	//	http.HandleFunc("/", yjhttp)
@@ -224,14 +224,15 @@ func mqttconnect(c *cli.Context, gateway *gw.Gateway) {
 	}
 	gateway.Handler = h
 }
+
 func main() {
 	app := cli.NewApp()
-	app.Name = "TG120"
-	app.Usage = "application for TG120 gateway"
+	app.Name = "GATEWAY"
+	app.Usage = "application for IOT gateway"
 	app.Version = common.VERSION
 	app.Author = "yaojiong"
 	app.Email = "yjiong@msn.com"
-	app.Copyright = "See https://github.com/yjiong/go_tg120 for copyright information"
+	app.Copyright = "See https://github.com/yjiong/iotgateway for copyright information"
 	app.Action = run
 	app.Flags = []cli.Flag{
 		cli.StringFlag{

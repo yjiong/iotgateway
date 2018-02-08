@@ -4,7 +4,7 @@ import (
 	"errors"
 	log "github.com/Sirupsen/logrus"
 	simplejson "github.com/bitly/go-simplejson"
-	"github.com/yjiong/go_tg120/serial"
+	"github.com/yjiong/iotgateway/serial"
 	"strconv"
 	"time"
 )

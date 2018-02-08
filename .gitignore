@@ -1,0 +1,16 @@
+tags
+# hidden files
+# Vagrant
+Vagrantfile
+# logs
+*.log
+# certs
+certs/
+
+# builds
+dist/
+build/
+internal/message/
+internal/templates/
+#internal/device/
+docs/public/

@@ -19,11 +19,11 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 	simplejson "github.com/bitly/go-simplejson"
-	"github.com/yjiong/go_tg120/config"
-	"github.com/yjiong/go_tg120/gpio"
-	"github.com/yjiong/go_tg120/internal/common"
-	"github.com/yjiong/go_tg120/internal/device"
-	"github.com/yjiong/go_tg120/internal/handler"
+	"github.com/yjiong/iotgateway/config"
+	"github.com/yjiong/iotgateway/gpio"
+	"github.com/yjiong/iotgateway/internal/common"
+	"github.com/yjiong/iotgateway/internal/device"
+	"github.com/yjiong/iotgateway/internal/handler"
 	"golang.org/x/net/websocket"
 )
 
@@ -896,10 +896,11 @@ func (mygw *Gateway) remoteSerial(req *simplejson.Json) (err error) {
 		if ok := device.Openser(data); ok == nil {
 			mygw.Handler.SendSerDataUp([]byte("open serial successful"))
 			mygw.loop = true
+			mygw.delay = 0
 		} else {
 			mygw.Handler.SendSerDataUp([]byte("open serial failed"))
 		}
-		if mygw.loop == true && mygw.serincount == 1 {
+		if mygw.loop == true && mygw.serincount >= 1 {
 			for {
 				if mygw.loop == true {
 					time.Sleep(time.Second)
@@ -908,6 +909,9 @@ func (mygw *Gateway) remoteSerial(req *simplejson.Json) (err error) {
 						device.Closeser()
 						mygw.loop = false
 						mygw.serincount = 0
+						log.Debugf("in open ser serincount=%v", mygw.serincount)
+						log.Debugf("in open ser mygw.loop=%v", mygw.loop)
+						log.Debugf("in open ser mygw.delay=%v", mygw.delay)
 					}
 				} else {
 					break
@@ -922,8 +926,8 @@ func (mygw *Gateway) remoteSerial(req *simplejson.Json) (err error) {
 			device.Closeser()
 			mygw.loop = false
 		}
-		log.Info("serincount=", mygw.serincount)
-		log.Info("mygw.loop=", mygw.loop)
+		log.Debugf("in close ser serincount=%v", mygw.serincount)
+		log.Debugf("min close ser ygw.loop=%v", mygw.loop)
 	case "wser":
 		mygw.delay = 0
 		if da, ok := data.Interface().(string); ok {
@@ -935,6 +939,8 @@ func (mygw *Gateway) remoteSerial(req *simplejson.Json) (err error) {
 				if res, err := device.Rser(); res != nil && err == nil {
 					mygw.Handler.SendSerDataUp(res)
 				}
+			} else {
+				log.Debugf("wirte ser err = %s", err)
 			}
 		}
 	default:

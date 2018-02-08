@@ -16,7 +16,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 	simplejson "github.com/bitly/go-simplejson"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
-	"github.com/yjiong/go_tg120/internal/common"
+	"github.com/yjiong/iotgateway/internal/common"
 )
 
 // DataDownPayload ...

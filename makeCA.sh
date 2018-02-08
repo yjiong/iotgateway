@@ -16,7 +16,11 @@ CLIENT_COMMONNAME=client_commonname
 CA_EMAIL=yjiong@msn.com
 SERVER_EMAIL=server@xxx.xxx
 CLIENT_EMAIL=client@xxx.xxx
+
+#server ip address
 IPLIST="192.168.1.1 192.168.1.134 192.168.1.135 192.168.1.160  192.168.1.122"
+
+#server name
 HOSTLIST="www.yjiong.org www.xindong.org www.xindong.net www.xindong.com" 
 #CA_ORG='/O=xxxxx.org/OU=org-tech/emailAddress=yourname@xxx.xxx'
 #CA_DN="/CN=YJ-CA${CA_ORG}"

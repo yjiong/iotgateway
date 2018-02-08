@@ -2,7 +2,7 @@ package common
 
 import (
 	log "github.com/Sirupsen/logrus"
-	"github.com/yjiong/go_tg120/config"
+	"github.com/yjiong/iotgateway/config"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -13,7 +13,7 @@ import (
 // versin
 const (
 	VERSION    = "1.0"
-	MODEL      = "TG150"
+	MODEL      = "IOT-GATEWAY"
 	INTERFACES = "/etc/network/interfaces"
 )
 

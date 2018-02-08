@@ -32,7 +32,8 @@ expect {
         }
     }
 sleep 1
-send "systemctl $perem tg150\rexit\r" 
+send "$perem \rexit\r" 
+#ecpect eof
 interact
 sleep 1
 exit 0

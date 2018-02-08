@@ -6,7 +6,7 @@ Wants=network-online.target
 [Service]
 User=root
 Group=root
-ExecStart=/home/fa/tg150/tg150
+ExecStart=/home/fa/iot/gateway
 Restart=on-failure
 TimeoutStopSec=2
 
