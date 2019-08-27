@@ -18,3 +18,5 @@ gateway-arm64
 gateway-amd64
 gateway-armhf
 *.deb
+wiki.md
+
