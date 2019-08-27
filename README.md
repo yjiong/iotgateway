@@ -52,4 +52,4 @@ Distributed under the XYZ license. See ``LICENSE`` for more information.
 [wiki]: https://github.com/yjiong/iotgateway/wiki
 [armhf.deb]:https://github.com/yjiong/iotgateway/releases/download/v1.3/gateway-armhf-v1.3.deb
 [arm64.deb]:https://github.com/yjiong/iotgateway/releases/download/v1.3/gateway-arm64-v1.3.deb
-[amd64.deb]:https://github.com/yjiong/iotgateway/releases/download/v1.3/gateway-amm64-v1.3.deb
+[amd64.deb]:https://github.com/yjiong/iotgateway/releases/download/v1.3/gateway-amd64-v1.3.deb
