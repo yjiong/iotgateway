@@ -1,16 +1,20 @@
 tags
-# hidden files
-# Vagrant
 Vagrantfile
-# logs
 *.log
-# certs
 certs/
 
-# builds
 dist/
 build/
+api/
+cmd/
+internal/
 internal/message/
 internal/templates/
-#internal/device/
+internal/gateway/
 docs/public/
+debpackage/
+gateway
+gateway-arm64
+gateway-amd64
+gateway-armhf
+*.deb

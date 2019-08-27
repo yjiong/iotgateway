@@ -3,14 +3,14 @@ package device
 import (
 	"bytes"
 	"encoding/binary"
-	log "github.com/Sirupsen/logrus"
-	"github.com/yjiong/iotgateway/config"
-	"github.com/yjiong/iotgateway/internal/common"
 	"math"
 	"sync"
-	//	"strconv"
-	//	"fmt"
-	//	"strings"
+	"time"
+
+	log "github.com/sirupsen/logrus"
+	"github.com/yjiong/iotgateway/config"
+	"github.com/yjiong/iotgateway/internal/common"
+	"github.com/yjiong/iotgateway/serial"
 )
 
 // RegDevice ..
@@ -22,7 +22,8 @@ var Commif = make(map[string]string)
 // Mutex ..
 var Mutex = make(map[string]*sync.Mutex)
 
-type dict map[string]interface{}
+// Dict ...
+type Dict map[string]interface{}
 
 func init() {
 	con, err := config.LoadConfigFile(common.CONFILEPATH)
@@ -32,7 +33,7 @@ func init() {
 	}
 	comm, err := con.GetSection("commif")
 	if err != nil {
-		log.Errorf("get section commif file failed : %s", err)
+		log.Errorf("get section Commif file failed : %s", err)
 		return
 	}
 	Commif = comm
@@ -46,55 +47,58 @@ func init() {
 // Devicerwer ..
 type Devicerwer interface {
 	NewDev(id string, ele map[string]string) (Devicerwer, error)
-	RWDevValue(rw string, m dict) (dict, error)
-	CheckKey(e dict) (bool, error)
-	GetElement() (dict, error)
+	RWDevValue(rw string, m Dict) (Dict, error)
+	CheckKey(e Dict) (bool, error)
+	GetElement() (Dict, error)
 	HelpDoc() interface{}
+	GetCommif() string
 	//	Devid() string
 }
 
 // Device ..
 type Device struct {
-	devid   string
-	devtype string
-	commif  string
-	devaddr string
-	mutex   *sync.Mutex
+	Dname      string
+	DepService bool
+	Devid      string
+	Devtype    string
+	Commif     string
+	Devaddr    string
+	Mutex      *sync.Mutex
 }
 
 // Devlist ..
 type Devlist map[string]Devicerwer
 
 // NewDevHandler ..
-func NewDevHandler(devlistfile string) (map[string]Devicerwer, error) {
+func NewDevHandler(devlistfile string) (Devlist, error) {
 	con, err := config.LoadConfigFile(devlistfile)
 	if err != nil {
 		log.Errorf("load config file failed: %s", err)
 		return nil, err
 	}
-	devlist := map[string]Devicerwer{}
+	devlist := Devlist{}
 	seclist := con.GetSectionList()
-	for _, devid := range seclist {
-		ele, err := con.GetSection(devid)
+	for _, Devid := range seclist {
+		ele, err := con.GetSection(Devid)
 		if err != nil {
-			log.Errorf("get %s element error : %s", devid, err)
+			log.Errorf("get %s element error : %s", Devid, err)
 			continue
 		}
-		dtype, okType := ele["_type"]
+		dtype, okType := ele[DevType]
 		if !okType {
-			log.Errorf("get %s element type error : %s", devid, err)
+			log.Errorf("get %s element type error : %s", Devid, err)
 			continue
 		}
-		if _, ok := ele["devaddr"]; !ok {
-			log.Errorf("get %s element devaddr error : %s", devid, err)
+		if _, ok := ele[DevAddr]; !ok {
+			log.Errorf("get %s element Devaddr error : %s", Devid, err)
 			continue
 		}
 		if _, ok := ele["commif"]; !ok {
-			log.Errorf("get %s element commif error : %s", devid, err)
+			log.Errorf("get %s element Commif error : %s", Devid, err)
 			continue
 		}
 		if _, ok := RegDevice[dtype]; ok {
-			devlist[devid], _ = RegDevice[dtype].NewDev(devid, ele)
+			devlist[Devid], _ = RegDevice[dtype].NewDev(Devid, ele)
 		}
 	}
 	return devlist, nil
@@ -102,14 +106,24 @@ func NewDevHandler(devlistfile string) (map[string]Devicerwer, error) {
 
 // NewDev ..
 func (d *Device) NewDev(id string, ele map[string]string) Device {
-	dmutex := new(sync.Mutex)
-	return Device{
-		devid:   id,
-		devtype: ele["_type"],
-		commif:  ele["commif"],
-		devaddr: ele["devaddr"],
-		mutex:   dmutex,
+	dMutex := new(sync.Mutex)
+	dnm := ""
+	if nm, ok := ele[DevName]; ok {
+		dnm = nm
 	}
+	return Device{
+		Dname:   dnm,
+		Devid:   id,
+		Devtype: ele[DevType],
+		Commif:  ele["commif"],
+		Devaddr: ele[DevAddr],
+		Mutex:   dMutex,
+	}
+}
+
+// GetCommif return Commif
+func (d *Device) GetCommif() string {
+	return d.Commif
 }
 
 // IntToBytes ..
@@ -173,4 +187,63 @@ func ByteToFloat64(bytes []byte) float64 {
 	bits := binary.LittleEndian.Uint64(bytes)
 
 	return math.Float64frombits(bits)
+}
+
+//SerialRead ..
+func SerialRead(serport serial.Port, timeout time.Duration, results []byte) (rblen int, err error) {
+	go func() {
+		for {
+			time.Sleep(time.Millisecond * 100)
+			timeout -= (time.Millisecond * 100)
+			if timeout <= 0 {
+				break
+			}
+		}
+	}()
+	for {
+		var resArry []byte
+		for {
+			results := make([]byte, 256)
+			if rblen, err = serport.Read(results); rblen != 0 && err == nil {
+				resArry = append(resArry, results[:rblen]...)
+			} else {
+				//time.Sleep(10 * time.Millisecond)
+				break
+			}
+		}
+		if rblen = len(resArry); rblen > 0 {
+			//fmt.Printf("% x  len=%d\n", resArry, rblen)
+			for i, b := range resArry {
+				results[i] = b
+			}
+			err = nil
+			timeout = 0
+			return
+		}
+		if timeout == 0 && err != nil {
+			break
+		}
+	}
+	return
+}
+
+//StringReverse ...
+func StringReverse(str string) string {
+	var rstr string
+	slicstr := []byte(str)
+	for i := len(slicstr); i > 0; i-- {
+		rstr += string(slicstr[i-1])
+	}
+	return rstr
+}
+
+//HexStringReverse ...
+func HexStringReverse(str string) string {
+	var rstr string
+	slicstr := []byte(str)
+	for i := len(slicstr); i > 0; i -= 2 {
+		rstr += string(slicstr[i-2 : i])
+	}
+	return rstr
+	//return strings.TrimLeft(rstr, "0")
 }

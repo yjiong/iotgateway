@@ -164,7 +164,7 @@ func (mb *client) ReadInputRegisters(address, quantity uint16) (results []byte, 
 //  Output value          : 2 bytes
 func (mb *client) WriteSingleCoil(address, value uint16) (results []byte, err error) {
 	// The requested ON/OFF state can only be 0xFF00 and 0x0000
-	if value != 0xFF00 && value != 0x0000 {
+	if value != 0xFF00 && value != 0x0000 && value != 0xAAAA && value != 0x5555 {
 		err = fmt.Errorf("modbus: state '%v' must be either 0xFF00 (ON) or 0x0000 (OFF)", value)
 		return
 	}

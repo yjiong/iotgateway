@@ -25,7 +25,7 @@ import (
 //MQTT messages.
 type PacketAndToken struct {
 	p packets.ControlPacket
-	t Token
+	t tokenCompletor
 }
 
 //Token defines the interface for the tokens used to indicate when
@@ -33,8 +33,17 @@ type PacketAndToken struct {
 type Token interface {
 	Wait() bool
 	WaitTimeout(time.Duration) bool
-	flowComplete()
 	Error() error
+}
+
+type TokenErrorSetter interface {
+	setError(error)
+}
+
+type tokenCompletor interface {
+	Token
+	TokenErrorSetter
+	flowComplete()
 }
 
 type baseToken struct {
@@ -56,7 +65,7 @@ func (b *baseToken) Wait() bool {
 	return b.ready
 }
 
-// WaitTimeout takes a time in ms to wait for the flow associated with the
+// WaitTimeout takes a time.Duration to wait for the flow associated with the
 // Token to complete, returns true if it returned before the timeout or
 // returns false if the timeout occurred. In the case of a timeout the Token
 // does not have an error set in case the caller wishes to wait again
@@ -74,7 +83,11 @@ func (b *baseToken) WaitTimeout(d time.Duration) bool {
 }
 
 func (b *baseToken) flowComplete() {
-	close(b.complete)
+	select {
+	case <-b.complete:
+	default:
+		close(b.complete)
+	}
 }
 
 func (b *baseToken) Error() error {
@@ -83,7 +96,12 @@ func (b *baseToken) Error() error {
 	return b.err
 }
 
-func newToken(tType byte) Token {
+func (b *baseToken) setError(e error) {
+	b.err = e
+	b.flowComplete()
+}
+
+func newToken(tType byte) tokenCompletor {
 	switch tType {
 	case packets.Connect:
 		return &ConnectToken{baseToken: baseToken{complete: make(chan struct{})}}
@@ -103,7 +121,8 @@ func newToken(tType byte) Token {
 //required to provide information about calls to Connect()
 type ConnectToken struct {
 	baseToken
-	returnCode byte
+	returnCode     byte
+	sessionPresent bool
 }
 
 //ReturnCode returns the acknowlegement code in the connack sent
@@ -112,6 +131,14 @@ func (c *ConnectToken) ReturnCode() byte {
 	c.m.RLock()
 	defer c.m.RUnlock()
 	return c.returnCode
+}
+
+//SessionPresent returns a bool representing the value of the
+//session present field in the connack sent in response to a Connect()
+func (c *ConnectToken) SessionPresent() bool {
+	c.m.RLock()
+	defer c.m.RUnlock()
+	return c.sessionPresent
 }
 
 //PublishToken is an extension of Token containing the extra fields

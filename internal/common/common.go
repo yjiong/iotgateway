@@ -1,7 +1,7 @@
 package common
 
 import (
-	log "github.com/Sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 	"github.com/yjiong/iotgateway/config"
 	"os"
 	"os/exec"
@@ -10,21 +10,33 @@ import (
 	"strings"
 )
 
-// versin
+// INTERFACES ...
 const (
-	VERSION    = "1.0"
-	MODEL      = "IOT-GATEWAY"
 	INTERFACES = "/etc/network/interfaces"
 )
 
-// CONFILEPATH ..
-var CONFILEPATH = "./config.ini"
+var (
+	//VERSION ...
+	VERSION string
 
-// DEVFILEPATH ..
-var DEVFILEPATH = "./devlist.ini"
+	// MODEL ...
+	MODEL = "IOT-GATEWAY"
 
-// Mqttconnected ..
-var Mqttconnected = false
+	// BASEPATH ..
+	BASEPATH string
+
+	// Mqttconnected ..
+	Mqttconnected = false
+
+	// CONFILEPATH ..
+	CONFILEPATH = "./config.ini"
+
+	// DEVFILEPATH ..
+	DEVFILEPATH = "./devlist"
+
+	// SCHEDULEPATH ..
+	SCHEDULEPATH = "./schedule"
+)
 
 func init() {
 	var pathfs string
@@ -34,14 +46,27 @@ func init() {
 		pathfs = "/"
 	}
 	if execfile, err := exec.LookPath(os.Args[0]); err == nil {
-		//		fmt.Printf("%s\n", execfile)
 		if path, err := filepath.Abs(execfile); err == nil {
-			//			fmt.Printf("%s\n", path)
 			i := strings.LastIndex(path, pathfs)
-			basepath := string(path[0 : i+1])
-			//			fmt.Printf("%s\n", path[0:i+1])
-			CONFILEPATH = basepath + CONFILEPATH[2:]
-			DEVFILEPATH = basepath + DEVFILEPATH[2:]
+			BASEPATH = string(path[0 : i+1])
+			CONFILEPATH = BASEPATH + CONFILEPATH[2:]
+			DEVFILEPATH = BASEPATH + DEVFILEPATH[2:]
+			SCHEDULEPATH = BASEPATH + SCHEDULEPATH[2:]
+		}
+	}
+	if _, err := os.Stat("/etc/default/iotdconf"); err == nil {
+		CONFILEPATH = "/etc/default/iotdconf"
+	}
+	if _, err := os.Stat(DEVFILEPATH + `.ini`); err == nil {
+		DEVFILEPATH = DEVFILEPATH + `.ini`
+	}
+	for _, fp := range []string{DEVFILEPATH, SCHEDULEPATH} {
+		_, err := os.Stat(fp)
+		if os.IsNotExist(err) {
+			f, _ := os.Create(fp)
+			//		f.WriteString("[xxxx]")
+			f.Sync()
+			f.Close()
 		}
 	}
 }
@@ -67,6 +92,9 @@ func NewConMap(confile string) (map[string]string, error) {
 			log.Errorf("get config element failed: %s", err)
 			return nil, err
 		}
+	}
+	if model, ok := retm["model"]; ok {
+		MODEL = model
 	}
 	return retm, nil
 }
