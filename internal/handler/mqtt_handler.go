@@ -45,15 +45,15 @@ func NewMQTTHandler(conm map[string]string, willmsg, onlinemsg string) (Handler,
 
 	opts := mqtt.NewClientOptions()
 	//opts.AddBroker(server)
-	server := conm["_server_ip"] + ":" + conm["_server_port"]
-	opts.SetUsername(conm["_username"])
-	opts.SetPassword(conm["_password"])
+	server := conm["serverIp"] + ":" + conm["serverPort"]
+	opts.SetUsername(conm["username"])
+	opts.SetPassword(conm["password"])
 	opts.SetOnConnectHandler(h.onConnected)
 	opts.SetConnectionLostHandler(h.onConnectionLost)
-	kplv, _ := strconv.Atoi(conm["_keepalive"])
+	kplv, _ := strconv.Atoi(conm["keepalive"])
 	opts.SetKeepAlive(time.Duration(kplv) * time.Second)
-	h.ClientID = conm["_client_id"]
-	h.ServerID = conm["_server_name"]
+	h.ClientID = conm["clientId"]
+	h.ServerID = conm["serverName"]
 	h.onlinemsg = onlinemsg
 	opts.SetWill(h.ServerID+"/"+h.ClientID, willmsg, 1, true)
 	optserver := "tcp://" + server
