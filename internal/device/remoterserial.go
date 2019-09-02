@@ -2,11 +2,12 @@ package device
 
 import (
 	"errors"
-	log "github.com/Sirupsen/logrus"
-	simplejson "github.com/bitly/go-simplejson"
-	"github.com/yjiong/iotgateway/serial"
 	"strconv"
 	"time"
+
+	simplejson "github.com/bitly/go-simplejson"
+	log "github.com/sirupsen/logrus"
+	"github.com/yjiong/iotgateway/serial"
 )
 
 //RemotePort ...
@@ -53,7 +54,7 @@ func Openser(param *simplejson.Json) (err error) {
 	} else {
 		readInterval = 2560000 / resConfig.BaudRate
 	}
-	resConfig.Timeout = time.Second * 2
+	resConfig.Timeout = time.Microsecond * time.Duration(100000000/resConfig.BaudRate)
 	for i := 0; i < 5; i++ {
 		RemotePort, err = serial.Open(&resConfig)
 		if err == nil {
@@ -91,7 +92,7 @@ func Wser(data []byte) error {
 	return err
 }
 
-// Rser ...
+//Rser ...
 func Rser() (results []byte, err error) {
 	var len int
 	results = make([]byte, 256)
@@ -101,4 +102,9 @@ func Rser() (results []byte, err error) {
 		return results[:len], err
 	}
 	return nil, err
+}
+
+// Rmser ...
+func Rmser(results []byte) (int, error) {
+	return RemotePort.Read(results)
 }

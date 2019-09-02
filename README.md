@@ -1,356 +1,103 @@
+# Iot-GATEWAY
 
-### iot-gateway与iot server 之间的报文约定:
-1. topic
-    * server publish到gateway的topic为:gateway_name/server_name.比如gateway的id是iot-20170001,server是iot-server,那么topic为:iot-20170001/iot-server
-    * server subscribe自gateway的topic为:server_name/gateway_name,即为上述的:iot-server/iot-20170001, 对于同一个服务器来说,iot-server只有一个,那么订阅topic可以是:iot-server/#,这样就可以接收到所有gateway推送的消息.
-2. 消息类型
-    * request消息:无论是server和gateway,主动发起的都为request类型的消息.
-    * response消息:gateway响应server发来的request的消息.注:server无须响应gateway的request,比如自动循环上报给server的request消息.
-## 消息举例
-### 1. 帮助命令 help:
-```
-        发送的消息命令如下:
-        {
-            "request": {
-                "cmd": "help",
-            	"data":"ModbusTcp"
-        	}
-        }
-        解释:
-        data字段是具体的设备.如果没有data字段,返回的应答是gataway的帮助信息,如果有具体的data设备,  
-            将是具体的设备的帮助信息.
-```
-### 2. server获取gateway配置信息命令 init/get.do:
-```
-            发送的消息命令如下:
-            {
-                "msgtype": "request",
-                "request": {
-                    "cmd": "init/get.do",
-            	    "requestid":"1234567890-0987",
-                    "return": [
-                        "requestid",
-                        "cmd"
-                    ],
-                    "timestamp": 1470901793
-                }
-            }
-            必要key:request,cmd
-            其他key可有可无.
-            解释:
-                requestid:是server生成的唯一的guid,与return同时使用,server用来判断gateway应答的消息是  
-                    该请求的应答消息.
-                return:此段内包含的key,就是需要gateway应答时携带返回的,一般用做判断用,按需要使用.
-                timestamp:时间戳.
-                
-             接收到的应答一般如下:
-            {
-              "header" : {
-                "from" : {
-                  "_devid" : "iot_gate",
-                  "_model" : "TG120",
-                  "_runstate" : "127",
-                  "_version" : "1.0"
-                },
-                "msgtype" : "response"
-              },
-              "request" : {
-                "cmd" : "init/get.do",
-                "requestid" : "1234567890-0987"
-              },
-              "response" : {
-                "cmd" : "init/get.do",
-                "data" : {
-                  "_client_id" : "iot_gate",
-                  "_client_ip" : "192.168.64.1",
-                  "_interval" : "10",
-                  "_keepalive" : "60",
-                  "_password" : "passwd",
-                  "_server_ip" : "127.0.0.1",
-                  "_server_name" : "server_name"
-                  "_server_port" : "1883",
-                  "_username" : "username",
-                  "_will" : "1"
-                },
-                "statuscode" : 0,
-                "timestamp" : 1507606025
-              }
-            }
-            解释:
-            request:就是上面return要求返回的东西,cmd和requestid,如果命令没return,这个字段就没有.
-            response:这里的内容就是针对请求命令应答的具体数据.
-            statuscode:gateway执行命令成功值为0,否则为非0
-```
-### 3. server发送配置gateway命令 init/set.do:
-```
-        发送的消息命令如下:
-        {
-                "msgtype": "request",
-          	    "request": {
-                    "cmd": "init/set.do",
-                    "requestid": "1234567890-0987",
-                    "data": {
-                        "_client_gateway": "192.168.64.1",
-                        "_client_ip": "192.168.64.1",
-                        "_client_netmask": "255.255.255.0",
-                        "_interface_inet": "static",
-                        "_password": "passwd",
-                        "_server_ip": "111.222.11.22",
-                        "_server_name": "server_name",
-                        "_server_port": "1883",
-                        "_username": "username"
-                    },
-                    "return": [
-                        "requestid"
-                    ],
-                    "timestamp": 1470901793
-            }
-        }
-        解释:
-            此消息配置gateway的ip和broker信息
-            _interface_inet:值为static或dhcp
-            _server_ip:指broker的地址
-            _server_name:为iot-server的名字,和topic有关.
-            命令成功会重启gateway,应用新的配置.
-        
-```
-### 4. 设置自动上报间隔时间命令 manager/set_interval.do:
-```
-        发送的消息命令如下:
-        {
-            "msgtype": "request",
-            "request": {
-                "cmd": "manager/set_interval.do",
-                "requestid": "1234567890-0987",
-                "data":
-                    {
-                        "_interval":0
-                    },
-                "timestamp": 1470901793
-            }
-        }
-        解释:
-            _interval为int类型.值为0代表禁止自动上报数据,其他值为自动上报的间隔时间,单位秒.
+### 简单介绍一下 
+* 目标是将各种仪表,传感器,工业控制端,通过该网关转换成应用服务最容易接受的协议,并且以最简单最容易开发的形式提供给前端.
+* 基于linux arm环境(当然你可以在x86构架上跑)
+* 可以通过web页面管理网关.所有功能命令都可以在mqtt下完成.支持restful api接口,支持websocket实时通信.
+* 远程串口隧道功能,你可以通过该功能,将远程设备的串口(普通串口,rs485,422等)虚拟到本地.你可以利用该功能远程开发设备驱动.或者远程给plc什么的下载梯形图程序.
 
-```
-### 5. 获取gateway支持的设备列表命令 manager/get_suppot_devlist:
-```
-        发送的消息命令如下:
-        {
-           "msgtype": "request",
-                "request": {
-                "cmd": "manager/get_suppot_devlist",
-            	"requestid":"1234567890-0987",
-                 "timestamp": 1470901793
-            }
-        }
 
-```
-### 5. 获取gateway通讯接口命令 manager/list_commif.do:
-```
-        发送的消息命令如下:
-        {
-            "msgtype": "request",
-            "request": {
-                "cmd": "manager/list_commif.do",
-            	"requestid":"1234567890-0987",
-                "return": [
-                    "requestid"
-                ],
-                "timestamp": 1470901793
-            }
-        }
-        解释:
-        这里的通讯接口的含义一般是指物理通信接口,类似rs485,rs232,和具体的gateway硬件相关.
-```
-### 6. 设置更新gateway通讯接口命令 manager/update_commif.do:
-```
-        发送的消息命令如下:
-        {
-            "msgtype": "request",
-                "request": {
-                "cmd": "manager/update_commif.do",
-            	"requestid":"1234567890-0987",
-                "data": {
-        			"rs485-1":"/dev/ttyS0",
-        			"rs485-2":"/dev/ttyS1",
-        			"rs485-3":"/dev/ttyS2"
-                 },
-                "return": [
-                    "requestid"
-                ],
-                "timestamp": 1470901793
-            }
-        }
-        解释:
-        此命令一般不用,gateway的通讯接出厂已经设置完成,供调试人员用.
-```
-### 7. 设置gateway系统时间 manager/set_system_time:
-```
-        发送的消息命令如下:
-        {
-            "msgtype": "request",
-            "request": {
-                "cmd": "manager/set_system_time",
-            	"requestid":"1234567890-0987",
-                    "data": {
-                        "date": "12/02/2017",
-                        "time": "15:57:30"
-                    },
-                "timestamp": 1470901793
-            }
-        }
-        解释:
-        如果gateway能连接公网,则会自动与时间服务器同步时间,如不连接公网,则用此命令校时.
-```
-### 8. 添加更新gateway下的设备 manager/dev/update.do:
-```
-        发送的消息命令如下:
-        {
-                "msgtype": "request",
-                "request": {
-                    "cmd": "manager/dev/update.do",
-                    "requestid": "1234567890-0987",
-                    "data":    {
-                        "_devid": "xmz-00",
-                        "_conn":{
-                        	"devaddr":"1",
-                        	"commif":"rs485-1",
-                        	"BaudRate":9600,
-                        	"DataBits":8,
-                        	"Parity":"N",
-                        	"StopBits" :1
-                             },
-                        "_type":"RSBAS"
-                        },
-                    "return": [
-                    "requestid",
-                    "cmd"
-                    ],
-                "timestamp": 1470901793
-            }
-        }
+## Installation
 
-        解释:
-        data域内重要的字段,带"_"开头的,是必须要的
-        _devid是系统给设备定义的唯一的id,
-        _conn内是该设备所必须要的通信参数和配置参数,可以通过设备的帮助文件或设备的
-        文档获知.
-        _type是设备的类型.
-        例子添加了一个RSBAS类型的设备,id是xmz-00,此设备的物理通信地址是1.
+### ubuntu and debian:
+
+arm64安装包[arm64.deb]
+
+armhf安装包[armhf.deb]
+
+amd64安装包[amd64.deb]
+
+uname -m 查看你的cpu构架,选择对应的deb包
+
+```sh
+sudo apt-get update
+sudo apt-get --no-install-recommends -y install net-tools postgresql
+sudo -u postgres psql -c "ALTER user postgres WITH password 'gateway';"
+sudo dpkg -i gateway-xxx-v1.3.deb
+sudo setid gatewayid gatewaymodel (设置网关编号和型号)
 ```
-### 9. 删除gateway下的设备 manager/dev/delete.do:
-```
-        发送的消息命令如下:
-        {
-            "msgtype": "request",
-            "request": {
-                "cmd": "manager/dev/delete.do",
-                "requestid": "1234567890-0987",
-                "data":  {
-                    "_devid":"xmz-00"
-                    },
-                "return": [
-                "requestid",
-                "cmd"
-                ],
-                "timestamp": 1470901793
-            }
-       }
-       解释:
-       删除了id为"xmz-00"的设备.
-```
-### 10. 读取gateway下的设备列表 manager/dev/list.do:
-```
-        发送的消息命令如下:
-        {
-            "msgtype": "request",
-            "request": {
-                "cmd": "manager/dev/list.do",
-        	    "requestid":"1234567890-0987",
-                "return": [
-                    "requestid",
-                    "cmd"
-                ],
-                "timestamp": 1470901793
-            }
-        }
-        解释:
-        读取gateway下的具体设备的列表和设备接口配置信息.
-```
-### 11. 读取设备参数 do/getvar:
-```
-        发送的消息命令如下:
-        {
-            "msgtype": "request",
-            "request": {
-                "cmd": "do/getvar",
-                "requestid": "1234567890-0987",
-                "data": {
-                    "_devid": "xmz-00",
-            		"starting_address":0,
-            		"quantity":2
-                    } ,
-                "return": [
-                    "requestid",
-                    "cmd"
-                ],
-                "timestamp": 1470901793
-            }
-        }
-        解释:
-        读取设备的实时数据,data内的参数根据不同设备类型而不同
-```
-### 12. 操作设备(写设备变量数据) do/setvar:
-```
-        发送的消息命令如下:
-        {
-            "msgtype": "request",
-            "request": {
-                "cmd": "do/setvar",
-                "requestid": "1234567890-0987",
-                "data": {
-                    "_devid" : "modebusrtu-01",
-                    "Function_code" : 16,
-                    "Quantity" : 10,
-                    "Starting_address" : 0,
-                    "value" : [1,2,3,4,5,6,7,8,9,10]
-                    } ,
-                "return": [
-                    "requestid",
-                    "cmd"
-                ],
-                "timestamp": 1470901793
-            }
-        }
-        解释:
-        写设备变量数据,data内的参数根据不同设备类型而不同,这个例子操作了一个modbusrtu
-        设备,使用功能码16,设备的起始地址0,写10个寄存器,值为1,2,3,4,5,6,7,8,9,10.
-```
-### gateway在线离线的判断
-* mqtt有个retain 标记,意思的服务器会保留这个标记的消息,与willmessage配合起来后,就能判断是否在线.
-```     
-        当gateway一上线,就会推送下面的消息:
-        {
-            {
-              "header" : {
-                "from" : {
-                  "_devid" : "iot_gate",
-                  "_model" : "TG120",
-                  "_runstate" : "127",
-                  "_version" : "1.0"
-                },
-            "msgtype": "update"
-          },
-          "request": {
-            "timestamp": 1507971399,
-            "cmd": "push/state.do",
-            "data": "1",
-            "statuscode": 0
-          }
-        }
-        解释:data=1代表是在线,当gateway离线了,服务器将会把gateway的willmessage推送,此时data=0.
+web登录端口80,默认用户名admin,密码123456  
+![web管理](./logo/managerweb.png)
+
+rest api 调试页面(未开启用户验证,直接可以操作):  
+![rest api](./logo/restapi.png)
+
+远程串口隧道客户端:  
+![sertunnel](./logo/sertunnel.png)  
+  
+串口隧道客户端[serial-tunnel],使用方法详见包内介绍
+
+
+## Usage example  
+
+_注:该版本屏蔽了用户验证,仅供测试_
+
+_服务和iot网关的通信报文举例详见wiki_
+_For more examples and usage, please refer to the [Wiki][wiki]._
+
+websocket 实时查看页面(未开启用户验证,直接可以操作)    
+![websocket-page](./logo/websocket-page.png)  
+
+_注:上报周期interval不等于0的情况下,网关将每隔interval秒推送一次所有device实时数据_
+
+websocket 获取数据举例(python)(未开启用户验证,直接可以操作)    
+
+```sh
+>>> import websocket
+>>> import ssl
+>>> import json
+>>> ws=websocket.WebSocket(sslopt={"cert_reqs":ssl.CERT_NONE})
+>>> ws.connect("wss://192.168.1.188/message")
+>>> print json.dumps(json.loads(ws.next()),indent=4)
+{
+    "ctag": "0", 
+    "devid": "123", 
+    "sender": "FUCK-TEST", 
+    "cmd": "push /dev/vars", 
+    "tstamp": 1567143623, 
+    "api": "v1.3.18", 
+    "error": "serial: timeout", 
+    "model": "GW-XXXX", 
+    "statuscode": 404
+}
+>>> 
 ```
 
 
+## Release History
 
+* 1.3
+    * CHANGE: add rest api
+
+
+## Meta
+jiong yao – yjiong@msn.com
+
+Distributed under the XYZ license. See ``LICENSE`` for more information.
+
+[https://github.com/yjiong/iotgateway](https://github.com/yjiong/)
+
+## Contributing
+
+1. Fork it (<https://github.com/yjiong/iotgateway/fork>)
+2. Create your feature branch (`git checkout -b feature/fooBar`)
+3. Commit your changes (`git commit -am 'Add some fooBar'`)
+4. Push to the branch (`git push origin feature/fooBar`)
+5. Create a new Pull Request
+
+<!-- Markdown link & img dfn's -->
+[wiki]: https://github.com/yjiong/iotgateway/wiki
+[armhf.deb]:https://github.com/yjiong/iotgateway/releases/download/v1.3/gateway-armhf-v1.3.deb
+[arm64.deb]:https://github.com/yjiong/iotgateway/releases/download/v1.3/gateway-arm64-v1.3.deb
+[amd64.deb]:https://github.com/yjiong/iotgateway/releases/download/v1.3/gateway-amd64-v1.3.deb
+[serial-tunnel]:https://github.com/yjiong/iotgateway/releases/download/v1.3/serial-tunnel-win.zip

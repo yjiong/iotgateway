@@ -13,9 +13,9 @@ import (
 	//	"encoding/base64"
 	//	"regexp"
 	//	"strconv"
-	log "github.com/Sirupsen/logrus"
 	simplejson "github.com/bitly/go-simplejson"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
+	log "github.com/sirupsen/logrus"
 	"github.com/yjiong/iotgateway/internal/common"
 )
 
@@ -26,46 +26,47 @@ type DataDownPayload struct {
 
 // MQTTHandler ...
 type MQTTHandler struct {
-	conn         mqtt.Client
-	dataDownChan chan DataDownPayload
-	wg           sync.WaitGroup
-	ClientID     string
-	ServerID     string
-	onlinemsg    string
+	conn            mqtt.Client
+	dataDownChan    chan DataDownPayload
+	wg              sync.WaitGroup
+	ClientID        string
+	ServerID        string
+	onlinemsg       string
+	LostConnectTime time.Time
+	Firmware        chan []byte
 }
 
 // NewMQTTHandler creates a new MQTTHandler.
 func NewMQTTHandler(conm map[string]string, willmsg, onlinemsg string) (Handler, error) {
 	h := MQTTHandler{
 		dataDownChan: make(chan DataDownPayload),
+		Firmware:     make(chan []byte),
 	}
 
 	opts := mqtt.NewClientOptions()
 	//opts.AddBroker(server)
-	server := conm["_server_ip"] + ":" + conm["_server_port"]
-	opts.SetUsername(conm["_username"])
-	opts.SetPassword(conm["_password"])
+	server := conm["serverIp"] + ":" + conm["serverPort"]
+	opts.SetUsername(conm["username"])
+	opts.SetPassword(conm["password"])
 	opts.SetOnConnectHandler(h.onConnected)
 	opts.SetConnectionLostHandler(h.onConnectionLost)
-	kplv, _ := strconv.Atoi(conm["_keepalive"])
+	kplv, _ := strconv.Atoi(conm["keepalive"])
 	opts.SetKeepAlive(time.Duration(kplv) * time.Second)
-	h.ClientID = conm["_client_id"]
-	h.ServerID = conm["_server_name"]
+	h.ClientID = conm["clientId"]
+	h.ServerID = conm["serverName"]
 	h.onlinemsg = onlinemsg
 	opts.SetWill(h.ServerID+"/"+h.ClientID, willmsg, 1, true)
+	optserver := "tcp://" + server
 	if conm["cafile"] != "" {
 		tlsconfig, err := newTLSConfig(conm)
 		if err != nil {
-			log.Fatalf("Error with the mqtt CA certificate: %s", err)
+			log.Errorf("Error with the mqtt CA certificate: %s", err)
 		} else {
 			opts.SetTLSConfig(tlsconfig)
-			server = "ssl://" + server
-			opts.AddBroker(server)
+			optserver = "ssl://" + server
 		}
-	} else {
-		server = "tcp://" + server
-		opts.AddBroker(server)
 	}
+	opts.AddBroker(optserver)
 
 	log.WithField("server", server).Info("handler/mqtt: connecting to mqtt broker")
 	h.conn = mqtt.NewClient(opts)
@@ -85,6 +86,7 @@ func newTLSConfig(cm map[string]string) (*tls.Config, error) {
 	// Import trusted certificates from CAfile.pem.
 	cafile := cm["cafile"]
 	cert, err := ioutil.ReadFile(cafile)
+	//log.Infof("print this ca file :\n %s", cert)
 	if err != nil {
 		log.Errorf("backend: couldn't load cafile: %s", err)
 		return nil, err
@@ -97,16 +99,20 @@ func newTLSConfig(cm map[string]string) (*tls.Config, error) {
 	if cm["certfile"] != "" && cm["keyfile"] != "" {
 		certpair, err := tls.LoadX509KeyPair(cm["certfile"], cm["keyfile"])
 		if err != nil {
-			log.Fatalf("get cert error :%s", err)
+			log.Errorf("get cert error :%s", err)
+			return nil, err
+			//log.Fatalf("get cert error :%s", err)
 		}
 		return &tls.Config{
-			RootCAs:      certpool,
-			Certificates: []tls.Certificate{certpair},
+			RootCAs:            certpool,
+			Certificates:       []tls.Certificate{certpair},
+			InsecureSkipVerify: true,
 		}, nil
 	}
 	return &tls.Config{
 		// RootCAs = certs used to verify server cert.
-		RootCAs: certpool,
+		RootCAs:            certpool,
+		InsecureSkipVerify: true,
 	}, nil
 }
 
@@ -135,7 +141,7 @@ func (h *MQTTHandler) SendDataUp(payload interface{}) error {
 	}
 	mymsg, err := simplejson.NewJson(b)
 	logsb, _ := mymsg.EncodePretty()
-	log.WithFields(log.Fields{"topic": topic, "payload": string(logsb)}).Info("handler/mqtt: publishing data-send")
+	log.WithFields(log.Fields{"topic": topic, "messageType": "handler/mqtt: publishing data-send"}).Debugf(string(logsb))
 	return nil
 }
 
@@ -171,7 +177,7 @@ func (h *MQTTHandler) rxmsgHandler(c mqtt.Client, msg mqtt.Message) {
 		return
 	}
 	logsb, _ := mymsgjson.EncodePretty()
-	log.WithFields(log.Fields{"topic": msg.Topic(), "payload": string(logsb)}).Info("handler/mqtt: subscribeing data-received" + fmt.Sprintf(" Qos=%d", msg.Qos()))
+	log.WithFields(log.Fields{"topic": msg.Topic(), "messageType": "received cmd", "Qos": msg.Qos()}).Info(string(logsb))
 	h.dataDownChan <- DataDownPayload{Pj: mymsgjson}
 }
 
@@ -190,12 +196,35 @@ func (h *MQTTHandler) onConnected(c mqtt.Client) {
 	}
 }
 
+// SubFirmware ..
+func (h *MQTTHandler) SubFirmware(topic string) chan []byte {
+	log.Infof("subscrib for %s message", topic)
+	if token := h.conn.Subscribe(topic, 1, h.rxmfireware); token.Wait() && token.Error() != nil {
+		log.Warning("subscrib for fireware message failed")
+		return nil
+	}
+	return h.Firmware
+}
+
+func (h *MQTTHandler) rxmfireware(c mqtt.Client, msg mqtt.Message) {
+	h.wg.Add(1)
+	defer h.wg.Done()
+	h.Firmware <- msg.Payload()
+	h.conn.Unsubscribe(msg.Topic())
+}
+
 func (h *MQTTHandler) onConnectionLost(c mqtt.Client, reason error) {
 	log.Errorf("handler/mqtt: mqtt connection error: %s", reason)
 	common.Mqttconnected = false
+	h.LostConnectTime = time.Now()
 }
 
 //IsConnected ..
 func (h *MQTTHandler) IsConnected() bool {
 	return h.conn.IsConnected()
+}
+
+// GetLostConnectTime ..
+func (h *MQTTHandler) GetLostConnectTime() time.Time {
+	return h.LostConnectTime
 }

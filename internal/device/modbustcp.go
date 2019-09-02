@@ -8,13 +8,13 @@ import (
 	"time"
 	//	"reflect"
 	//	"sync"
-	//	log "github.com/Sirupsen/logrus"
+	//	log "github.com/sirupsen/logrus"
 	"github.com/yjiong/iotgateway/modbus"
 )
 
 // ModbusTcp ..
 type ModbusTcp struct {
-	//继承于Device
+	//组合Device
 	Device
 	/**************按不同设备自定义*************************/
 	FunctionCode    int
@@ -42,20 +42,20 @@ func (d *ModbusTcp) NewDev(id string, ele map[string]string) (Devicerwer, error)
 }
 
 // GetElement ..
-func (d *ModbusTcp) GetElement() (dict, error) {
-	conn := dict{
+func (d *ModbusTcp) GetElement() (Dict, error) {
+	conn := Dict{
 		/***********************设备的特有的参数*****************************/
-		"devaddr":         d.devaddr,
-		"commif":          d.commif,
+		DevAddr:           d.Devaddr,
+		"commif":          d.Commif,
 		"FunctionCode":    d.FunctionCode,
 		"StartingAddress": d.StartingAddress,
 		"Quantity":        d.Quantity,
 		/***********************设备的特有的参数*****************************/
 	}
-	data := dict{
-		"_devid": d.devid,
-		"_type":  d.devtype,
-		"_conn":  conn,
+	data := Dict{
+		DevID:   d.Devid,
+		DevType: d.Devtype,
+		DevConn: conn,
 	}
 	return data, nil
 }
@@ -64,8 +64,8 @@ func (d *ModbusTcp) GetElement() (dict, error) {
 
 // HelpDoc ..
 func (d *ModbusTcp) HelpDoc() interface{} {
-	conn := dict{
-		"devaddr": "设备地址",
+	conn := Dict{
+		DevAddr: "设备地址",
 		/***********ModbusTcp设备的参数*****************************/
 		"commif":          "通信接口,比如 : 192.168.1.20:502",
 		"FunctionCode":    "modbus功能码 : (1,2,3,4,5,6,15,16)",
@@ -73,8 +73,8 @@ func (d *ModbusTcp) HelpDoc() interface{} {
 		"Quantity":        "寄存器数量,uint类型",
 		/***********ModbusTcp设备的参数*****************************/
 	}
-	rParameter := dict{
-		"_devid": "被读取设备对象的id",
+	rParameter := Dict{
+		DevID: "被读取设备对象的id",
 		/***********读取设备的参数*****************************/
 		"FunctionCode":    "modbus功能码 : (1,2,3,4)",
 		"StartingAddress": "操作起始地址,uint类型",
@@ -82,8 +82,8 @@ func (d *ModbusTcp) HelpDoc() interface{} {
 		"说明":              "如果没有FunctionCode,StartingAddress,Quantity字段,将按添加该设备时的参数读取设备",
 		/***********读取设备的参数*****************************/
 	}
-	wParameter := dict{
-		"_devid": "被操作设备对象的id",
+	wParameter := Dict{
+		DevID: "被操作设备对象的id",
 		/***********操作设备的参数*****************************/
 		"FunctionCode":    "modbus功能码 : (5,6,15,16)",
 		"StartingAddress": "操作起始地址,uint类型",
@@ -91,30 +91,30 @@ func (d *ModbusTcp) HelpDoc() interface{} {
 		"value":           "要写入modbus设备的值,功能码为5和6时,值为uint16,功能码为15,16时,值为 [uint8...]",
 		/***********操作设备的参数*****************************/
 	}
-	data := dict{
-		"_devid": "添加设备对象的id",
-		"_type":  "MudbusTcp", //设备类型
-		"_conn":  conn,
+	data := Dict{
+		DevID:   "添加设备对象的id",
+		DevType: "MudbusTcp", //设备类型
+		DevConn: conn,
 	}
-	devUpdate := dict{
-		"request": dict{
-			"cmd":  "manager/dev/update.do",
+	devUpdate := Dict{
+		"request": Dict{
+			"cmd":  UpdateDevItem,
 			"data": data,
 		},
 	}
-	readdev := dict{
-		"request": dict{
-			"cmd":  "do/getvar",
+	readdev := Dict{
+		"request": Dict{
+			"cmd":  GetDevVar,
 			"data": rParameter,
 		},
 	}
-	writedev := dict{
-		"request": dict{
-			"cmd":  "do/setvar",
+	writedev := Dict{
+		"request": Dict{
+			"cmd":  SetDevVar,
 			"data": wParameter,
 		},
 	}
-	helpdoc := dict{
+	helpdoc := Dict{
 		"1.添加设备": devUpdate,
 		"2.读取设备": readdev,
 		"3.操作设备": writedev,
@@ -127,20 +127,28 @@ func (d *ModbusTcp) HelpDoc() interface{} {
 /***************************************添加设备参数检验**********************************************/
 
 // CheckKey ..
-func (d *ModbusTcp) CheckKey(ele dict) (bool, error) {
+func (d *ModbusTcp) CheckKey(ele Dict) (bool, error) {
 
 	fc, fcOk := ele["FunctionCode"].(json.Number)
 	if !fcOk {
-		return false, fmt.Errorf("ModbusTcp device must have int type element 功能码 :FunctionCode")
+		if fcs, ok := ele["FunctionCode"].(string); ok {
+			fc = json.Number(fcs)
+		} else {
+			return false, fmt.Errorf("ModbusTcp device must have int type element 功能码 :FunctionCode")
+		}
 	}
 	if fci64, err := fc.Int64(); err != nil || fci64 < 1 || fci64 > 21 {
 		return false, fmt.Errorf("FunctionCode :0 < value < 22 ")
 	}
 	if _, ok := ele["StartingAddress"].(json.Number); !ok {
-		return false, fmt.Errorf("ModbusTcp device must have int type element 起始地址 :StartingAddress")
+		if _, ok := ele["StartingAddress"].(string); !ok {
+			return false, fmt.Errorf("ModbusTcp device must have int type element 起始地址 :StartingAddress")
+		}
 	}
 	if _, ok := ele["Quantity"].(json.Number); !ok {
-		return false, fmt.Errorf("ModbusTcp device must have int type element 数量 :Quantity")
+		if _, ok := ele["Quantity"].(string); !ok {
+			return false, fmt.Errorf("ModbusTcp device must have int type element 数量 :Quantity")
+		}
 	}
 	return true, nil
 }
@@ -150,13 +158,13 @@ func (d *ModbusTcp) CheckKey(ele dict) (bool, error) {
 /***************************************读写接口实现**************************************************/
 
 // RWDevValue ..
-func (d *ModbusTcp) RWDevValue(rw string, m dict) (ret dict, err error) {
-	handler := modbus.NewTCPClientHandler(d.commif)
-	slaveid, _ := strconv.Atoi(d.devaddr)
+func (d *ModbusTcp) RWDevValue(rw string, m Dict) (ret Dict, err error) {
+	handler := modbus.NewTCPClientHandler(d.Commif)
+	slaveid, _ := strconv.Atoi(d.Devaddr)
 	handler.SlaveId = byte(slaveid)
 	handler.Timeout = 1 * time.Second
 	ret = map[string]interface{}{}
-	ret["_devid"] = d.devid
+	ret[DevID] = d.Devid
 	err = handler.Connect()
 	if err != nil {
 		return nil, err
