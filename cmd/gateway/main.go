@@ -104,7 +104,7 @@ func run(c *cli.Context) error {
 		if len(port) == 0 {
 			log.Fatal("get port from bind failed")
 		}
-		grpcHandler, err := getGrpcServer(ctx, &gateway)
+		grpcHandler, err := getGrpcServer(&gateway)
 		handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			//log.Infoln(r)
 			if r.ProtoMajor == 2 && strings.Contains(r.Header.Get("Content-Type"), "application/grpc") {
@@ -227,7 +227,7 @@ func run(c *cli.Context) error {
 	return nil
 }
 
-func getGrpcServer(ctx context.Context, gateway *gw.Gateway) (*grpc.Server, error) {
+func getGrpcServer(gateway *gw.Gateway) (*grpc.Server, error) {
 	var validator gw.Validator
 	grpcHandler := grpc.NewServer()
 	pb.RegisterGatewayServiceServer(grpcHandler, gw.NewGatewayapi(validator, gateway))
