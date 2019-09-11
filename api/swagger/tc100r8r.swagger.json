@@ -1,0 +1,73 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "tc100r8r.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/tc100r8_add_or_uppdate": {
+      "put": {
+        "summary": "添加或更新TC100R8控制器",
+        "operationId": "TcozzreUpdate",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/apiTcozzreUpdateResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiTcozzreUpdateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "TC100R8"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "apiTcozzreUpdateRequest": {
+      "type": "object",
+      "properties": {
+        "devid": {
+          "type": "string"
+        },
+        "devaddr": {
+          "type": "string"
+        },
+        "commif": {
+          "type": "string"
+        },
+        "dname": {
+          "type": "string"
+        }
+      }
+    },
+    "apiTcozzreUpdateResponse": {
+      "type": "object",
+      "properties": {
+        "Result": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

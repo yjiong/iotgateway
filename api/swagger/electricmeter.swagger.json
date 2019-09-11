@@ -1,0 +1,76 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "electricmeter.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/meter_add_or_uppdate": {
+      "put": {
+        "summary": "添加或更新电表设备",
+        "operationId": "ElectricMeterUpdate",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/apiElectricMeterUpdateResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiElectricMeterUpdateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ElectricMeter"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "apiElectricMeterUpdateRequest": {
+      "type": "object",
+      "properties": {
+        "devid": {
+          "type": "string"
+        },
+        "devtype": {
+          "type": "string"
+        },
+        "devaddr": {
+          "type": "string"
+        },
+        "commif": {
+          "type": "string"
+        },
+        "dname": {
+          "type": "string"
+        }
+      }
+    },
+    "apiElectricMeterUpdateResponse": {
+      "type": "object",
+      "properties": {
+        "Result": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

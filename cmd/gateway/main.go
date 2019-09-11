@@ -172,12 +172,16 @@ func run(c *cli.Context) error {
 								continue
 							}
 							ret, err := dev.RWDevValue("r", nil)
-							ret[device.DevID] = id
 							if count <= 0 {
 								err = errors.New("device offline")
 							}
 							if err != nil {
-								ret["error"] = err.Error()
+								ret = device.Dict{
+									"error":      err.Error(),
+									device.DevID: id,
+								}
+							} else {
+								ret[device.DevID] = id
 							}
 							go gateway.DB.InsertDevJdoc(id, "do/auto_up_data", ret)
 							if err := gateway.EncodeAutoup(ret); err != nil {

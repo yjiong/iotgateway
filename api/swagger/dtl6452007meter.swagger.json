@@ -1,0 +1,91 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "dtl6452007meter.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/meter_dtl645_2007_add_or_uppdate": {
+      "put": {
+        "summary": "添加或更新DLT645-2007标准协议表具设备",
+        "operationId": "Dtl645_2007Update",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/apiDtl645_2007UpdateResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiDtl645_2007UpdateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "DLT645_2007"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "apiDtl645_2007UpdateRequest": {
+      "type": "object",
+      "properties": {
+        "devid": {
+          "type": "string"
+        },
+        "devtype": {
+          "type": "string"
+        },
+        "devaddr": {
+          "type": "string"
+        },
+        "commif": {
+          "type": "string"
+        },
+        "baudRate": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "dataBits": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "stopBits": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "parity": {
+          "type": "string"
+        },
+        "dname": {
+          "type": "string"
+        }
+      }
+    },
+    "apiDtl645_2007UpdateResponse": {
+      "type": "object",
+      "properties": {
+        "Result": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

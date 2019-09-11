@@ -1,0 +1,79 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "watermeter.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/watermeter_add_or_uppdate": {
+      "put": {
+        "summary": "添加或更新水表设备",
+        "operationId": "WaterMeterUpdate",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/apiWaterMeterUpdateResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiWaterMeterUpdateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "WaterMeter"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "apiWaterMeterUpdateRequest": {
+      "type": "object",
+      "properties": {
+        "devid": {
+          "type": "string"
+        },
+        "devtype": {
+          "type": "string"
+        },
+        "devaddr": {
+          "type": "string"
+        },
+        "commif": {
+          "type": "string"
+        },
+        "fcode": {
+          "type": "string"
+        },
+        "dname": {
+          "type": "string"
+        }
+      }
+    },
+    "apiWaterMeterUpdateResponse": {
+      "type": "object",
+      "properties": {
+        "Result": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "modbusrtu.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/modbusrtu_add_or_uppdate": {
+      "put": {
+        "summary": "添加或更新ModbusRtu设备",
+        "operationId": "ModbusRtuUpdate",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/apiModbusRtuUpdateResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiModbusRtuUpdateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ModbusRtu"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "apiModbusRtuUpdateRequest": {
+      "type": "object",
+      "properties": {
+        "devid": {
+          "type": "string"
+        },
+        "devaddr": {
+          "type": "string"
+        },
+        "commif": {
+          "type": "string"
+        },
+        "baudRate": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "dataBits": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "stopBits": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "parity": {
+          "type": "string"
+        },
+        "functionCode": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "startingAddress": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "dname": {
+          "type": "string"
+        }
+      }
+    },
+    "apiModbusRtuUpdateResponse": {
+      "type": "object",
+      "properties": {
+        "Result": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

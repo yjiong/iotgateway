@@ -1,0 +1,85 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "modbustcp.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/modbustcp_add_or_uppdate": {
+      "put": {
+        "summary": "添加或更新ModbusTcp设备",
+        "operationId": "ModbusTCPUpdate",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/apiModbusTcpUpdateResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiModbusTcpUpdateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ModbusTcp"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "apiModbusTcpUpdateRequest": {
+      "type": "object",
+      "properties": {
+        "devid": {
+          "type": "string"
+        },
+        "devaddr": {
+          "type": "string"
+        },
+        "commif": {
+          "type": "string"
+        },
+        "functionCode": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "startingAddress": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "dname": {
+          "type": "string"
+        }
+      }
+    },
+    "apiModbusTcpUpdateResponse": {
+      "type": "object",
+      "properties": {
+        "Result": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

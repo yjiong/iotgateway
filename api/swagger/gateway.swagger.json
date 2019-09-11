@@ -1,0 +1,545 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "gateway.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/get_device_history": {
+      "get": {
+        "summary": "读设备历史记录",
+        "operationId": "DoGetHistory",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/apiDoGetHistoryResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "devid",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "cmdtype",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "since",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "GatewayService"
+        ]
+      }
+    },
+    "/api/get_device_value/{devid}": {
+      "get": {
+        "summary": "读取设备当前的值",
+        "operationId": "DoGetValue",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/apiDoGetValueResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "devid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "GatewayService"
+        ]
+      }
+    },
+    "/api/list_support_device": {
+      "get": {
+        "summary": "查看网关支持的设备列表",
+        "operationId": "SuppotList",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/apiGetSuppotResponse"
+            }
+          }
+        },
+        "tags": [
+          "GatewayService"
+        ]
+      }
+    },
+    "/api/modify_user_passwd": {
+      "put": {
+        "summary": "修改用户名和密码",
+        "operationId": "ModifyUserPw",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/apiModifyUserPwResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiModifyUserPwRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GatewayService"
+        ]
+      }
+    },
+    "/api/remove_device/{devid}": {
+      "delete": {
+        "summary": "删除设备",
+        "operationId": "DevDelete",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/apiDelDevResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "devid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "GatewayService"
+        ]
+      }
+    },
+    "/api/set_auto_updata_interval": {
+      "put": {
+        "summary": "设置网关自动上报的时间间隔(0为不自动上报)",
+        "operationId": "SetInterval",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/apiSetIntervalResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiSetIntervalRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GatewayService"
+        ]
+      }
+    },
+    "/api/set_gateway_config": {
+      "put": {
+        "summary": "设置网关配置参数",
+        "operationId": "GatewaySet",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/apiSetGatewayManageResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiSetGatewayManageRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GatewayService"
+        ]
+      }
+    },
+    "/api/set_tls_config": {
+      "put": {
+        "summary": "设置网关SSL/TLS(http://xxx.xxx.xxx/...)",
+        "operationId": "SetTLSConfig",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/apiSetTLSConfigResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiSetTLSConfigRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GatewayService"
+        ]
+      }
+    },
+    "/api/show_current_device_list": {
+      "get": {
+        "summary": "查看已添加的设备列表",
+        "operationId": "DevList",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/apiGetDevListResponse"
+            }
+          }
+        },
+        "tags": [
+          "GatewayService"
+        ]
+      }
+    },
+    "/api/show_gateway_config": {
+      "get": {
+        "summary": "查看网关当前的配置",
+        "operationId": "GatewayGet",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/apiGetGatewayManageResponse"
+            }
+          }
+        },
+        "tags": [
+          "GatewayService"
+        ]
+      }
+    },
+    "/api/update_gateway_system": {
+      "put": {
+        "summary": "更新网关系统(http://xxx.xxx.xxx/...)",
+        "operationId": "UpdateGatewaySystem",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/apiUpdateGatewaySystemResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiUpdateGatewaySystemRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GatewayService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "apiDelDevResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "string"
+        }
+      }
+    },
+    "apiDevStruct": {
+      "type": "object",
+      "properties": {
+        "devid": {
+          "type": "string"
+        },
+        "devtype": {
+          "type": "string"
+        },
+        "conn": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "apiDoGetHistoryResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiHistoryStuct"
+          }
+        }
+      }
+    },
+    "apiDoGetValueResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "apiGetDevListResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiDevStruct"
+          }
+        }
+      }
+    },
+    "apiGetGatewayManageResponse": {
+      "type": "object",
+      "properties": {
+        "clientId": {
+          "type": "string"
+        },
+        "clientIp": {
+          "type": "string"
+        },
+        "netmask": {
+          "type": "string"
+        },
+        "gateway": {
+          "type": "string"
+        },
+        "serverIp": {
+          "type": "string"
+        },
+        "serverName": {
+          "type": "string"
+        },
+        "serverPort": {
+          "type": "string"
+        },
+        "mqttUsername": {
+          "type": "string"
+        },
+        "mqttPassword": {
+          "type": "string"
+        },
+        "interval": {
+          "type": "string"
+        },
+        "mqttStatus": {
+          "type": "string"
+        },
+        "historydays": {
+          "type": "string"
+        },
+        "systemStat": {
+          "type": "string"
+        }
+      }
+    },
+    "apiGetSuppotResponse": {
+      "type": "object",
+      "properties": {
+        "supportlist": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "apiHistoryStuct": {
+      "type": "object",
+      "properties": {
+        "cmdtype": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string"
+        },
+        "value": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "apiModifyUserPwRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "apiModifyUserPwResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "string"
+        }
+      }
+    },
+    "apiSetGatewayManageRequest": {
+      "type": "object",
+      "properties": {
+        "clientIp": {
+          "type": "string",
+          "title": "string clientId=1;"
+        },
+        "inet": {
+          "type": "string"
+        },
+        "netmask": {
+          "type": "string"
+        },
+        "gateway": {
+          "type": "string"
+        },
+        "serverIp": {
+          "type": "string"
+        },
+        "serverName": {
+          "type": "string"
+        },
+        "serverPort": {
+          "type": "string"
+        },
+        "mqttUsername": {
+          "type": "string"
+        },
+        "mqttPassword": {
+          "type": "string"
+        }
+      }
+    },
+    "apiSetGatewayManageResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "string"
+        }
+      }
+    },
+    "apiSetIntervalRequest": {
+      "type": "object",
+      "properties": {
+        "interval": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "apiSetIntervalResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "string"
+        }
+      }
+    },
+    "apiSetTLSConfigRequest": {
+      "type": "object",
+      "properties": {
+        "cafile": {
+          "type": "string"
+        },
+        "certfile": {
+          "type": "string"
+        },
+        "keyfile": {
+          "type": "string"
+        }
+      }
+    },
+    "apiSetTLSConfigResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "string"
+        }
+      }
+    },
+    "apiUpdateGatewaySystemRequest": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        }
+      }
+    },
+    "apiUpdateGatewaySystemResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
