@@ -36,7 +36,7 @@ func (d *ModbusRtu) NewDev(id string, ele map[string]string) (Devicerwer, error)
 	ndev.Device = d.Device.NewDev(id, ele)
 	/***********************初始化设备的特有的参数*****************************/
 	ndev.BaudRate, _ = strconv.Atoi(ele["BaudRate"])
-	ndev.DataBits, _ = strconv.Atoi(ele["DataBits "])
+	ndev.DataBits, _ = strconv.Atoi(ele["DataBits"])
 	ndev.StopBits, _ = strconv.Atoi(ele["StopBits"])
 	ndev.Parity, _ = ele["Parity"]
 	ndev.FunctionCode, _ = strconv.Atoi(ele["FunctionCode"])
@@ -219,7 +219,6 @@ func (d *ModbusRtu) RWDevValue(rw string, m Dict) (ret Dict, err error) {
 	handler.SlaveId = byte(slaveid)
 	handler.Timeout = 2 * time.Second
 	ret = map[string]interface{}{}
-	ret[DevID] = d.Devid
 	err = handler.Connect()
 	if err != nil {
 		return nil, err
@@ -259,11 +258,7 @@ func (d *ModbusRtu) RWDevValue(rw string, m Dict) (ret Dict, err error) {
 		var results []byte
 		results, err = myRfunc(startAddr, quantity)
 		if err == nil {
-			var retlist []int
-			for _, b := range results {
-				retlist = append(retlist, int(b))
-			}
-			ret["Modbus-value"] = retlist
+			ret = GetMultiType(results)
 		}
 	} else if rw == "w" {
 		var results []byte

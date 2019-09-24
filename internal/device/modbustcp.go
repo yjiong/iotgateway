@@ -1,6 +1,7 @@
 package device
 
 import (
+	//"encoding/hex"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -8,7 +9,7 @@ import (
 	"time"
 	//	"reflect"
 	//	"sync"
-	//	log "github.com/sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 	"github.com/yjiong/iotgateway/modbus"
 )
 
@@ -153,6 +154,99 @@ func (d *ModbusTcp) CheckKey(ele Dict) (bool, error) {
 	return true, nil
 }
 
+// GetMultiType .....
+func GetMultiType(results []byte) (ret Dict) {
+	log.Debugf("% x", results)
+	ret = make(Dict)
+	var retlist []int
+	for _, b := range results {
+		retlist = append(retlist, int(b))
+	}
+	var retlist16 []int16
+	var retlist16u []uint16
+	var retlist32 []int
+	var retlist32inverse []int
+	var retlistFloat32 []float32
+	var retlistFloat32inverse []float32
+	var retlistFloat64 []float64
+	var retlistFloat64inverse []float64
+	var i int
+	for k := 0; k < len(results); k += 2 {
+		i = k
+		retlist16 = append(retlist16,
+			int16(results[i])<<8+
+				int16(results[i+1]))
+		retlist16u = append(retlist16u,
+			uint16(results[i])<<8+
+				uint16(results[i+1]))
+		if i%4 == 0 && i != 0 {
+			i -= 4
+			retlist32 = append(retlist32,
+				BytesToInt([]byte{results[i+2],
+					results[i+3],
+					results[i],
+					results[i+1],
+				}))
+			retlist32inverse = append(retlist32inverse,
+				BytesToInt([]byte{results[i],
+					results[i+1],
+					results[i+2],
+					results[i+3],
+				}))
+			retlistFloat32 = append(retlistFloat32,
+				ByteToFloat32([]byte{results[i+1],
+					results[i],
+					results[i+3],
+					results[i+2],
+				}))
+			retlistFloat32inverse = append(retlistFloat32inverse,
+				ByteToFloat32([]byte{results[i+3],
+					results[i+2],
+					results[i+1],
+					results[i],
+				}))
+		}
+		i = k
+		if i%8 == 0 && i != 0 {
+			i -= 8
+			retlistFloat64 = append(retlistFloat64,
+				ByteToFloat64([]byte{results[i+1],
+					results[i],
+					results[i+3],
+					results[i+2],
+					results[i+5],
+					results[i+4],
+					results[i+7],
+					results[i+6],
+				}))
+			retlistFloat64inverse = append(retlistFloat64inverse,
+				ByteToFloat64([]byte{results[i+7],
+					results[i+6],
+					results[i+5],
+					results[i+4],
+					results[i+3],
+					results[i+2],
+					results[i+1],
+					results[i],
+				}))
+
+		}
+	}
+
+	ret["Modbus-value"] = retlist
+	ret["int16-value"] = retlist16
+	ret["uint16-value"] = retlist16u
+	ret["long-value"] = retlist32
+	ret["long-inverse-value"] = retlist32inverse
+	ret["hexstr-value"] = fmt.Sprintf("% x", results)
+	ret["Float32-value"] = retlistFloat32
+	ret["Float32-inverse-value"] = retlistFloat32inverse
+	ret["Float64-value"] = retlistFloat64
+	ret["Float64-inverse-value"] = retlistFloat64inverse
+	ret["binstr-value"] = fmt.Sprintf("% b", results)
+	return
+}
+
 /***************************************添加设备参数检验**********************************************/
 
 /***************************************读写接口实现**************************************************/
@@ -164,7 +258,6 @@ func (d *ModbusTcp) RWDevValue(rw string, m Dict) (ret Dict, err error) {
 	handler.SlaveId = byte(slaveid)
 	handler.Timeout = 1 * time.Second
 	ret = map[string]interface{}{}
-	ret[DevID] = d.Devid
 	err = handler.Connect()
 	if err != nil {
 		return nil, err
@@ -204,11 +297,7 @@ func (d *ModbusTcp) RWDevValue(rw string, m Dict) (ret Dict, err error) {
 		var results []byte
 		results, err = myRfunc(startAddr, quantity)
 		if err == nil {
-			var retlist []int
-			for _, b := range results {
-				retlist = append(retlist, int(b))
-			}
-			ret["Modbus-value"] = retlist
+			ret = GetMultiType(results)
 		}
 	} else if rw == "w" {
 		var results []byte
