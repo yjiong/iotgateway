@@ -2,12 +2,13 @@ package device
 
 import (
 	//"encoding/hex"
+	"encoding/base64"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"reflect"
 	"strconv"
 	"time"
-	//	"reflect"
 	//	"sync"
 	log "github.com/sirupsen/logrus"
 	"github.com/yjiong/iotgateway/modbus"
@@ -247,6 +248,92 @@ func GetMultiType(results []byte) (ret Dict) {
 	return
 }
 
+// Ifa2uint16 ...
+func Ifa2uint16(ifa interface{}) (uint16, error) {
+	var retu16 uint16
+	switch ifa.(type) {
+	case json.Number:
+		if v64, err := ifa.(json.Number).Int64(); err == nil {
+			retu16 = uint16(v64)
+		} else {
+			return 0, err
+		}
+	case string:
+		if v, err := strconv.Atoi(ifa.(string)); err == nil {
+			retu16 = uint16(IntToBytes(v)[3])
+		} else {
+			return 0, err
+		}
+	case int:
+		retu16 = uint16(IntToBytes(ifa.(int))[3])
+	case int16:
+		retu16 = uint16(ifa.(int16))
+	case uint16:
+		retu16 = ifa.(uint16)
+	case float64:
+		retu16 = uint16(ifa.(float64))
+	default:
+		return 0, errors.New("assert interface failed")
+	}
+	return retu16, nil
+}
+
+// Ifal2bytel ...
+func Ifal2bytel(ifal interface{}) ([]byte, error) {
+	var bl []byte
+	if abl, ok := ifal.([]byte); ok {
+		log.Debugf("ifal type is %s", "[]byte")
+		return abl, nil
+	}
+	if ail, ok := ifal.([]int); ok {
+		log.Debugf("ifal type is %s", "[]int")
+		for _, ai := range ail {
+			bl = append(bl, IntToBytes(ai)[3])
+		}
+		return bl, nil
+	}
+	if abl, ok := ifal.(string); ok {
+		log.Debugf("in string assert ifal type is %s",
+			reflect.TypeOf(abl).Name())
+		if hv, err := base64.StdEncoding.DecodeString(abl); err == nil {
+			bl = hv
+		} else {
+			return nil, err
+		}
+	}
+	if assertv, ok := ifal.([]interface{}); ok {
+		log.Debugf("ifal type is %s", reflect.TypeOf(assertv[0]).Name())
+		for _, fal := range assertv {
+			switch fal.(type) {
+			case json.Number:
+				if v64, err := fal.(json.Number).Int64(); err == nil {
+					bl = append(bl, IntToBytes(int(v64))[3])
+				} else {
+					return nil, err
+				}
+			case string:
+				if v, err := strconv.Atoi(fal.(string)); err == nil {
+					bl = append(bl, IntToBytes(v)[3])
+				} else {
+					return nil, err
+				}
+			case int:
+				bl = append(bl, IntToBytes(fal.(int))[3])
+			case int64:
+				bl = append(bl, IntToBytes(int(fal.(int64)))[3])
+			case float64:
+				bl = append(bl, IntToBytes(int(fal.(float64)))[3])
+			default:
+				return nil, errors.New("assert interface failed")
+			}
+		}
+	} else {
+		return nil, errors.New("assert interface failed")
+	}
+	log.Debugf("return byte list = % x", bl)
+	return bl, nil
+}
+
 /***************************************添加设备参数检验**********************************************/
 
 /***************************************读写接口实现**************************************************/
@@ -266,16 +353,14 @@ func (d *ModbusTcp) RWDevValue(rw string, m Dict) (ret Dict, err error) {
 	functionCode := d.FunctionCode
 	startAddr := d.StartingAddress
 	quantity := d.Quantity
-	fc, fcOk := m["FunctionCode"].(json.Number)
-	sd, sdOk := m["StartingAddress"].(json.Number)
-	qt, qtOk := m["Quantity"].(json.Number)
-	if fcOk && sdOk && qtOk {
-		fc64, _ := fc.Int64()
-		functionCode = int(fc64)
-		sd64, _ := sd.Int64()
-		startAddr = uint16(sd64)
-		qt64, _ := qt.Int64()
-		quantity = uint16(qt64)
+	if fc, err := Ifa2uint16(m["FunctionCode"]); err == nil {
+		functionCode = int(fc)
+	}
+	if sd, err := Ifa2uint16(m["StartingAddress"]); err == nil {
+		startAddr = sd
+	}
+	if qt, err := Ifa2uint16(m["Quantity"]); err == nil {
+		quantity = qt
 	}
 	client := modbus.NewClient(handler)
 	var myRfunc func(address, quantity uint16) (results []byte, err error)
@@ -303,28 +388,15 @@ func (d *ModbusTcp) RWDevValue(rw string, m Dict) (ret Dict, err error) {
 		var results []byte
 		var value uint16
 		var valuelist []byte
-		if v, ok := m["value"].(json.Number); ok && (functionCode == 5 || functionCode == 6) {
-			v64, _ := v.Int64()
-			value = uint16(v64)
-		} else {
-			if functionCode == 5 || functionCode == 6 {
+		if functionCode == 5 || functionCode == 6 {
+			if value, err = Ifa2uint16(m["value"]); err == nil {
 				return nil, errors.New("write modbus singlecoil or registers need value : uint16")
 			}
 		}
-		if vif, ok := m["value"].([]interface{}); ok && (functionCode == 15 || functionCode == 16) {
-			for _, v := range vif {
-				if vi, ok := v.(json.Number); ok {
-					vi64, _ := vi.Int64()
-					valuelist = append(valuelist, IntToBytes(int(vi64))[3])
-				} else {
-					if functionCode == 15 || functionCode == 16 {
-						return nil, errors.New("write modbus singlecoil or registers need value: [uint8...]")
-					}
-				}
-			}
-		} else {
-			if functionCode == 15 || functionCode == 16 {
-				return nil, errors.New("write modbus singlecoil or registers need values : [uint8...]")
+		if functionCode == 15 || functionCode == 16 {
+			if valuelist, err = Ifal2bytel(m["value"]); err != nil {
+				log.Debugf("valueslist:%t", m["value"])
+				return nil, err
 			}
 		}
 		switch functionCode {
