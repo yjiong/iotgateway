@@ -1,7 +1,7 @@
+//go:generate go-bindata -prefix ../../templates/ -pkg templates -o ../../internal/templates/templates_gen.go ../../templates/...
 package main
 
 import (
-	"container/list"
 	"context"
 	"crypto/tls"
 	"crypto/x509"
@@ -9,14 +9,10 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
-	"regexp"
-	"strconv"
 	"strings"
 	"syscall"
-	"time"
 
 	assetfs "github.com/elazarl/go-bindata-assetfs"
-	"github.com/golang/net/websocket"
 	"github.com/gorilla/mux"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/pkg/errors"
@@ -26,24 +22,16 @@ import (
 	pb "github.com/yjiong/iotgateway/api"
 	"github.com/yjiong/iotgateway/internal/common"
 	"github.com/yjiong/iotgateway/internal/devapi"
-	"github.com/yjiong/iotgateway/internal/device"
-	_ "github.com/yjiong/iotgateway/internal/device/ammeter"
-	_ "github.com/yjiong/iotgateway/internal/device/sensorcontrol"
-	_ "github.com/yjiong/iotgateway/internal/device/watermeter"
 	gw "github.com/yjiong/iotgateway/internal/gateway"
-	"github.com/yjiong/iotgateway/internal/handler"
-	"github.com/yjiong/iotgateway/internal/storage"
 	"github.com/yjiong/iotgateway/internal/templates"
 	"github.com/yjiong/iotgateway/internal/upgrade"
+	"golang.org/x/net/websocket"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/grpclog"
 )
 
 func init() {
-	//	if runtime.GOOS == "linux" {
-	//
-	//	}
 	grpclog.SetLogger(log.StandardLogger())
 	_, err := os.Stat(common.BASEPATH + "httpcert")
 	if os.IsNotExist(err) {
@@ -67,13 +55,24 @@ func run(c *cli.Context) error {
 		"version": common.VERSION,
 		"docs":    "https://github.com/yjiong/iotgateway",
 	}).Info("starting iot gateway programer")
-	// 初始化
-	gateway := mustGetGateway(c)
+
+	mqttconfig := map[string]string{
+		gw.MqttSvrIP:     c.String("mqtt-server"),
+		gw.MqttSvrPort:   c.String("mqtt-server-port"),
+		gw.MqttUser:      c.String("mqtt-username"),
+		gw.MqttPasswd:    c.String("mqtt-password"),
+		gw.MqttCaFile:    c.String("mqtt-ca-cert"),
+		gw.MqttCert:      c.String("mqtt-client-cert"),
+		gw.MqttKey:       c.String("mqtt-client-key"),
+		gw.ClientID:      c.String("client_id"),
+		gw.MqttSvrName:   c.String("server_id"),
+		gw.MqttKeepAlive: "60",
+	}
+	gateway := gw.NewGateway()
 	//////////////////////////////////////////////////////////////////////
-	//go device.ListenAndServe("udp", "127.0.0.1:2005", &gateway)
+	//go device.ListenAndServe("udp", "127.0.0.1:2005", gateway)
 	//////////////////////////////////////////////////////////////////////
 
-	gateway.UpdateSchedule()
 	go func() {
 		router := mux.NewRouter()
 		jsonHandler, err := getJSONGateway(ctx, c)
@@ -103,9 +102,8 @@ func run(c *cli.Context) error {
 		if len(port) == 0 {
 			log.Fatal("get port from bind failed")
 		}
-		grpcHandler, err := getGrpcServer(&gateway)
+		grpcHandler, err := getGrpcServer(gateway)
 		handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			//log.Infoln(r)
 			if r.ProtoMajor == 2 && strings.Contains(r.Header.Get("Content-Type"), "application/grpc") {
 				grpcHandler.ServeHTTP(w, r)
 			} else {
@@ -130,83 +128,12 @@ func run(c *cli.Context) error {
 		}
 	}()
 
-	//websocket 消息处理
-	go func() {
-		for wscmd := range gateway.WsNochanr {
-			for k, v := range wscmd {
-				go gateway.Wscmdhandler(v, gateway.WsMap[k])
-			}
-		}
-	}()
-
-	go func() {
-		for cmd := range gateway.Cmdchan {
-			go cmd.Cmdfunc(cmd.Param)
-		}
-	}()
-
-	if commif, err := gateway.Getcommif(); err == nil {
-		commif["ip4"] = `^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])`
-		for cif := range commif {
-			patternip := regexp.MustCompile(commif[cif])
-			go func(cif string) {
-				for {
-					delay := 0
-					for {
-						pubInterval, err := strconv.Atoi(gateway.ConMap[gw.SysInterval])
-						if err != nil {
-							pubInterval = c.Int("interval")
-						}
-						delay++
-						if delay > pubInterval {
-							break
-						}
-						time.Sleep(time.Second * 1)
-					}
-					//starttime := time.Now().Unix()
-					if gateway.ConMap[gw.SysInterval] != "0" {
-						count := 64
-						for id, dev := range gateway.DevIfMap {
-							if cif != dev.GetCommif() && !patternip.MatchString(dev.GetCommif()) {
-								continue
-							}
-							ret, err := dev.RWDevValue("r", nil)
-							if count <= 0 {
-								err = errors.New("device offline")
-							}
-							if err != nil {
-								ret = device.Dict{
-									"error":      err.Error(),
-									device.DevID: id,
-								}
-							} else {
-								ret[device.DevID] = id
-							}
-							go gateway.DB.InsertDevJdoc(id, "do/auto_up_data", ret)
-							if err := gateway.EncodeAutoup(ret); err != nil {
-								log.Errorf("auto updata error : %s", err)
-							}
-							count--
-							//time.Sleep(time.Second)
-						}
-					} else {
-						time.Sleep(time.Second)
-					}
-					//log.Debugln("一个周期=", time.Now().Unix()-starttime)
-					//break
-				}
-			}(cif)
-		}
-	} else {
-		log.Fatal("get commif failed", err)
-	}
-
-	mqttconnect(c, &gateway)
-	go gateway.ScheduleLoop()
-	go gateway.LostConnectRestart()
-	go gateway.AutoDelOverdueHistoryData()
-	//接受消息命令并执行
-	go gateway.Mqttcmdhandler(gateway.Handler.DataDownChan())
+	gateway.Server(ctx,
+		gw.WithDevDriveAddrconfig(c.String("ddsvr-addr")),
+		gw.WithDBconfig(c.String("postgresql_dns")),
+		gw.WithReadDevInterval(c.String("interval")),
+		gw.WithDevelopeFlag(c.Bool("develope")),
+		gw.WithMqttConfig(mqttconfig))
 
 	sigChan := make(chan os.Signal)
 	exitChan := make(chan struct{})
@@ -241,6 +168,7 @@ func getGrpcServer(gateway *gw.Gateway) (*grpc.Server, error) {
 }
 
 func getJSONGateway(ctx context.Context, c *cli.Context) (http.Handler, error) {
+	// dial options for the grpc-gateway
 	b, err := upgrade.Asset("httpcert/server.crt")
 	if err != nil {
 		return nil, errors.Wrap(err, "read http-tls-cert cert error")
@@ -292,98 +220,6 @@ func getJSONGateway(ctx context.Context, c *cli.Context) (http.Handler, error) {
 	return mux, nil
 }
 
-func mustGetGateway(c *cli.Context) gw.Gateway {
-	// 初始化设备,也就是设备的驱动接口
-	devm, err := device.NewDevHandler(common.DEVFILEPATH)
-	if err != nil {
-		log.Fatalf("setup device interface map error: %s", err)
-	}
-	// 初始化配置文件
-	conm, err := common.NewConMap(common.CONFILEPATH)
-	if err != nil {
-		log.Errorf("setup config parameter map error: %s", err)
-	}
-
-	if pgdns, ok := conm["postgresql_dns"]; !ok || pgdns == "" {
-		conm["postgresql_dns"] = c.String("postgresql_dns")
-	}
-	gwdb := setPostgreSQLConnection(conm["postgresql_dns"])
-	//*************************************************************
-	//gwdb = nil
-	if gwdb != nil {
-		log.Infof("connecting database %s ok !", conm["postgresql_dns"])
-		if err := gwdb.CreateDevTable("cmdhistory"); err != nil {
-			log.Error(err)
-		}
-		for devid := range devm {
-			if err := gwdb.CreateDevTable(devid); err != nil {
-				log.Error(err)
-			}
-		}
-	}
-	return gw.Gateway{
-		DevIfMap: devm,
-		ConMap:   conm,
-		//		Handler:   h,
-		WsMap:     make(map[int]*websocket.Conn),
-		Cmdlist:   list.New(),
-		Devpath:   common.DEVFILEPATH,
-		Conpath:   common.CONFILEPATH,
-		Schedule:  common.SCHEDULEPATH,
-		Cmdchan:   make(chan gw.Cmdfp),
-		WsNochanr: make(chan map[int]string),
-		DB:        gwdb,
-	}
-}
-
-func setPostgreSQLConnection(pgdns string) *storage.MYDB {
-	log.Infof("connecting to  %s ", pgdns)
-	db, err := storage.OpenDatabase(pgdns)
-	if err != nil {
-		log.Error(errors.Wrap(err, "open database or ping error"))
-		return nil
-	}
-	return db
-}
-
-func mqttconnect(c *cli.Context, gateway *gw.Gateway) {
-	// 初始化mqtt接口
-	// 初始化配置文件
-	conm, err := common.NewConMap(common.CONFILEPATH)
-	var h handler.Handler
-	willmsg := gateway.OnOfflineMsg(0)
-	onlinemsg := gateway.OnOfflineMsg(1)
-	cm := map[string]string{
-		"serverIp":   c.String("mqtt-server"),
-		"serverPort": "",
-		"username":   c.String("mqtt-username"),
-		"password":   c.String("mqtt-password"),
-		"cafile":     c.String("mqtt-ca-cert"),
-		"clientId":   c.String("client_id"),
-		"serverName": c.String("server_id"),
-		"keepalive":  "60",
-	}
-	if conm != nil {
-		cm = map[string]string{
-			"serverIp":   conm[gw.MqttSvrIP],
-			"serverPort": conm[gw.MqttSvrPort],
-			"username":   conm[gw.MqttUser],
-			"password":   conm[gw.MqttPasswd],
-			"clientId":   conm[gw.ClientID],
-			"serverName": conm[gw.MqttSvrName],
-			"keepalive":  conm[gw.MqttKeepAlive],
-			"cafile":     conm["cafile"],
-			"certfile":   conm["certfile"],
-			"keyfile":    conm["keyfile"],
-		}
-	}
-	h, err = handler.NewMQTTHandler(cm, willmsg, onlinemsg)
-	if err != nil {
-		log.Fatalf("setup mqtt handler error: %s", err)
-	}
-	gateway.Handler = h
-}
-
 func main() {
 	app := cli.NewApp()
 	app.Name = "GATEWAY"
@@ -396,9 +232,15 @@ func main() {
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
 			Name:   "mqtt-server",
-			Usage:  "mqtt server (e.g. scheme://host:port where scheme is tcp, ssl or ws)",
-			Value:  "tcp://211.159.217.108:1883",
+			Usage:  "mqtt server",
+			Value:  "211.159.217.108",
 			EnvVar: "MQTT_SERVER",
+		},
+		cli.StringFlag{
+			Name:   "mqtt-server-port",
+			Usage:  "mqtt server port",
+			Value:  "1883",
+			EnvVar: "MQTT_SVR_PORT",
 		},
 		cli.StringFlag{
 			Name:   "mqtt-username",
@@ -413,9 +255,19 @@ func main() {
 			EnvVar: "MQTT_PASSWORD",
 		},
 		cli.StringFlag{
-			Name:   "mqtt-ca-cert",
+			Name:   "mqtt-cafile",
 			Usage:  "mqtt CA certificate file used by the gateway backend (optional)",
-			EnvVar: "MQTT_CA_CERT",
+			EnvVar: "MQTT_CAFILE",
+		},
+		cli.StringFlag{
+			Name:   "mqtt-client-cert",
+			Usage:  "mqtt client cert file used by the gateway backend (optional)",
+			EnvVar: "MQTT_CLINET_CERT",
+		},
+		cli.StringFlag{
+			Name:   "mqtt-client-key",
+			Usage:  "mqtt client key file used by the gateway backend (optional)",
+			EnvVar: "MQTT_CLINET_KEY",
 		},
 		cli.IntFlag{
 			Name:   "L, log-level",
@@ -425,13 +277,13 @@ func main() {
 		},
 		cli.StringFlag{
 			Name:   "client_id",
-			Value:  "IotGW-GOLANG",
+			Value:  "IotGW",
 			Usage:  "subscribe publish topic client strings",
 			EnvVar: "CLIENT_ID",
 		},
 		cli.StringFlag{
 			Name:   "server_id",
-			Value:  "iotserver",
+			Value:  "IOTSERVER",
 			Usage:  "subscribe publish topic server strings",
 			EnvVar: "SERVER_ID",
 		},
@@ -444,7 +296,7 @@ func main() {
 		cli.StringFlag{
 			Name:   "postgresql_dns",
 			Usage:  "postgres://user:password@hostname:port/database",
-			Value:  `postgres://postgres:gateway@localhost:5432/postgres?sslmode=disable`,
+			Value:  "postgres://postgres:yj12345@localhost:5432/postgres?sslmode=disable",
 			EnvVar: "POSTGRESQL_DNS",
 		},
 		cli.StringFlag{
@@ -452,6 +304,17 @@ func main() {
 			Usage:  "ip:port to bind the (user facing) http server to (web-interface and REST / gRPC api)",
 			Value:  "0.0.0.0:443",
 			EnvVar: "HTTP_BIND",
+		},
+		cli.StringFlag{
+			Name:   "ddsvr-addr",
+			Usage:  "ip:port  connect to device drive grpc server",
+			Value:  "localhost:9973",
+			EnvVar: "DEVADDR",
+		},
+		cli.BoolFlag{
+			Name:   "D,develope",
+			Usage:  "open restful web",
+			EnvVar: "DECELOPE",
 		},
 	}
 	app.Run(os.Args)
